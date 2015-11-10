@@ -33,3 +33,4 @@ title: 使用 hexo 创建github个人站点的最佳实践
 &nbsp;&nbsp;&nbsp;&nbsp;在你的工作目录中有一个文件夹是~\source\_posts文件夹，这个文件夹下面存放的文件是.md的扩展名。这些就是你的markdown格式的博客类型。每次写博客都把markdown文件存放在这个目录下，使用hexo g和hexo d命令之后博客就自动部署完成了，是不是感觉非常的爽？
 
 
+
