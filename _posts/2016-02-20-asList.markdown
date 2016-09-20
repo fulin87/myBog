@@ -1,0 +1,35 @@
+---
+layout: post
+title:	"asList的使用及异常问题"
+date:	2016-02-20 13:07:11 +0800
+categories:	fulin
+---
+
+####导语
+>*最近遇到一个问题，以前也遇到过，当时没有深入研究就没有记录下来，时间长了，忘记了，今天又再次遇到，这个问题表面上看很简单，其实不简单，今天记录在案，防止以后再次发生...*
+
+问题是这样的，将数组转成List，通常我们习惯这样写成:
+
+    List<String> list = Arrays.asList("1","2");
+
+
+于是我们这样就得到了一个**list**,但是这个List的实现类是**java.util.Arrays.ArrayList**(而不是java.util.ArrayList)。
+
+这里需要注意这两个同名但是不同包的类：
+
+
+	java.util.Arrays.ArrayList
+	java.util.ArrayList
+
+剖析JDK源代码可以发现:java.util.Arrays.ArrayList继承了java.util.AbstractList这个类，再来看看java.util.AbstractList类是啥样子的？可以发现：
+
+	public E set(int index, E element)
+	public E set(int index, E element)
+	public E remove(int index)
+	public void add(int index, E element)  | public boolean add(E e)调用add(int index, E element)
+
+以上方法的实现全部是抛出UnsupportedOperationException异常。因此有Arrays.asList转换出来的List他其实是一个AbstractList他可以像List一样访问，但是不可其做任何修改操作。
+
+这也说明了，为什么Arrays.asList出来的List，对其做add、remove操作为抛出UnsupportedOperationException异常。
+
+换句话说，其实java.util.Arrays.ArrayList其实只是对数组做了一个装饰，可以看到里面的实现，E get(int index)、E set(int index, E element)等方法都是对数组的操作，他的目的只是提供了可以像访问List那样来访问数组而已。**本质上其实还是一个数组。**

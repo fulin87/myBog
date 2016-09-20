@@ -7,13 +7,14 @@
 
 # Site settings
 title: fulin87的笔记
-email: your-email@domain.com
-description: > # this means to ignore newlines until "baseurl:"
-  唯天下之至诚，胜天下之至伪；唯天下之至拙，胜天下之至巧。
+email: fulin87@sina.com
+description1: 唯天下之至诚，胜天下之至伪
+description2: 唯天下之至拙，胜天下之至巧
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://colorful.ren" # the base hostname & protocol for your site
 twitter_username: fulin87
 github_username:  fulin87
 
 # Build settings
 markdown: kramdown
+destination: E:\home\mine\study\git\bolg
