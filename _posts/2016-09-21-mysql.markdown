@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "mysql 基础知识"
+categories: mysql
+---
+
+> 大道至简，世间的道理都是相似的......     
+  就比如学东西吧，以前总是东学一点，西学一点。到头来发现什么都会，什么都不精，所以，到头来才明白：少才是多，less is more。数据库，以后就选择mysql了。
+
+## mysql的安装
+
+*因为仅做学习使用，这里只讲centos下的 mysql 安装过程，其他环境下的不做过多解释。而且，这里介绍的也是最方便的安装过程，不一定是最好的方式*
+
+ * 操作系统信息
+
+		Description:		CentOS Linux release 7.2.1511 (Core) 
+		Release:		7.2.1511
+
+ * 首先查看本系统有没有安装 mariadb
+ 		
+	  	$ rpm -qa |　grep -i mariadb    //这里的-i是忽略大小写
+
+		  mariadb-libs-5.5.44-2.el7.centos.x86_64
+
+ * 如果有安装，则需要卸载(--nodeps意思是如果有依赖关系，则同时卸载掉)
+ 
+		$ rpm -e --nodeps mariadb-libs-5.5.44-2.el7.centos.x86_64 
+		  
+ 
+ * 下载mysql的安装包
+ 
+		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-server-5.6.21-1.rhel5.x86_64.rpm
+		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-devel-5.6.21-1.rhel5.x86_64.rpm
+		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-client-5.6.21-1.rhel5.x86_64.rpm
+ 
+ * 安装rpm软件包
+ 
+		$ rpm -ivh MySQL-****.rpm 	
+
+ * 安装MySQL-server会报一个错，因为缺少依赖，使用yum安装即可
+ 
+		$ yum install -y libaio
+
+ * 初始化MySQL及设置密码
+ 
+		$ /usr/bin/mysql_install_db
+		$ service mysql start
+		$ cat /root/.mysql_secret  #查看root账号密码
+		$ mysql -uroot -pAsTsb42   #AsTsb42是看到的密码
+		mysql> SET PASSWORD = PASSWORD('123456');    #设置密码为123456
+		mysql> exit
+		$ mysql -uroot -p123456
+
+ * 远程登陆用户设置
+ 
+		mysql> use mysql;
+		mysql> select host,user,password from user;
+		mysql> update user set password=password('123456') where user='root';
+		mysql> update user set host='%' where user='root' and host='localhost';
+		mysql> flush privileges;
+		mysql> exit
+
+ * 修改mysql的配置文件
+ 		
+		$ vi /etc/my.cnf.d/my-default.cnf
+	
+	***加入如下内容：***
+
+		[client]
+		password=123456
+		port=3306
+		default-character-set=utf8
+		
+		[mysqld]
+		port=3306
+		character_set_server=utf8
+		character_set_client=utf8
+		collation_server=utf8_general_ci
+		collation_database=utf8_general_ci
+		lower_case_table_names=1
+		max_connections=1000
+		
+		[mysql]
+		default-character-set=utf8
+
+ * mysql的默认安装位置
+
+		/var/lib/mysql/               #数据库目录
+		/usr/share/mysql              #配置文件目录
+		/usr/bin                      #相关命令目录
+		/etc/init.d/mysql             #启动脚本
+
+ * mysql的启动和停止
+
+		$ service mysql stop
+		$ service mysql start
+		$ service mysql restart
+
+ * 设置开机自启动
+ 
+		$ chkconfig mysql on
+		$ chkconfig --list | grep mysql
+
+
+## mysql基础的命令
+
+		-- 查看mysql版本信息
+		select version(); 
+		
+		-- 查看字符集
+		show variables like '%collation%';  
+		show variables like '%char%';
