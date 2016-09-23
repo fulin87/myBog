@@ -4,6 +4,9 @@ title:  "mysql中sql优化的思路和原则"
 categories: mysql
 ---
 
+* Table of Contents
+{:toc}
+
 > 大部分系统的性能瓶颈都是IO操作，数据库的IO消耗是其中的重要组成部分，SQL语句性能的优化是很有必要的，如果一开始不注意，后期的改动成本是比较大的
 
 ### SQL优化的思路

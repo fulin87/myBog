@@ -4,6 +4,9 @@ title:  "mysql 基础知识"
 categories: mysql
 ---
 
+* Table of Contents
+{:toc}
+
 > 大道至简，世间的道理都是相似的......     
   就比如学东西吧，以前总是东学一点，西学一点。到头来发现什么都会，什么都不精，所以，到头来才明白：少才是多，less is more。数据库，以后就选择mysql了。
 

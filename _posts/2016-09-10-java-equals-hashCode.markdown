@@ -5,6 +5,9 @@ date:	2016-09-06 13:07:11 +0800
 categories:	java
 ---
 
+* Table of Contents
+{:toc}
+
 > Object类是Java中其他所有类的祖先，没有Object类Java面向对象无从谈起。作为其他所有类的基类，Object具有哪些属性和行为，是Java语言设计背后的思维体现。
 Object类位于java.lang包中，java.lang包包含着Java最基础和核心的类，在编译时会自动导入。Object类没有定义属性，一共有13个方法,这里我重点记录3个方法：equals,hashCode,clone，
 

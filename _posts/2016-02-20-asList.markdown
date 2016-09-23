@@ -5,8 +5,12 @@ date:	2016-02-20 13:07:11 +0800
 categories:	fulin
 ---
 
-####导语
+* Table of Contents
+{:toc}
+
 >*最近遇到一个问题，以前也遇到过，当时没有深入研究就没有记录下来，时间长了，忘记了，今天又再次遇到，这个问题表面上看很简单，其实不简单，今天记录在案，防止以后再次发生...*
+
+### 问题
 
 问题是这样的，将数组转成List，通常我们习惯这样写成:
 
@@ -20,6 +24,8 @@ categories:	fulin
 
 	java.util.Arrays.ArrayList
 	java.util.ArrayList
+
+### 分析过程
 
 剖析JDK源代码可以发现:java.util.Arrays.ArrayList继承了java.util.AbstractList这个类，再来看看java.util.AbstractList类是啥样子的？可以发现：
 

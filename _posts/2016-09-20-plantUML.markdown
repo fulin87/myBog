@@ -5,6 +5,9 @@ date:	2016-09-20 13:07:11 +0800
 categories:	java
 ---
 
+* Table of Contents
+{:toc}
+
 > 经常需要画一些图，比如类图，时序图，用例图等，最近接触到一款有趣的工具，是eclipse的一个插件:plantUML。这里只记录最基础的地方，以后再来完善
 
 ### 安装
