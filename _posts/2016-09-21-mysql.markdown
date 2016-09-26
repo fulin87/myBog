@@ -198,3 +198,9 @@ categories: mysql
 
 		-- 查看数据库文件的路径
 		show variables like "%datadir%";
+
+ * 快速建立一张一模一样的表，并插入数据
+
+		mysql> create table t as select * from information_schema.tables；
+		mysql> insert into t select *  from t;
+         
