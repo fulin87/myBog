@@ -7,15 +7,49 @@ categories: mysql
 * Table of Contents
 {:toc}
 
-> 大部分系统的性能瓶颈都是IO操作，数据库的IO消耗是其中的重要组成部分，SQL语句性能的优化是很有必要的，如果一开始不注意，后期的改动成本是比较大的
+> 大部分系统的性能瓶颈都是IO操作，数据库的IO消耗是其中的重要组成部分，SQL语句性能的优化是很有必要的，如果一开始不注意，后期的改动成本是比较大的,下面是根据我自己的经验总结的一套sql优化的思路和方法，不一定是最好的，但是却真实的产生过效果。
+
+### 入乎其内；出乎其外
+ 
+ *为什么人类到今天为止对宇宙的认识都很有限？因为我们自己就在宇宙之中；为什么人类到今天为止对海洋的认识都很少？因为人类从来没有正真的进入过海洋！*
+
+ 一样的道理，认识一个事物，最有效的方式就是：先站在事物的外面观察观察它，然后进入事物的内部再研究它，这样才是最全面的。
+
+ 对于SQL来说，平时使用sql，编写sql语句就相当于站在sql的外面观察它，但是sql的内部机制和执行过程是怎样的呢？一个sql语句的执行过程，大致是这样的：
+
+	8	SELECT  DISTINCT <select_list>
+	1	FROM <left_table>
+	3	<join_type>JOIN<right_table>
+	2		ON<join_condition>
+	4	WHERE <where_condition>
+	5	GROUP BY<group_by_list>
+	6	WITH{CUBE|ROLLUP}
+	7	HAVING<having_condition>
+	10	ORDER BY<order_by_list>
+	11	LIMIT<limit_number>
+ 
+下面是详细的执行过程
+
+	1,FROM : 	对FROM的左边表和右边的表计算笛卡尔积，产生虚拟表VT1。
+	2,ON : 		对虚拟表VT1进行ON筛选，只有那些符合<join_condition>的行才会被记录在虚拟表VT2中。
+	3,JOIN : 	如果指定了OUTER JOIN (比如left join,right join),那么保留表中未匹配的行就会作为外部行添加到虚拟表VT2中，产生虚拟表VT3,from 字句中包含两个以上的表的话，就会对上一个join连接产生的结果VT3和下一个表重复执行步骤1-3这三个步骤，一直到处理完所有的表为止。
+	4,WHERE : 	对虚拟表VT3进行WHERE条件过滤。只要符合<where-condition>的记录才会被插入到虚拟表VT4中。
+	5,GROUP BY : 	根据group by字句中的列，对VT4中的记录进行分组操作，产生VT5。
+	6,CUBE | ROLLUP: 对表VT5进行cube或者rollup操作，产生表VT6。
+	7,HAVING：	对虚拟表VT6应用having过滤，只有符合<having-condition>的记录才会被 插入到虚拟表VT7中。
+	8,SELECT： 	执行select操作，选择指定的列，插入到虚拟表VT8中。
+	9,DISTINCT： 	对VT8中的记录进行去重。产生虚拟表VT9。
+	10,ORDER BY: 	将虚拟表VT9中的记录按照<order_by_list>进行排序操作，产生虚拟表VT10。
+	11,LIMIT：	取出指定行的记录，产生虚拟表VT11, 并将结果返回。
+
 
 ### SQL优化的思路
 
-	1.优化更需要优化的sql；
-	2.定位优化对象的性能瓶颈：优化前需了解查询的瓶颈是IO还是CPU可通过PROFILING很容易定位查询的瓶颈。
-	3.明确优化目标；
-	4.从Explain入手；
-	5.多使用profile；
+- 1.优化更需要优化的sql；
+- 2.定位优化对象的性能瓶颈：优化前需了解查询的瓶颈是IO还是CPU可通过PROFILING很容易定位查询的瓶颈。
+- 3.明确优化目标；
+- 4.从Explain入手；
+- 5.多使用profile；
 
 ### SQL优化的基本原则
 
