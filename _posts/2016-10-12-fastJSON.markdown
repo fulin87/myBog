@@ -43,7 +43,7 @@ categories: java
 
 ### 源码解析
 	
- 	![test](/image/fastJson.png)
+ 	![test](/image/fastJson.PNG)
 
  已经有前辈总结了一套 **[FastJson的源码研究](http://www.csdn.net/article/2014-09-25/2821866)** 心得,可以先理解透彻再自己去看源代码。
  记录在此，以后来完善。
