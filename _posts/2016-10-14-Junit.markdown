@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "系统学习Junit4"
+date:	2016-10-14 13:07:11 +0800
+categories: java
+---
+
+> 减少程序中的bug的一个有效的方法是编写程序逻辑的同时编写测试用例，尽早发现问题。同时Junit作为开源类库， **[受欢迎程度](http://www.oschina.net/news/73667/2016-top-100-java-library)** 是非常高的，已经成为java单元测试事实上的标准，有必要做深入的学习。
+
+## Junit的官方信息
+
+ * **[Junit官网](http://junit.org/junit4/)**
+ * **[github地址](https://github.com/junit-team/junit4)**
+
+## 学习笔记
+ 
+  这里先留着，以后来完善
+ 
+## 网友的精彩博客
+
+ * **[Junit学习系列一](https://my.oschina.net/pangyangyang/blog/144495)**
+ * **[Junit学习系列二](https://my.oschina.net/pangyangyang/blog/146015)**
+ * **[Junit学习系列三](https://my.oschina.net/pangyangyang/blog/153320)**

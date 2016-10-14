@@ -1,16 +1,16 @@
 ---
 layout: post
-title:	"asList的使用及异常问题"
+title:	"java易错的知识点汇总"
 date:	2016-02-20 13:07:11 +0800
-categories:	fulin
+categories:	java
 ---
 
 * Table of Contents
 {:toc}
 
->*最近遇到一个问题，以前也遇到过，当时没有深入研究就没有记录下来，时间长了，忘记了，今天又再次遇到，这个问题表面上看很简单，其实不简单，今天记录在案，防止以后再次发生...*
+>*把工作中遇到的一些容易出错的知识点记录整理下来，时间长了就是一笔宝贵的财富，这就是经验...*
 
-### 问题
+### java.util.Arrays.ArrayList与java.util.ArrayList的有关问题
 
 问题是这样的，将数组转成List，通常我们习惯这样写成:
 
@@ -25,7 +25,6 @@ categories:	fulin
 	java.util.Arrays.ArrayList
 	java.util.ArrayList
 
-### 分析过程
 
 剖析JDK源代码可以发现:java.util.Arrays.ArrayList继承了java.util.AbstractList这个类，再来看看java.util.AbstractList类是啥样子的？可以发现：
 
@@ -39,3 +38,38 @@ categories:	fulin
 这也说明了，为什么Arrays.asList出来的List，对其做add、remove操作为抛出UnsupportedOperationException异常。
 
 换句话说，其实java.util.Arrays.ArrayList其实只是对数组做了一个装饰，可以看到里面的实现，E get(int index)、E set(int index, E element)等方法都是对数组的操作，他的目的只是提供了可以像访问List那样来访问数组而已。**本质上其实还是一个数组。**
+
+### java中的 &&;&;||;|;^ 这些运算符的区别
+
+ 如果阅读开源项目的源码,比如FastJson的源码，会发现，大量的使用了 & 和 | 运算符。但是这些运算符一般在我们自己的项目中是很少用的，时间一长就忘记了它的含义。这里总结一下。
+
+ * && 的含义就是逻辑与运算，操作数必须是boolean类型的。
+ * || 的含义就是逻辑或运算，操作数必须是boolean类型的。
+ * &  的含义就是按位与运算，操作数要么都是boolean类型，要么是char或int或long。
+ * |  的含义就是按位或运算，操作数要么都是boolean类型，要么是char或int或long。
+ * ^  的含义就是按位异或运算，按位进行相同为0，不同为1，操作数要么都是boolean类型，要么是char或int或long。
+
+ *&& 运算符和 || 运算符都是短路运算符。但是 & 运算符 和 | 运算符不是短路运算符，这一点需要注意*
+
+ 举例如下：
+
+	public static void main(String[] args) {
+		char a = 2,b = 3;
+		int c = 10;
+		long d = 100l;
+		boolean flagT = true;
+		boolean flagF = false;
+		System.out.println(a | d);
+		System.out.println(a & d);
+		System.out.println(b & c);
+		System.out.println(a | d);
+		System.out.println(flagT & flagF);
+		System.out.println(flagT | flagF);
+	}
+
+ `这里说的按位与和按位或就是二进制数的按位与和按位或。`
+
+ 	^ 运算符有一个经典运用，来交互两个整数
+	e ^= f;
+	f ^= e;
+	e ^= f;
