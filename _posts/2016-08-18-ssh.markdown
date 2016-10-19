@@ -1,7 +1,7 @@
 ---
 layout: post
-title:	"Linux相关知识点"
-date:	2016-08-10 13:07:11 +0800
+title:	"Linux基础知识点一"
+date:	2016-08-18 13:07:11 +0800
 categories:	linux
 ---
 
@@ -96,12 +96,22 @@ categories:	linux
 		/etc/rsyslog.conf
 	系统的默认日志文件
 		/var/log/messages
-
+	处理器的信息
+		/proc/cpuinfo
+	内存的信息
+		/proc/meminfo
+	当前运行内核所配置的所有设备清单
+		/proc/devices
+	正在使用的中断和曾经有多少个中断
+		/proc/interrupts
+	系统负载平均值信息
+		/proc/loadavg
 
 ### 基本常识
 
-		1，添加用户如果不指定组，就会创建一个和用户同名的组。
-		2，/etc/sudoers文件不能让普通用户修改，否则会有验证的权限安全问题		
+	1，添加用户如果不指定组，就会创建一个和用户同名的组。
+	2，/etc/sudoers文件不能让普通用户修改，否则会有验证的权限安全问题
+	3，windows中是通过扩展名来区分文件类型，Linux中文件类型与扩展名无关
 	
 
 ## 常用的重要命令，这些都是我经常使用的命令
@@ -120,6 +130,15 @@ categories:	linux
 		systemctl stop firewalld.service #停止firewall
 		systemctl disable firewalld.service #禁止firewall开机启动
 		firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，开启后显示running）		
+	ls 
+		列出目录的内容
+		-h 人类可读的格式
+		-l 长格式显示
+		-i 显示文件的索引号
+	df 
+		查看磁盘信息
+		-i 查看inode的信息
+		-h 查看磁盘的用量
 	tar        		
 		压缩和解压缩命令：
 		tar zxvf nexus-3.0.1-01-unix.tar.gz -C /app/nexus/   将nexus-3.0.1-01-unix.tar.gz解压缩到/app/nexus/目录下
@@ -245,3 +264,5 @@ categories:	linux
 ## 网友的优质博客
 
  **[Linux文件系统详解](http://yangrong.blog.51cto.com/6945369/1288072)**
+
+ **[Linux启动启动过程](http://blog.chinaunix.net/uid-23069658-id-3142047.html)**

@@ -67,3 +67,7 @@ categories:	linux
  
  回归测试，我的理解就是冒烟测试，主要作用是保证核心功能的可用性。
 
+## 有关互联网架构的精彩博文
+
+ **[一号店的架构演进](http://mp.weixin.qq.com/s?__biz=MzA4NDc2MDQ1Nw==&mid=2650238076&idx=1&sn=26a8ef34afb15a7fb0101e1ace6cbc51&chksm=87e18e9ab096078ced8ecc55a39d2d4298b77f24351a29353fb4a49d4b8891103578be50680e&scene=0#wechat_redirect)**
+
