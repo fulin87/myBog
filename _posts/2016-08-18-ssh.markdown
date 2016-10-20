@@ -135,6 +135,7 @@ categories:	linux
 		-h 人类可读的格式
 		-l 长格式显示
 		-i 显示文件的索引号
+        -F 子目录加/显示
 	df 
 		查看磁盘信息
 		-i 查看inode的信息
@@ -213,7 +214,8 @@ categories:	linux
 		用于把find、ls的输出交给后面处理		
 	tree
 		查看目录结构
-		-L 目录层次			
+		-L 目录层次
+		-d 只显示目录			
 	man	
 		查明命令的帮忙，是一个五星级命令
 	seq	

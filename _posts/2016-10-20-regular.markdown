@@ -1,0 +1,21 @@
+---
+layout: post
+title:	"正则表达式知识点"
+date:	2016-10-20 13:07:11 +0800
+categories:	linux
+---
+
+> 这里作为自己常用的正则表达式的一个汇总，也作为复习使用
+
+ * `^dog` 以dog开头
+ 
+		ls -l /home | grep ^d  #过滤出/home目录下的子目录
+		grep -v ^# /home/config.conf #过滤掉config.conf中的注释内容
+
+ * `[^dog]` 不包含dog
+
+ * `dog$` 以dog结尾
+
+		ls -Fl /home | grep /$ #过滤出/home目录下的子目录
+
+ * `^$` 表示空行

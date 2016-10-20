@@ -10,11 +10,33 @@ categories:	java
 
 > 经常需要画一些图，比如类图，时序图，用例图等，最近接触到一款有趣的工具，是eclipse的一个插件:plantUML。这里只记录最基础的地方，以后再来完善
 
-### 安装
+## 安装
  直接访问 **[plantUML官网](http://plantuml.com/)**
 
-### 问题
+## 问题
  安装好插件之后，此时只能使用plantUML画一些时序图，并不能从类文件直接生成类图，这时候还需要安装和配置一个十分牛*的画图工具： **[Graphviz](http://www.graphviz.org/)**
 
-### Graphviz的使用
+## plantUml的使用
+
+  这是使用plantUml画的一个Junit运行的时序图
+
+	@startuml
+		actor user #blue 
+		user -> Client : 1,开始
+		Client -> JunitCode : 2,调runClasses
+		JunitCode -> JunitCode : 3,建RunNotifier
+		JunitCode -> Request : 4,调class方法
+		Request -> ClassesRequest : 5,建ClassesRequest
+		Request -> Request : 6,调getRunner
+		JunitCode -> JunitCode : 7,调run
+		JunitCode -> Client : 8,返回result
+		Client -> user : 结束
+		'user -> JunitCode : 调用JunitCode.runClass(Class...class)方法
+	@enduml
+
+ 结果如下
+
+ ![](/image/Junit-time.png)
+
+## Graphviz的使用
  仅仅使用Graphviz就已经可以画图了，直接使用Graphedit.exe程序就可以画图了，具体参照官网。
