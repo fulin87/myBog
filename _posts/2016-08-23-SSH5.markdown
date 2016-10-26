@@ -57,6 +57,26 @@ categories:	linux
 			对文件而言，就是执行文件的权限（普通用户还需要r的权限）
 			对目录而言，表示具有进入目录的权限
 
+ + 创建目录和文件的默认权限问题
+
+		创建的目录默认权限是 755
+		创建的文件默认权限是 644
+	    这是一个相对安全的权限，是linux中权限的一个分水岭	
+ 
+ + 改变文件和目录的默认权限
+
+		umask 044
+
+ + 如何计算新umask下，文件及目录的默认权限
+
+		文件： 
+			umask 的每个位都是偶数的情况，666-umask
+			umask 的数字中有奇数的情况,666-umask,然后将umask对应的奇数位加1
+ + setuid & setgid & setfacl & sbit的权限控制
+ 
+		这里不做总结了，因为用的比较少。 
+		
+
  同样一表胜千言
 
  ![](/image/right1.PNG)
@@ -93,15 +113,21 @@ categories:	linux
  将文件的属主改为fulin，属组改为root
 	chown fulin.root /config/config.conf
 
+### 系统文件权限管理
 
-### 默认的权限
+ `chmod` 只能用来控制文件或目录的读写执行权限，更底层的权限控制，需要Linux内核的支持。这里有两个相关的命令:`chattr`,`lsattr`
 
- 创建目录和文件的默认权限问题
+ + chattr
 
-	创建的目录默认权限是 755
-	创建的文件默认权限是 644
+		用chattr命令防止系统中某个关键文件被修改
+		chattr +i /etc/fstab
 
- 这是一个相对安全的权限，是linux中权限的一个分水岭	
+		让某个文件只能往里面追加内容，不能删除，一些日志文件适用于这种操作
+		chattr +a /data1/user_act.log
+
+ + isattr
+
+		这个命令比较简单，只是用来显示文件系统属性
 
 
 ## 用户管理
@@ -115,3 +141,12 @@ categories:	linux
  删除用户oldboy的同时，删除其家目录
 
 	userdel -r oldboy
+ 更改当前用户的密码
+
+	passwd
+	提示输入当前用户的当前密码
+ root用户可以改别人的密码
+
+	passwd oldboy
+	直接输入新密码
+ 

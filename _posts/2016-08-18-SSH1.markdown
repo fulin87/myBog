@@ -131,6 +131,7 @@ categories:	linux
 	        -F 子目录加/显示
 			-t 显示修改时间
 			-r 逆序
+			-d 列出目录
 		df 
 			查看磁盘信息
 			-i 查看inode的信息
@@ -170,6 +171,7 @@ categories:	linux
 			-E 过滤多个字符串 grep -E "a|b" test.conf 将test.conf中的含有a和b的行过滤出来
 			-v 排除
 			-i 不区分大小写
+			例如：grep -vE "^#|^$" /etc/sudoers 过滤掉/etc/sudoers中的空行和注释
 		sed
 			linux三剑客的老二，核心是按行取各种内容
 			-n 取消默认输出
@@ -213,7 +215,8 @@ categories:	linux
 			查找命令
 			-type 按类型查找
 			-name 按名称查找
-			-mtime 按修改时间查找		
+			-mtime 按修改时间查找
+			例如: find / -type f -name "mysql*" 查出所有以mysql开头的文件		
 		xargs
 			用于把find、ls的输出交给后面处理		
 		tree

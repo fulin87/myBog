@@ -55,6 +55,12 @@ categories:	linux
  * echo 不换行输出
 
 		echo -n "124"
+ * 查找具有suid的命令
+
+		find /usr/bin/ -type f -perm 4755 -exec ls -l {} \;
+ * 查看开机自启动服务
+	 
+		chkconfig --list | grep 3:on
  
 
 		
