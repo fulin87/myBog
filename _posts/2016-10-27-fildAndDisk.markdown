@@ -23,6 +23,7 @@ categories:	linux
  是centos 5.4这个版本，而且已经安装了sendmail软件。
 
  有几个crontab定时任务
+	# crontab -l
 
 	0 * * * * /data/jobscripts/run_status60.sh
 	0 * * * * /data/jobscripts/run_statusin.sh
@@ -54,7 +55,7 @@ categories:	linux
 
  看到这里，才恍然大悟，原来 `/var/spool/clientmqueue/` 这个目录中的文件有345047个之多，但是每个文件却只有880 byte 大。这就造成了磁盘Block的大量浪费，所以才会有目录磁盘占用量远大于目录本身大小的情况。
 
- 那么这些小文件是怎么来的呢？其实是crontab定时任务在执行之后，就会通过sendmail给任务所有者发送一个邮件，就产生了一个880 byte的小文件。每次执行都产生一个，日积月累，数量非常庞大，给系统的安全还造成了一个隐患。
+ 那么这些小文件是怎么来的呢？其实是crontab定时任务在执行之后，就会尝试通过sendmail给任务所有者发送一个邮件，如果发现sendmail服务没有启动，就产生了一个880 byte的小文件，临时放在`/var/spool/clientmqueue/`目录下，知道sendmail服务启动后才会清除。每次执行都产生一个，日积月累，数量非常庞大，给系统的安全还造成了一个隐患。
 
 ## 解决办法
 
@@ -65,6 +66,21 @@ categories:	linux
 	*/5 7-23 * * * /data/jobscripts/run_sendsms.sh >/dev/null 2>&1
 	*/5 * * * * /data/jobscripts/adjustment_product_store.sh >/dev/null 2>&1
 	0 3 * * * /data/jobscripts/collate_product_store.sh >/dev/null 2>&1
+
+ 这里还有一个需要注意的地方，`/var/spool/clientmqueue/` 这个目录下面有太多的文件，如果需要删除,使用 `rm -rf /var/spool/clientmqueue/*`会发现删不了，因为文件太多，怎么办了，是有方法的。
+
+ * 方法一
+
+		ls /var/spool/clientmqueue/|xargs rm -f
+
+ * 方法二
+
+		find /var/spool/clientmqueue/ -type f|xargs rm -f
+
+ * 方法三
+
+		直接将目录   `/var/spool/clientmqueue/`	删除
+		然后重建目录及给目录赋权限和属主和属组
 
 	
 ## 启示
