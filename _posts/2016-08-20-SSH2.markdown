@@ -115,18 +115,39 @@ categories:	linux
 
 * **inode总结**
 
-    1,一个文件至少要占用一个Inode和Block，一般Inode的数量会大于Block的数量。
+    1,一个文件至少要占用一个Inode和Block，一般文件占有Inode的数量会小于Block的数量。
 
 	2,多个文件可以占有同一个inode，这就叫硬链接
 
 	3,ext3/ext4 文件系统block大小一般有1K,2k,4k。其中引导分区等为1K，其他普通分区为4K
 
-	4,查看Inode和block的信息 `dumpe2fs /dev/sda3 | grep -i "Inode size"`
+	4，ext3/ext4 文件系统inode大小一般有128byte，256byte。
 
-    5,访问文件流程是这样的：`文件名 -> inode -> block`
+	5,查看Inode和block的信息 
 
-	6,一个block只能由一个文件使用，如果文件很小block很大，剩余空间浪费无法被其他文件使用。
+		# dumpe2fs /dev/sda2 | grep -i "Inode size"
+		dumpe2fs 1.39 (29-May-2006)
+		Inode size:               128
 
-    7,block不是越大越好，要根据业务类型选择，默认是4K。
+		# dumpe2fs /dev/sda1 | grep -i "Inode count"
+		dumpe2fs 1.39 (29-May-2006)
+		Inode count:              26104
 
-    8,一般分区的情况，Block的数量要大于Inode的数量。但是磁盘耗尽是Block先耗完的。
+		# dumpe2fs /dev/sda1 | grep -i "Block size"
+		dumpe2fs 1.39 (29-May-2006)
+		Block size:               1024
+
+		# dumpe2fs /dev/sda1 | grep -i "Block count"
+		dumpe2fs 1.39 (29-May-2006)
+		Block count:              104388
+		Reserved block count:     5219
+
+	
+
+    6,访问文件流程是这样的：`文件名 -> inode -> block`
+
+	7,一个block只能由一个文件使用，如果文件很小block很大，剩余空间浪费无法被其他文件使用。
+
+    8,block不是越大越好，要根据业务类型选择，默认是4K。
+
+    9,一般分区的情况，Block的数量要大于Inode的数量。但是磁盘耗尽是Block先耗完的。

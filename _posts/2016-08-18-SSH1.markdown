@@ -67,7 +67,7 @@ categories:	linux
 			虚拟目录，是内存的映射，内核和进程的虚拟文件系统目录
 	
 
-* 配置文件
+* 非常重要的文件
  
 		网卡的配置文件
 			/etc/sysconfig/network-scripts/ifcfg-eno16777736		
@@ -97,6 +97,10 @@ categories:	linux
 			/etc/sudoers
 		系统日志配置文件
 			/etc/rsyslog.conf
+		系统内核优化有关的文件
+			/etc/sysctl.conf
+		域名和ip的映射关系
+			/etc/hosts
 		系统的默认日志文件
 			/var/log/messages
 		处理器的信息
@@ -109,6 +113,7 @@ categories:	linux
 			/proc/interrupts
 		系统负载平均值信息
 			/proc/loadavg
+		
 
 ## 基本常识
 
@@ -136,6 +141,9 @@ categories:	linux
 			查看磁盘信息
 			-i 查看inode的信息
 			-h 查看磁盘的用量
+		du 
+			查看文件系统的使用情况
+			-h 人类友好的形式
 		tar        		
 			压缩和解压缩命令：
 			tar zxvf nexus-3.0.1-01-unix.tar.gz -C /app/nexus/   将nexus-3.0.1-01-unix.tar.gz解压缩到/app/nexus/目录下
