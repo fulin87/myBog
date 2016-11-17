@@ -64,10 +64,14 @@ categories:	linux
  * 查看系统是否安装了sendmail软件
 	 	
 		rpm -qa|grep sendmail
- 
 
-		
+ * 检查软件安装是否正常，也就是上一条命令的退出状态,如果是0就正常
 
+		echo $?
+
+ * 检查某个端口是否开启
+
+		lsof -i :80
 
 ## linux运行级别
 
