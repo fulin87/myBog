@@ -1,6 +1,6 @@
 ---
 layout: post
-title:	"Linux基础知识点七"
+title:	"Linux基础知识点七之用户管理"
 date:	2016-08-25 13:07:11 +0800
 categories:	linux
 ---

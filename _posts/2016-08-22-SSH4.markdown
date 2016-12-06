@@ -1,6 +1,6 @@
 ---
 layout: post
-title:	"Linux基础知识点四"
+title:	"Linux基础知识点四之常用技巧和运行级别"
 date:	2016-08-22 13:07:11 +0800
 categories:	linux
 ---

@@ -1,0 +1,58 @@
+---
+layout: post
+title:	"python基础知识点之文件输入和输出"
+date:	2016-11-20 13:07:11 +0800
+categories:	python
+---
+
+* Table of Contents
+{:toc}
+
+> 内建函数 open() [以及 file()]提供了初始化输入/输出(I/O)操作的通用接口,是打开文件之门的"钥匙".....
+
+## open()，file()功能相同
+
+	file_object = open(file_name, access_mode='r', buffering=-1)
+
+	file_name:是包含要打开文件名的字符串
+	access_mode:是一个字符串，代表文件打开的模式，模式后面会详解
+	buffering:指示访问文件所采用的缓冲方式,一般使用系统默认机制即可
+
+	文件模式 	操作
+	r 		以读方式打开
+	rU或Ua 	   	以读方式打开, 同时提供通用换行符支持 (PEP 278)
+	w 		以写方式打开 (必要时清空)
+	a 		以追加模式打开 (从 EOF 开始, 必要时创建新文件)
+	r+		以读写模式打开
+	w+ 		以读写模式打开 (参见 w )
+	a+ 		以读写模式打开 (参见 a )
+	rb 		以二进制读模式打开
+	wb 		以二进制写模式打开 (参见 w )
+	ab 		以二进制追加模式打开 (参见 a )
+	rb+ 		以二进制读写模式打开 (参见 r+ )
+	wb+ 		以二进制读写模式打开 (参见 w+ )
+	ab+ 		以二进制读写模式打开 (参见 a+ )
+
+
+	fp = open('/etc/motd') 		# 以读方式打开
+	fp = open('test', 'w') 		# 以写方式打开
+	fp = open('data', 'r+') 	# 以读写方式打开
+	fp = open('c:\io.sys', 'rb') 	# 以二进制读模式打开
+
+### 文件对象的方法
+
+	file.close()			#关闭文件
+	file.flush()			#刷新文件的内部缓冲区
+	file.readline(size=-1)		#从文件中读取并返回一行(包括行结束符), 或返回最大 size个字符
+	file.readlines(sizhint=0)	#读取文件的所有行并作为一个列表返回(包含所有的行结束符); 如果给定 sizhint 且大于 0 , 那么将返回总和大约为sizhint 字节的行(大小由缓冲器容量的下一个值决定）（ 比如说缓冲器的大小只能为4K 的倍数，如果sizhint 为15k，则最后返回的可能是16k———译者按)
+	file.xreadlines()		#用于迭代, 可以替换 readlines() 的一个更高效的方法
+	file.tell()			#返回当前在文件中的位置
+	file.seek(off, whence=0)	#在文件中移动文件指针, 从 whence ( 0 代表文件其始, 1 代表当前位置, 2 代表文件末尾)偏移 off 字节
+	file.write(str)			#向文件写入字符串
+
+### 文件内建属性
+
+	file.name		#文件名
+	file.closed		#True 表示文件已经被关闭, 否则为 False
+	file.encoding		#文件所使用的编码 - 当 Unicode 字符串被写入数据时, 它们将自动使用 file.encoding 转换为字节字符串; 若file.encoding 为 None 时使用系统默认编码
+	file.mode		#文件打开时使用的访问模式

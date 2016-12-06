@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "python基础知识点之环境"
+date:	2016-11-17 13:07:11 +0800
+categories: python
+---
+
+* Table of Contents
+{:toc}
+
+> 学习java的时候，都知道java有很多优秀的第三方jar包，但是管理这些jar包真是一件麻烦事，虽然有像maven这样的依赖管理工具，但是学习成本还是蛮高的。
+> python 的包管理工具pip使用起来非常的舒服，一条命令就可以搞定下载安装，再用不用为包的管理而烦恼了，让人想起那句著名的话：**less is more**
+
+## python的包管理工具pip
+
+* 访问：[get-pip.py](https://bootstrap.pypa.io/get-pip.py) 访问需要的python文件。
+* 将源代码copy到一个文本文件，将文本文件重命名的get-pip.py。
+* 通过命令行进入上述文本文件的所在位置，运行一下命令： `python get-pip.py`    
+
+## pip工具的使用
+
+	pip list              //查看已经安装的python包
+    pip show package      //查看packageName的详细情况
+	pip install package   //安装包package
+	pip uninstall package //卸载包package
+   
+## python的命令行开发工具ipython
+
+	pip install ipython  //安装ipython
+
+***很多时候，配置一个开发环境不容易，这是一个学习的过程，也是一个过坑的过程，把这些过程记录下来，战胜自己的遗忘***
