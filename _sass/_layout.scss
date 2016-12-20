@@ -17,7 +17,7 @@
     letter-spacing: -1px;
     margin-bottom: 0;
     float: left;
-
+	
     &,
     &:visited {
         color: $grey-color-dark;
@@ -169,6 +169,9 @@
  */
 .page-content {
     padding: $spacing-unit 0;
+	background-color:#DCDCDC;
+	background:url(/image/timg1.jpg);
+	background-size:100%;
 }
 
 .page-heading {
@@ -182,6 +185,7 @@
     > li {
         margin-bottom: $spacing-unit;
     }
+	background-color:#DCDCDC;
 }
 
 .post-meta {
@@ -200,7 +204,8 @@
  * Posts
  */
 .post-header {
-    margin-bottom: $spacing-unit;
+    #margin-bottom: $spacing-unit;
+	background-color:#DCDCDC;
 }
 
 .post-title {
@@ -214,7 +219,7 @@
 }
 
 .post-content {
-    margin-bottom: $spacing-unit;
+    #margin-bottom: $spacing-unit;
 
     h2 {
         font-size: 32px;
@@ -239,4 +244,6 @@
             font-size: 18px;
         }
     }
+	background-color:#DCDCDC;
+	
 }
