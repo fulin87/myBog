@@ -1,0 +1,351 @@
+---
+layout: post
+title:  "python基础知识点之常用数据库API"
+date:	2016-11-24 13:07:11 +0800
+categories: python
+---
+
+* Table of Contents
+{:toc}
+
+> 记录一下学习python的过程中与数据库有关的知识点
+
+## DB-API简介
+
+ 一个处理 Python 数据库事务的特殊兴趣小组（SIG，special interest group）为了统一python访问数据库的接口，制定了一个规范`DB-API`,这套规范定义了一系列必须的对象和数据库存取方式, 以便为各种各样的底层数据库系统和多种多样的数据库接口程序提供一致的访问接口
+
+ 通过DB-API规范访问数据库的流程如下：
+
+ ![](/image/python7.PNG)
+
+## DB-API详解
+
+ **DB-API对以下几个方面做了规范**
+
+* 模块接口
+* 数据库连接对象
+* 游标对象
+
+### 模块接口
+
+ 数据库的访问是通过连接对象（connection objects）来实现的。程序模块中必须提供以下形式的连接对象构造函数：
+
+	connect(parameters...)
+
+ 数据库连接对象的构造函数，返回值为Connection对象实例。 由于目的数据库不同，函数接收数量不等的一些参数。
+
+ 模块中必须定义下面这些模块级的属性：
+
+	apilevel
+		字符串常量，表明支持的DB API版本。
+		目前只允许取值'1.0'和'2.0'。
+		如果没有定义本常量，默认为DB-API 1.0DB-API
+
+	threadsafety	
+		整数常量，表明模块支持的线程安全级别，可能的值为：
+
+		0     线程不安全，线程不能共享模块。
+		1     线程可以共享模块，但是不能共享连接对象（connections）。
+		2     线程可以共享模块和连接对象。
+		3     线程安全，线程间可以共享模块、连接对象以及游标对象
+		
+		上文中共享的意思是两个线程在没有使用互斥信号
+		（mutex semaphore）锁的情况下， 同时使用一个资源。
+
+		要注意的是，你并不总能使用互斥信号来确保一个外部资源线程安全，
+		这是因为外部资源很有可能依赖于一个全局变量或是其他的外部资源，
+		然而这些是你不能控制的
+
+	paramstyle		
+		字符串常量声明模块使用的SQL语句中的参数引出方式。可能的取值如下
+
+		'qmark'         问号方式，例如：'...WHERE name=?'
+		'numeric'       序数方式，例如：'...WHERE name=:1'
+		'named'         命名方式，例如：'...WHERE name=:name'
+		'format'        通用方式例如：'...WHERE name=%s'
+		'pyformat'      python扩展方式例如：'...WHERE name=%(name)s'
+
+	Warning 
+		当有严重警告时触发，例如插入数据是被截断等等。
+		必须是Python StandardError的子类（定义于exceptions模块中）。
+    
+	Error
+		这应该是警告以外所有其他错误类的基类。你可以使用这个类在单一
+		的‘except’语句中捕捉所有的错误。警告（Warnings）不应认为是错误，
+		因此不应该以此类作为基类，而只应该以Python StandardError作为基类。
+
+### 数据库连接对象(connection)
+ 
+ 连接对象应该具有下面的方法：
+
+	close()
+		马上关闭数据连接（而不是当__del__方法被调用的时候）。
+
+		连接应该此后变得不可用，再次访问本连接对象应该触发
+		一个错误（Error或其子类），同样所有使用本连接对象的游标（cursor）
+		对象，也会导致例外发生。
+
+		需要注意的是，在关闭连接对象之前，没有首先提交对数据库的改变
+		将会导致一个隐含的回滚动作（rollback），这将丢弃之前的数据改变操作
+
+	commit()
+		提交任何挂起的事务到数据库中。
+
+		需要注意的是，如果数据库支持自动提交（auto-commit），必须
+		在初始化时关闭。一般会有一个接口函数关闭此特性。
+
+		不支持事务的数据库也应该实现此方法，只需什么都不做。
+
+	rollback()
+		由于并非所有数据库都支持事务，此方法是可选的.
+
+		对于支持事务的数据库，调用此方法将导致数据库回滚到事务
+		开始时的状态。关闭数据库连接之前没有明确调用commit()提交
+		数据更新，将隐含导致rollback()被执行。
+
+	cursor()
+		方法返回给定连接上建立的游标对象（Cursor Object）。如果数据库
+		没有提供对应的游标对象，那么将由程序来模拟实现游标功能
+
+### 游标对象（cursor）
+
+
+游标对象表示数据库游标，游标用来管理获取结果操作的上下文对象。同一个连接对象创建的游标对象不是彼此隔离的，也就是说一个游标对象对数据库造成的变化将会对于其他游标对象立即可见。而不同的连接对象创建的游标，则可能是隔离的也可能是非隔离的，这取决于数据库对事务的支持的实现（参见连接对象的.rollback()和.commit()方法）。
+
+游标对象应具有以下的方法和属性：
+
+	description 
+		这是一个只读属性，是7个项目组成的tulip的序列。
+		每个tulip包含描述一个结果集中的列的信息描述：
+
+		(
+			name, 
+			type_code, 
+			display_size,
+			internal_size, 
+			precision, 
+			scale, 
+			null_ok
+		)
+		
+		其中，前两个项目(name and type_code)时必须的，其他的五项是可选的。
+		如果没有意义可以设置为None。
+
+		对于没有返回结果集的操作或者游标对象还没有执行过任何.execute*()的操作
+		本属性可以为空（None）。
+
+		type_code的含义可以比对下面Type对象的描述。
+
+	rowcount 
+		这是一个只读属性
+		
+		描述的是最后一次数据库操作影响的数据行数
+		（执行.execute系列方法）。 可以是数据查询语句（DQL），
+		比如'select'等返回的数据行，也可以是数据操纵语句（DML ）
+		比如'update' 和'insert'语句等所影响的数据行。
+
+		如果还没有执行过任何语句，或者操作本身影响的函数由于数据访问接口的原因不能检测到。则本属性的值为-1
+		
+		注：将来的版本有可能重新定义后一种情况，使其取值为空（None）而不是-1。
+            
+	callproc(procname[,parameters])
+		(由于并非每种数据库都支持存储过程，此方法是可选的)
+
+		调用数据库存储过程时，首先必须给出存储过程的名字，
+		其次，对于存储过程需要的每一个参数都必须依次给出。
+
+		调用结果按照调用时的次序，输入型参数（Input parameters）
+		原样不动，输出型和输入输出二合一型参数可能会被新的内容代替。
+		存储过程也很可能以数据结果集作为返回结果，
+
+		此时就要用标准的fech系列方法来获取结果了（.fetch*() methods）。
+
+	close()
+		立即关闭游标（不论 __del__方法是否已调用）。
+
+		从此刻开始游标对象就变得不可用了。
+		任何试图访问此游标对象的方法或属性的动作都将导致一个错误Error或其子类被抛出。
+
+	execute(operation[,parameters]) 
+		准备和执行数据库操作（查询或其他命令）。
+		所提供参数将会被绑定到语句中的变量。变量的定义和数据库模块有关。
+		（请参见模块的paramstyle属性的描述）。
+		
+		游标对象将会保留这个操作的引用，如果一个后续的相同的操作被调用，
+		游标对象将会以此来进行优化。当有相同的操作调用（不同的参数变量被传递）
+		时，这是最为有效的优化。
+		
+		一项数据库操作，为了获得最大的执行效率，最好先期使用方法.setinputsizes() 来
+		指定参数的类型和大小。执行时实际给出的参数和预定义的不同也是合法的，模块的实现
+		需要容忍这个问题，即使以效率的损失为代价。
+		
+		参数可以以tuples的tuple或list的形式提供，例如当在一次调用中插入多行数据。但是
+		这种调用应被认为是抛弃的不建议使用，应该使用专用的方法.executemany() 。
+		
+		没有对返回值进行明确界定。
+
+	executemany(operation,seq_of_parameters) 
+		准备数据库操作（查询或其他命令），然后以序列的序列形式的函数
+		来执行该操作。
+		
+		模块开发这可以自由选择是转化为一系列的.execute() 方法调用，还是以
+		数组操作的形式，以便使数据库把这个序列的操作作为一个整体。
+		
+		使用此方法，可能产生一个或多个由未知的行为构成的结果集。
+		建议模块作者（而不是要求）当检测到一次调用已经产生结果集时抛出例外。
+		
+		对于.execute()方法的描述同样可适于此方法。
+		
+		返回值未定义。
+
+	fetchone()
+		从一查询结果集中获取下一行数据，返回值为一个值的序列，如果没有更多数据
+		了则返回None。
+		
+		如果上次的.execute系列方法的调用没有生成任何结果集()或还没有进行任何数据
+		库操作的调用，则调用此方法将抛出例外（Error或其子类）。
+
+	.fetchmany([size=cursor.arraysize])
+          
+		Fetch the next set of rows of a query result, returning a
+		sequence of sequences (e.g. a list of tuples). An empty
+		sequence is returned when no more rows are available.
+		
+		The number of rows to fetch per call is specified by the
+		parameter.  If it is not given, the cursor's arraysize
+		determines the number of rows to be fetched. The method
+		should try to fetch as many rows as indicated by the size
+		parameter. If this is not possible due to the specified
+		number of rows not being available, fewer rows may be
+		returned.
+		
+		An Error (or subclass) exception is raised if the previous
+		call to .execute*() did not produce any result set or no
+		call was issued yet.
+		
+		Note there are performance considerations involved with
+		the size parameter.  For optimal performance, it is
+		usually best to use the arraysize attribute.  If the size
+		parameter is used, then it is best for it to retain the
+		same value from one .fetchmany() call to the next.
+            
+	fetchall() 
+
+		Fetch all (remaining) rows of a query result, returning
+		them as a sequence of sequences (e.g. a list of tuples).
+		Note that the cursor's arraysize attribute can affect the
+		performance of this operation.
+		
+		An Error (or subclass) exception is raised if the previous
+		call to .execute*() did not produce any result set or no
+		call was issued yet.
+            
+	nextset() 
+          
+		(This method is optional since not all databases support
+		multiple result sets. [3])
+		
+		This method will make the cursor skip to the next
+		available set, discarding any remaining rows from the
+		current set.
+		
+		If there are no more sets, the method returns
+		None. Otherwise, it returns a true value and subsequent
+		calls to the fetch methods will return rows from the next
+		result set.
+		
+		An Error (or subclass) exception is raised if the previous
+		call to .execute*() did not produce any result set or no
+		call was issued yet.
+
+	arraysize
+          
+		This read/write attribute specifies the number of rows to
+		fetch at a time with .fetchmany(). It defaults to 1
+		meaning to fetch a single row at a time.
+		
+		Implementations must observe this value with respect to
+		the .fetchmany() method, but are free to interact with the
+		database a single row at a time. It may also be used in
+		the implementation of .executemany().
+            
+	setinputsizes(sizes)
+          
+		This can be used before a call to .execute*() to
+		predefine memory areas for the operation's parameters.
+		
+		sizes is specified as a sequence -- one item for each
+		input parameter.  The item should be a Type Object that
+		corresponds to the input that will be used, or it should
+		be an integer specifying the maximum length of a string
+		parameter.  If the item is None, then no predefined memory
+		area will be reserved for that column (this is useful to
+		avoid predefined areas for large inputs).
+		
+		This method would be used before the .execute*() method
+		is invoked.
+		
+		Implementations are free to have this method do nothing
+		and users are free to not use it.
+            
+	setoutputsize(size[,column])
+          
+		Set a column buffer size for fetches of large columns
+		(e.g. LONGs, BLOBs, etc.).  The column is specified as an
+		index into the result sequence.  Not specifying the column
+		will set the default size for all large columns in the
+		cursor.
+		
+		This method would be used before the .execute*() method
+		is invoked.
+		
+		Implementations are free to have this method do nothing
+		and users are free to not use it.
+
+##sqlite3连接实例
+
+	>>> import sqlite3
+	>>> conn = sqlite3.connect(r'D:\test.db')
+	>>> cursor = conn.cursor()
+	>>> cursor.execute('create table user (id varchar(20) primary key,name varchar(20))')
+	<sqlite3.Cursor object at 0x03119BE0>
+	>>> cursor.execute('insert into user (id,name) values(\'1\',\'Michael\')')
+	<sqlite3.Cursor object at 0x03119BE0>
+	>>> cursor.rowcount
+	1
+	>>> cursor.close()
+	>>> conn.commit()
+	>>> conn.close()
+
+	>>> conn = sqlite3.connect(r'D:\test.db')
+	>>> curo = conn.cursor()
+	>>> curo.execute('select * from user')
+	<sqlite3.Cursor object at 0x03119C20>
+	>>> info = curo.fetchall()
+	>>> info
+	[(u'1', u'Michael')]
+
+##mysql连接实例
+
+	>>> import MySQLdb
+	>>> conn = MySQLdb.connect(host = 'xx.xxx.xx.xx',\
+                       port = 3306,\
+                       user = 'xxx',\
+                       passwd = 'xxxx',\
+                       db = 'xxx')
+	>>> cur = conn.cursor()
+	>>> cur.execute('select * from vc_admin limit 10')
+	>>> info = cur.fetchall()
+	>>> for i in info:
+			print i[0],i[1]
+
+	1 admin
+	8271 255137
+	8273 YH001
+	8275 YH004
+	8277 YH002
+	8279 YH003
+	8281 255130
+	8283 255138
+	8285 255139
+	8287 255140
