@@ -8,7 +8,13 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
+p,h1,h2,h3,h4,h5,h6,ol,ul{
+	color:#ffffff;
+}
 
+p>code,li>pre,li>code{
+	color:#000033;
+}
 
 /**
  * Basic styling
@@ -23,6 +29,8 @@ body {
     -o-font-feature-settings: "kern" 1;
     font-feature-settings: "kern" 1;
     font-kerning: normal;
+	#background-color:#1A1A1A;
+	background-color:#080808;
 }
 
 
