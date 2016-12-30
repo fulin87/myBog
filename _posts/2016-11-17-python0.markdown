@@ -28,7 +28,7 @@ categories: python
 
 	pip install ipython  //安装ipython
 
-## 安装MySQLdb-python遇到的问题
+## windows安装MySQLdb-python遇到的问题
  
  学习python对数据库的支持的时候，因为手边有现成的mysql数据库，可以直接使用，就选择先学习python连接mysql。
 
@@ -85,4 +85,42 @@ categories: python
 
  * 没有异常，OK了
 
-***很多时候，配置一个开发环境不容易，这是一个学习的过程，也是一个过坑的过程，把这些过程记录下来，战胜自己的遗忘***
+## linux安装MySQLdb-python遇到的问题的解决方案
+
+ * 使用pip进行安装
+	
+		pip install MySQL-python
+
+ * 报以下异常
+
+		Complete output from command python setup.py egg_info:
+	    sh: mysql_config: command not found
+	    Traceback (most recent call last):
+	      File "<string>", line 1, in <module>
+	      File "/tmp/pip-build-qy_rtM/MySQL-python/setup.py", line 17, in <module>
+	        metadata, options = get_config()
+	      File "setup_posix.py", line 43, in get_config
+	        libs = mysql_config("libs_r")
+	      File "setup_posix.py", line 25, in mysql_config
+	        raise EnvironmentError("%s not found" % (mysql_config.path,))
+	    EnvironmentError: mysql_config not found
+	    
+	    ----------------------------------------
+		Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-qy_rtM/MySQL-python/
+
+ * 安装 mysql-dev
+
+		yum install mysql-devel
+
+ * 这时又报一个新的错
+
+		error: command 'gcc' failed with exit status 1
+
+ * 安装`gcc`和`python-devel`
+
+		yum install gcc -y
+		yum install python-devel -y
+
+ * 总算OK了
+
+***配置开发环境是最锻炼人的，因为这里面牵扯的东西非常多，把搭建环境的过程中遇到的问题记录下来，以后遇到了有据可循***

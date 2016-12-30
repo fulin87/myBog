@@ -12,7 +12,7 @@ p,h1,h2,h3,h4,h5,h6,ol,ul{
 	color:#ffffff;
 }
 
-p>code,li>pre,li>code{
+p>code,li>pre,li>code,em>code{
 	color:#000033;
 }
 
@@ -107,7 +107,8 @@ a {
     }
 
     &:hover {
-        color: $text-color;
+        #color: $text-color;
+		color:#ffcc22;
         text-decoration: underline;
     }
 }
@@ -140,7 +141,8 @@ code {
     font-size: 15px;
     border: 1px solid $grey-color-light;
     border-radius: 3px;
-    background-color: #eef;
+    #background-color: #eef;
+	background-color: #fffFCC;
 }
 
 code {

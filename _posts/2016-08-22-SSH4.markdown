@@ -73,6 +73,10 @@ categories:	linux
 
 		lsof -i :80
 
+ * 一次性删除某个程序所有的线程,这里删除uwsgi的所有线程
+
+		ps -ef|grep uwsgi|grep -v grep|cut -c 9-15|xargs kill -9
+
 ## linux运行级别
 
  先看看linux的启动流程图
