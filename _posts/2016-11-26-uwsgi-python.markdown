@@ -5,6 +5,9 @@ date:	2016-11-26 13:07:11 +0800
 categories: python
 ---
 
+* Table of Contents
+{:toc}
+
 > 使用python进行web开发，环境的搭建并不简单，这里面出现了很多问题。记录一下自己搭建环境的过程，顺便记录一下自己对于用python进行web开发的原理的一点粗浅的理解。
 
 ### nginx,uwsgi,python工作的原理
