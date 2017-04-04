@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "redis 知识点总结"
+date:	2017-04-04 13:07:11 +0800
+categories: redis
+---
+
+
+
+### redis的事务
+
+ redis提供了类似关系型数据库的事务功能，但是没有提供回滚机制,开发者必须在事务执行出错后自己收拾残局。命令：
+
+ ***MULTI  EXEC 命令***
+
+	MULTI
+
+	code ...
+
+	EXEC
+
+ 同时因为redis不支持回滚功能，所以redis的事务上可以保持简洁和快速
+
+ ***WATCH 命令***
+
+ *WATCH*命令可以监控一个或多个键，一旦其中有一个键被修改，之后的事务就不会被执行。
+
+	WATCH key1 key2 key3 ....
+
+ ***UNWATCH 命令***
+
+ *UNWATCH*命令可以取消对键的监控
+
+	UNWATCH key1 key2 key3 ....
+
