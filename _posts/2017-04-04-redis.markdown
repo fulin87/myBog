@@ -35,8 +35,10 @@ categories: redis
 
 	keys *  //获取所有的键
 	type key //获取键key的类型
-	
-
+	EXISTS key //判断一个键是否存在，存在返回1，否则返回0
+	DEL key [key1 ...] //删除键 key，key1 ...,返回值是删除键的个数
+	redis 不区分命令的大小写，但是作为使用规范，约定命令都使用大写表示
+	GET key //获取键key的值
 
 ### redis的事务
 
