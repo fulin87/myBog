@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Intellij 使用相关的知识点"
+date:	2017-04-14 13:07:11 +0800
+categories: redis
+---
+
+* Table of Contents
+{:toc}
+
+> 进入华润网络之后，有一个项目是外购的，开发方使用的开发工具是IntelliJ IDEA，因此我也接触到了这样一个开发工具，但是我之前使用Eclipse已经使用的非常熟练了，突然换开发工具有些不适应，反思了一下，作为一个开发人员，不应该被开发工具束缚啊，所以还是抓紧时间学习要紧。
+
+###快捷键：
+
+	ctrl + Q  查看类的相关信息
+	ctrl + shift + /- 折叠所有代码
+	ctrl + . 折叠当前光标处方法的代码
+	ctrl + shift + + 展开所有的代码
+	alt + 上下方向键
+	ctrl + F3 在当前类中快速搜索，相当于eclipse中的ctrl + k
+
+	双击shift可以快速查找

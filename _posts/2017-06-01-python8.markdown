@@ -1,0 +1,57 @@
+---
+layout: post
+title:  "python中的json模块和requests模块"
+date:	2017-06-01 13:07:11 +0800
+categories: python
+---
+
+* Table of Contents
+{:toc}
+
+> 最近经常修复生产环境的数据，修复脚本是使用python写的，这也是我第一次把python使用在生产环境，这里记录一下写修复脚本的时候，使用最多的两个模块:requests和json
+
+### requests模块
+
+   **[点击查看官方文档](http://cn.python-requests.org/zh_CN/latest/)**
+
+### json模块
+
+json模块的主要作用有两点
+
+	json 转字典；字典转json
+
+就是这么简洁。
+
+#### 字典转json
+
+	import json
+	obj = {'name':'fulin','age':27,'family':{'fname':'f'}}
+	s = json.dumps(obj,sort_keys=True,indent=4)
+	print s
+
+![](/image/python-json01.PNG)
+
+	json.dumps(obj,sort_keys=True,indent=4)
+ 
+	上面这句代码，需要说明一下，obj是不能省略的，其他都可以
+
+	sort_keys=True表示按key排序，升序，
+
+	indent=4，表示层次缩进是4个字符。
+
+#### dumps 和 dump 的区别
+	
+	dumps 的准确定义是： str = json.dumps(obj),是将一个对象转换为json
+	dump  的准确定义是： json.dump(obj,f),f是一个文件，是将obj对象以josn形式保存在了f中
+	
+#### json转字典
+
+	str = '{"name":"fulin","age"27,"family":{"fname":"f"}}'
+	b = json.loads(str)
+
+#### loads 和 load 的区别
+
+	loads 的准确定义是：obj = json.loads(str),是将一个json串转换为对象
+	load  的准确定义是：obj = json.load(f),将一个文件中的内容转换为对象
+
+
