@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "python基础知识点之常用标准模块"
+date:	2016-11-23 13:07:11 +0800
+categories: python
+---
+
+> python中的标准模块有很多实用的功能，将常用的操作进行了封装，掌握了常用的标准模块的功能可以大幅度的提高工作效率
+
+## random 模块（随机数模块）
+
+	import random
+	random.random()		
+		#返回0到1之间的小数
+	random.getrandbits(16)
+		#返回16位的整数，这里的位是二进制的位。
+	random.uniform(1.2,5.7)
+		#返回1.2到5.7之间的随机实数
+	random.randrange(1,8,2)
+		#返回1到8之间步长为2的随机数
+	random.choice([1,2,3,4,5])
+		#随机的返回序列中的一个元素
+	random.shuffles(s)
+		#将列表s的元素随机的混乱处理，处理之后，s中的元素位置就变了
+	random.sample(s,n)
+		#随机的返回序列s中的n个元素，返回类型是列表
+
+
+## shelve 模块
+
+ shelve 模块使用数据库驱动实现了字典对象的持久保存. shelve 对象使用字符串作为键, 但值可以是任意类型,我们简单的理解为shelve对象就是一个字典。
+
+	import shelve
+	db = shelve.open('D://dbdata.db')
+	db['person']=range(100)
+	db.close()
+
+ 使用shelve比较简单，但是要注意，最后一定要调用其close()方法。
+
+## re 模块
+
+ re 模块提供了一系列功能强大的正则表达式工具, 它允许你快速检查给定字符串是否与给定的模式匹配 (使用 match 函数), 或者包含这个模式 (使用 search 函数)
+
+	compile(): 创建模式对象
+	search():  从字符串中根据模式搜索匹配
+
+	match():   根据模式匹配字符串，返回Match object对象
+		>>> m = re.match(r'www\.(.*)\..{3}','www.python.org')
+		>>> m.group(1)
+		'python'
+		>>> m.group(0)
+		'www.python.org'
+		>>> m.start(1)
+		4
+		>>> m.end(1)
+		10
+		>>> m.span(1)
+		(4, 10)
+		>>> 
+	split():   根据模式的匹配项来分割字符串
+		>>> import re
+		>>> some_text = 'alpha,beta,,,,gamma delta'
+		>>> re.split('[, ]+',some_text)
+		['alpha', 'beta', 'gamma', 'delta']
+		>>> re.split('[, ]+',some_text,maxsplit=2)
+		['alpha', 'beta', 'gamma delta']
+		>>> re.split('[, ]+',some_text,maxsplit=1)
+		['alpha', 'beta,,,,gamma delta']
+
+	findall(): 列出字符串中符合模式的所有匹配项
+		>>> pat = '[a-zA-Z]+'
+		>>> text = '"Hm...Err -- are you sure?" he said, sounding insecure.'
+		>>> re.findall(pat,text)
+		['Hm', 'Err', 'are', 'you', 'sure', 'he', 'said', 'sounding', 'insecure']
+		>>> pat2 = r'[.?\-",]+'
+		>>> re.findall(pat2,text)
+		['"', '...', '--', '?"', ',', '.']
+
+	sub():     利用表达式的匹配项替换指定的字符串
+		>>> pat = '{name}'
+		>>> text = 'Dear {name}'
+		>>> re.sub(pat,'Mr,Gumby',text)
+		'Dear Mr,Gumby'
+
+	escape():  转义正则表达式中所用的特殊字符
+		>>> re.escape('www.python.org')
+		'www\\.python\\.org'
+		>>> re.escape('But where is the ambiguity?')
+		'But\\ where\\ is\\ the\\ ambiguity\\?'
+

@@ -1,0 +1,56 @@
+---
+layout: post
+title:	"正则表达式知识点"
+date:	2016-10-20 13:07:11 +0800
+categories:	linux
+---
+
+
+> 正则表达式就是一套处理字符串的规则和方法，基本上是以行为单位对字符串进行处理，通过特殊符号的辅助，我们可以快速的过滤替换字符串，`这里的正则表达式不是linux中所有命令都能用的，大部分是三剑客（sed,grep,awk）用的，和开发语言使用的正则表达式有区别`。
+> 
+> 这里作为自己常用的正则表达式的一个汇总，也作为复习使用
+
+## 基本正则表达式
+
+ * `^dog` 以dog开头
+ 
+		ls -l /home | grep ^d  #过滤出/home目录下的子目录
+		grep -v ^# /home/config.conf #过滤掉config.conf中的注释内容
+ * `[^dog]` 不包含dog
+ * `dog$` 以dog结尾
+
+		ls -Fl /home | grep /$ #过滤出/home目录下的子目录
+ * `^$` 表示空行
+ * `.` 表示且只能表示一个任意字符
+ 
+		grep "\." /home/config.conf #过滤出config.conf中包含.的行
+ * `*` 重复0个或多个前面的一个字符
+ * `.*` 匹配所有字符
+ * `[]` 配置包含有其中的字符的内容
+
+		grep "[abc]" /home/config.conf #匹配出不包含a,b,c字符的行
+		grep "[0-9]" /home/config.conf #匹配出包含有数字的行
+		grep "[a-Z]" /home/config.conf #匹配出包含有因为字符的行
+ * `[^]` 作用和 `[]` 刚好相反
+		
+		grep "[^0-9]" /home/config.conf #匹配出含有数字之外字符的行
+		grep "[^a-Z]" /home/config.conf #匹配出含有字母之外字符的行
+		grep "^[^t]"  /home/config.conf #匹配出不是t开头的行
+ * `{n,m}` 重复前一个字符n到m次
+
+## 扩展正则表达式
+
+ * `+` 重复前面的字符一次或多次
+ 
+		egrep "s+" /home/config.conf #匹配包含有s的行
+ * `?` 重复0个或一个前面的字符
+
+		egrep "s?" /home/config.conf #匹配没有s或没有连续s的行
+ * `|` 用或的方式查找多个符合条件的字符串
+		egrep "ss|ff" /home/config.conf #匹配含有ss或ff的行
+ 
+
+		
+
+		
+		

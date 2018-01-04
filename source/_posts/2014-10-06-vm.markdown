@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "VMware 虚拟机使用时要注意的地方"
+date:	2014-10-10 13:07:11 +0800
+categories: linux
+---
+
+> 刚开始接触虚拟机的时候，有很多地方迷惑，这里记录下这些使人迷惑的知识点。
+
+### 虚拟机版本选择
+
+ 原则是选择成熟稳定的版本，我自己选择的版本是centOS_6.5这个版本
+
+### VMware三种网络连接模式
+
+ * 桥接模式
+
+		为客户机提供直接访问外网的权限，客户机必须有自己的IP地址。最适合生产环境
+		在网络上，就像一台正真的计算机
+ * NAT
+
+		网络地址转换，为客户机提供使用主机IP地址访问外网的权限，多个客户机可以使用同一个主机的IP
+ * host only
+
+		只和宿主机沟通，不能上网。
+
+### 安装虚拟机操作系统
+
+ 选择虚拟机硬件兼容性
+
+ ![](/image/VM01.PNG)
+
+ 先创建一个逻辑，然后在按照操作系统
+
+ ![](/image/VM02.PNG)
+
+ 选择操作系统版本
+
+ ![](/image/VM03.PNG)
+
+ 给虚拟机命名 
+
+ ![](/image/VM04.PNG)
+
+ 选择网络类型
+
+ ![](/image/VM05.PNG)
+
+ 选择默认IO配置
+
+ ![](/image/VM06.PNG)
+
+ 选择默认磁盘配置
+
+ ![](/image/VM07.PNG)
+
+ 创建完裸机之后，选择操作系统镜像文件
+
+ ![](/image/VM08.PNG)
+
+ 选择第一个安装或升级操作系统
+
+ ![](/image/VM09.PNG)
+
+ 是否检查光盘可用性，选否
+
+ ![](/image/VM10.PNG)
+
+ 选择基本硬件
+
+ ![](/image/VM11.PNG)
+
+ 是否格式化磁盘，选择是
+
+ ![](/image/VM12.PNG)
+
+ 对主机进行命名
+
+ ![](/image/VM13.PNG)
+
+ 清除原有磁盘空间
+ ![](/image/VM14.PNG)
+
+ 安装换操作系统，对网络进行配置，运行命令： `setup`
+ ![](/image/VM15.PNG)
+
+ 选择对硬件进行设置
+ ![](/image/VM16.PNG)
+
+ 设置网卡
+ ![](/image/VM17.PNG)
+
+ DNS设置为8.8.8.8
+ ![](/image/VM18.PNG)
+
+ 保存退出
+
+ 运行命令 
+
+	vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+ 将此文件编辑为，目的是启动时网卡生效
+
+	DEVICE=eth0
+	TYPE=Ethernet
+	ONBOOT=yes
+	NM_CONTROLLED=yes
+	BOOTPROTO=dhcp
+	DNS1=8.8.8.8
+	USERCTL=no
+	PEERDNS=yes
+	IPV6INIT=no

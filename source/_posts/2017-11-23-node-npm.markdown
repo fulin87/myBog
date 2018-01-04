@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "node中的包管理工具npm"
+date:	2017-11-23 13:07:11 +0800
+categories: node
+---
+
+
+> 最近小组中的任务大部分都累积在前端，所以想帮前端的小伙伴分担一点压力。所以接触了node和vue,还对webpack有了一定的了解。在学习的过程中，发现node的环境经常出问题，尤其是npm的包管理过程，这里总结一下。
+
+### npm 介绍
+
+   **[点击查看官方文档](https://www.npmjs.com/)**
+
+### npm的常用命令
+
+	npm install express      	安装最新版的express包到当前目录
+	npm install express@2.1.1  	安装2.1.1这个版本的express包到当前目录
+	npm install express -g   	将最新版的express包安装到全局环境中
+	npm view vue				查看vue模块的package.json文件
+	npm view vue repository 	查看vue模块的源信息
+	npm outdated				检查包是否过期，会列出所有已经过时的包
+	npm update vue				更新vue模块
+	npm uninstall vue			卸载vue模块
+	npm root					查看当前模块安装路径
+	npm root -g 				查看全局的模块安装路径
+	npm -v 						查看npm的安装版本
+	
+
+

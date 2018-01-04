@@ -1,0 +1,156 @@
+---
+layout: post
+title:  "系统学习Junit4"
+date:	2016-10-14 13:07:11 +0800
+categories: java
+---
+
+
+> 减少程序中的bug的一个有效的方法是编写程序逻辑的同时编写测试用例，尽早发现问题。同时Junit作为开源类库， **[受欢迎程度](http://www.oschina.net/news/73667/2016-top-100-java-library)** 是非常高的，已经成为java单元测试事实上的标准，有必要做深入的学习。
+
+## Junit的官方信息
+
+ * **[Junit官网](http://junit.org/junit4/)**
+ * **[github地址](https://github.com/junit-team/junit4)**
+
+## 学习笔记
+
+### 准备测试类
+
+`TestCast1`,`TestCast2` 
+
+	package com.fulin.test.testJunt;
+	import org.junit.After;
+	import org.junit.AfterClass;
+	import org.junit.Before;
+	import org.junit.BeforeClass;
+	import org.junit.Test;
+	
+	public class TestCast1{
+		
+		public TestCast1(){
+			System.out.println("Constrctor...");
+		}
+		
+		@Before
+		public void before(){
+			System.out.println("before");
+		}
+		
+		@BeforeClass
+		public static void beforeClass(){
+			System.out.println("beforeClass");
+		}
+		
+		@After
+		public void after(){
+			System.out.println("after");
+		}
+		
+		@AfterClass
+		public static void afterClass(){
+			System.out.println("afterClass");
+		}
+		
+		@Test
+		public void test1(){
+			System.out.println("test1");
+		}
+		
+		@Test
+		public void test2(){
+			System.out.println("test2");
+		}
+	}
+
+---
+
+	package com.fulin.test.testJunt;
+
+	import org.junit.Test;
+	
+	public class TestCast2 {
+		@Test
+		public void test3(){
+			System.out.println("test3");
+		}
+	}
+
+ 编写好测试类之后，就可以使用Junit4来运行测试类了。运行测试类的方法有两种：
+
+### 测试方法一
+ 
+使用Junit原生的JUnitCore.runClasses(Class...class)方法,如下所示
+
+	package com.fulin.test.testJunt;
+
+	import org.junit.runner.JUnitCore;
+	import org.junit.runner.Result;
+	import org.junit.runner.notification.Failure;
+	
+	public class JunnerTest {
+	
+		public static void main(String[] args) {
+			Result result = JUnitCore.runClasses(TestCast1.class,TestCast2.class);
+			for (Failure fail : result.getFailures()) {
+				System.out.println(fail.toString());
+			}
+			
+			if(result.wasSuccessful()){
+				System.out.println("All tests finished successfully...");
+			}
+		}
+		
+	}
+
+输出如下：
+
+	beforeClass
+	Constrctor...
+	before
+	test1
+	after
+	Constrctor...
+	before
+	test2
+	after
+	afterClass
+	test3
+	All tests finished successfully...
+ 
+### 测试方法二
+
+ 使用eclipse这个IDE自带的测试工具，在测试类中 `右键-> run as -> Junit Test` 也可以得到相同的结果
+
+### 测试过程和结果解读
+
+#### Junit4的生命周期
+
+ Junit4提供了一系列的注解，给编写测试测试类提供了极大的便利，也减少了侵入性。在不同的方法和字段上使用不同的注解，会有不同的效果。但是正真的测试核心方法还是 `@Test` 标注的方法，其他都是围绕这个核心展开的，相当于其生命周期的一部分。
+
+ 同时，我们发现，不过是用那种测试方法，最终的结果都一样，我们有理由相信，Junit4的测试入口就是JunitCore.runClasses。这也是接下来分析源码的入口。
+
+#### Junit注解解释
+
+	1. @Test :   测试方法，测试程序会运行的方法
+                 后边可以跟参数代表不同的测试如
+                 (expected=XXException.class) 异常测试
+                 (timeout=xxx)超时测试
+	2. @Ignore : 被忽略的测试方法
+	3. @Before : 每一个测试方法之前运行
+	4. @After :  每一个测试方法之后运行
+	5. @BeforeClass: 所有测试开始之前运行
+	6. @AfterClass:  所有测试结束之后运行
+
+### Junit源码解析
+ 
+ 这是根据Junit源码画出的时序图
+
+ ![](/image/Junit-time.png)
+
+ 
+## 网友的精彩博客
+
+ * **[Junit学习系列一](https://my.oschina.net/pangyangyang/blog/144495)**
+ * **[Junit学习系列二](https://my.oschina.net/pangyangyang/blog/146015)**
+ * **[Junit学习系列三](https://my.oschina.net/pangyangyang/blog/153320)**

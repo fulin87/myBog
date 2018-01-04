@@ -1,0 +1,81 @@
+---
+layout: post
+title:  "vi的基本配置和常用命令"
+date:   2015-11-19 13:07:11 +0800
+categories: vi
+---
+
+
+> vi或者vim功能的强大是毋庸置疑的。全键盘的操作体验，快速定位，流畅的编辑能力。但是还是有一些细节是需要注意的。这里记录一下我平时使用vim的配置情况和一些容易忘记的命令,方便以后查阅。
+
+### vi的基本配置(.vimrc文件的配置)
+	syn on                      "语法支持
+
+	"common conf \{\{             通用配置
+
+	"设置文件的代码输出
+	set encoding=utf-8          
+	set termencoding=utf-8     
+	set fileencoding=utf-8
+	set fileencodings=ucs-bom,utf-8,chinese,cp936
+ 
+	"vim的菜单乱码解决
+	source $VIMRUNTIME/delmenu.vim 
+	source $VIMRUNTIME/menu.vim
+
+	"vim提示信息乱码的解决
+	language messages zh_CH.utf-8
+
+	set ai                      "自动缩进
+	set bs=2                    "在insert模式下用退格键删除
+	set showmatch               "代码匹配
+	set laststatus=2            "总是显示状态行
+	set expandtab               "以下三个配置配合使用，设置tab和缩进空格数
+	set shiftwidth=4
+	set tabstop=4
+	set cursorline              "为光标所在行加下划线
+	set number                  "显示行号
+	set autoread                "文件在Vim之外修改过，自动重新读入
+	set ignorecase              "检索时忽略大小写
+	set fileencodings=uft-8     "使用utf-8或gbk打开文件
+	set hls                     "检索时高亮显示匹配项
+	set helplang=cn             "帮助系统设置为中文
+	set foldmethod=syntax       "代码折叠
+	set nobackup                "不要普通的加~备份文件
+	set nowritebackup	    "不要容灾的备份文件
+	"\}\}
+	
+*这里需要注意在vim的配置文件中的引号是注释的作用*
+
+###vi最常用的命令
+	gg                    表示移动到文件的首行
+	G                     表示移动到文件的末行
+	28G                   表示移动到28行
+	^                     表示移动到行首
+	$                     表示移动到行尾
+	/abc                  表示正向查找"abc"
+	?abc                  表示反向查找"abc"
+	yy                    表示复制当前行
+	yw                    表示复制单词
+    p                     表示粘贴到当前位置
+	n                     表示正向查找下一个关键字
+	N                     表示反向查找下一个关键字
+	o                     表示在下一行的行首插入
+	O                     表示在上一行的行首插入
+	I                     表示当前字符的后面插入
+	i                     表示当前字符的前面插入
+	:12,15 co 20          将从12到15行的内容复制后粘贴到20行     
+	:34		      跳转到34行
+	f+		      查找当前行的下一个+号
+	.		      重复执行上一次修改
+	;                     重复上一次的查找
+	,                     反向执行上一次的查找
+    :s/test/abcde         将当前行的第一个test替换成abcde
+	:s/te/abc/g           将当前行的所有te替换成abc
+    :%s/test/&/gn         统计字符串test在当前文件中出现的次数
+
+
+ 掌握这些功能，就能处理平时大部分的服务器端编辑任务，当然，VI的功能是非常强大的，号称是伪装成编辑器的操作系统，也有人说这是神的编辑器。这个工具，需要我们持久的学习。
+	
+
+

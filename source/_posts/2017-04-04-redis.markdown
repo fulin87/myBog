@@ -1,0 +1,68 @@
+---
+layout: post
+title:  "redis 知识点总结"
+date:	2017-04-04 13:07:11 +0800
+categories: redis
+---
+
+> redis是一个高性能的键值对数据库，redis是意大利人在2009年开发完成并开源的软件产品。
+> redis本身的含义是 *remote dictionary server (远程字典服务器)*，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。
+
+### redis的特点
+
+- 支持丰富的数据类型
+
+	字符串类型(string)，散列类型(hash)，列表类型(list)，集合类型(set)，有序集合类型(zset)
+
+- 内存存储和持久化
+
+	redis的数据存储在内存中，读写速度远快于硬盘，可以提供一秒10W+的键值的读写同时还提供了持久化的支持
+
+- 功能丰富
+
+	redis虽然是作为数据库开发的，但是越来越多的人将其作为缓存，队列系统使用
+
+- 简单稳定
+
+	redis提供了一系列简单的命令来操作redis
+
+### redis的启动和停止
+
+	启动：  ./bin/redis-server ./redis-conf
+	停止：  ./bin/redis-cli shutdown
+
+### 基本命令
+
+	keys *  //获取所有的键
+	type key //获取键key的类型
+	EXISTS key //判断一个键是否存在，存在返回1，否则返回0
+	DEL key [key1 ...] //删除键 key，key1 ...,返回值是删除键的个数
+	redis 不区分命令的大小写，但是作为使用规范，约定命令都使用大写表示
+	GET key //获取键key的值
+
+### redis的事务
+
+ redis提供了类似关系型数据库的事务功能，但是没有提供回滚机制,开发者必须在事务执行出错后自己收拾残局。命令：
+
+ ***MULTI  EXEC 命令***
+
+	MULTI
+
+	code ...
+
+	EXEC
+
+ 同时因为redis不支持回滚功能，所以redis的事务上可以保持简洁和快速
+
+ ***WATCH 命令***
+
+ *WATCH*命令可以监控一个或多个键，一旦其中有一个键被修改，之后的事务就不会被执行。
+
+	WATCH key1 key2 key3 ....
+
+ ***UNWATCH 命令***
+
+ *UNWATCH*命令可以取消对键的监控
+
+	UNWATCH key1 key2 key3 ....
+

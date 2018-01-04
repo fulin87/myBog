@@ -1,0 +1,116 @@
+---
+layout: post
+title:	"python基础知识点之易错语法"
+date:	2016-11-19 13:07:11 +0800
+categories:	python
+---
+
+
+> python的语法结构非常的简单，尤其是对于熟悉其他原因的人来说，但是还是会有一些细节需要注意的，这里仅仅记录一下重要的细节
+
+## python 语法基本原则
+
+  * python语法和vb的语法有很大的相似性，都要求严格的缩进，用缩进来保证语法格式。而且冒号`:`在python语法中有特殊的含义。
+
+  * python中没有自增自减运算
+
+  * python中没有switch语句
+
+  * python中没有foreach语句
+
+  * python中的else和其他语言不同，可以用在循环语句中，表示循环完成后执行
+
+## 条件语句
+
+### if语句
+
+	if expression:
+		expr_true_suite
+	elif expression:
+		expr_true_suite
+	else:
+		expr_false_suite
+
+### 条件表达式
+
+	X if C else Y
+
+    a = x if x<y else y
+
+## 循环语句
+
+### while语句
+
+	while expression:
+		suite_to_repeat
+
+### for语句
+
+	for iter_var in iterable:
+		suite_to_repeat
+    for语句经常和range()内建函数联合使用.
+	range()内建函数的语法：
+	range(start, end, step =1)  ;包前不包后
+
+	range(2,9,2)
+
+### 迭代器和生成器
+
+  迭代器和生成器是python中的神器。后面会进行详细的总结。
+
+	列表解析:
+	[expr for iter_var in iterable if cond_expr]
+	生成器表达式:
+	(expr for iter_var in iterable if cond_expr)
+
+## 函数要注意的地方
+
+ * 函数定义的第一行的字符串是文档字符串。写文档字符串是一个好习惯
+ * 函数的形参有很多种定义方法
+
+		1,直接定义
+			def fun(x=1,y=2):
+				print x,y
+			fun(1,2)
+			1,2
+
+		2,形参前一个*代表传递的是元组
+			def fun(*param):
+				print param
+		    fun(1,2)
+			(1,2)
+		
+		3,形参前两个*代表传递的是字典
+			def fun(**param):
+				print param
+			fun(x=1,y=2)
+			{'x'=1,'y'=2}
+		
+		4,传递参数时候的反转，将元组或字典拆开传递给函数
+			def fun(x,y)
+				return x+y
+			params = (1,2)
+			fun(*params)
+			3
+			
+			def fun(job = 'x',name = 'y'):
+				print 'name :'+name+" job : '+job
+
+			params = {'name':'fulin','job':'it'}
+			fun(**params)
+			'name :fulin job : it'
+
+## 变量的作用域
+
+ 作用域其实就是命名空间，在哪里声明的变量，命名空间就是那里。这里有一个原则：LEGB原则。
+
+	L:本地作用域，函数内的名字空间，包括局部变量和形参
+	E:嵌套作用域，外部嵌套函数的名字空间（闭包中常见）
+	G:全局作用域，全局变量，函数定义所在模块的名字空间
+	B:内置作用域，内置模块的名字空间
+
+ python的变量作用域和其他语言有比较大的区别，是一个难点，需要特别留意
+
+		
+			
+	

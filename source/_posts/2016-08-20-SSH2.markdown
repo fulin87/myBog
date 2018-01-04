@@ -1,0 +1,151 @@
+---
+layout: post
+title:	"Linux基础知识点二之文件系统"
+date:	2016-08-20 13:07:11 +0800
+categories:	linux
+---
+
+
+> Linux中一切皆文件，所有一定要对其文件有深入的认识。
+
+## 文件类型
+
+ ![](/image/fileType.PNG)
+
+ 第一列就是文件类型
+
+ 
+   *file 命令可以看出文件的类型*
+
+	"-" 代表普通文件，绝大多数都是普通文件，Linux中普通文件又分三种类型：
+	    纯文本文件；二级制文件；数据格式的文件。/var/log/wtmp就是数据文件
+
+    "d" 表示目录
+        查看目录属性 ls -ld
+        创建目录 mkdir
+        递归的创建目录 mkdir -p
+        复制目录 cp -r 或者 cp -a
+        删除目录 rm -r
+        区分文件和目录 ls -p 或者 -F
+
+	"c" 表示字符设备文件
+        一般是串口设备文件，不如猫等
+        # ls -al /dev/tty 
+        crw-rw-rw-. 1 root tty 5, 0 Oct 16 18:47 /dev/tty
+        字符设备文件用mknod命令创建
+		
+	"b" 表示块设备文件
+        block的缩写，平时所说的磁盘/光驱都是块设备
+        # ls -al /dev/sda
+        brw-rw----. 1 root disk 8, 0 Oct 16 18:47 /dev/sda
+        块设备也用mknod命令创建
+
+	"s" 套接口文件
+        通常是用在网络之间用于数据通信的,其实就是socket文件。
+        # ls -al /dev/log
+        srw-rw-rw-. 1 root root 0 Oct 16 18:47 /dev/log
+
+	"l" 符号链接文件
+        其实就是一个链接
+        ls -al /etc/init.d
+        lrwxrwxrwx. 1 root root 11 Aug 21 21:33 /etc/init.d -> rc.d/init.d
+        创建链接文件 ln -s 源文件 新文件
+
+	"p" 管道文件
+        # find / -type p | xargs ls -l
+        prw-------. 1 root root 0 Oct 16 18:47 /run/systemd/inhibit/1.ref
+	
+	总结一下：
+
+        b      block (buffered) special
+        c      character (unbuffered) special
+        d      directory
+        p      named pipe (FIFO)
+        -      regular file
+        l      symbolic  link;  this  is  never true if the -L option or the -follow option is in effect, unless the symbolic link is broken.  If you want to search for symbolic links when -L is in effect, use -xtype.
+        s      socket
+
+## 文件扩展名
+
+  Linux虽然不区分文件扩展名，但是还是会使用扩展名来区分文件的作用
+
+	.tar;.tar.gz;.tgz;.zip;.tar.bz 表示压缩文件，创建命令一般是tar,gzip,zip等
+	.sh 表示shell脚本文件，通过shell语言开发的程序
+	.pl 表示perl语言文件,通过perl语言开发的程序
+	.py 表示python语言文件,通过python语言开发的程序
+	.html;.htm;.php;.jsp；.do表示网页语言文件
+	.conf 表示系统服务的配置文件
+	.rpm 表示rpm安装包文件
+	
+	运维开发语言： Shell/python/perl/php四者之一。
+
+## 文件属性
+
+   *ls -lih* 命令显示的内容和含义  
+
+  ![](/image/fileProp.PNG)
+
+  如下的显示结果
+
+	9577538 -rwxr-xr-x. 1 root root 5.3M Jun 21 02:48 nginx
+
+    inode 索引节点编号:9577538
+	文件类型： 普通文件
+	文件权限： rwxr-xr-x,表示属主可读，可写，可执行，属组可读可执行，其他用户可执行
+	硬链接个数：表示这个文件没有其他硬链接，链接数是1，就是它本身
+	文件属主：这个文件所属的用户是root用户，是第一个root
+	文件属组：这个文件所属的用户组是root组，是第二个root
+	文件大小：文件大小是5.3M
+	文件修改时间：这里的时间是该文件的最好被更新（包括创建、内容更新，修改等操作）的时间，可以用下面的命令来查看文件的修改，访问，创建时间。
+	stat 文件名
+
+### inode 索引节点属性
+
+   系统分区要格式化，创建文件系统
+
+* **Inode**
+
+	中文意思是索引节点（index node）.在每个linux存储设备或设备的分区被格式化为ext3文件系统后，一般都有两个部分。第一部分是Inode，第二部分是Block.查看Inode的使用情况命令:`df -i`
+
+* **Block**
+
+    Block是用来存储时间数据用的，例如：照片，视频等普通文件数据，而Inode就是用来存储这些数据属性信息的（也就是ls -l 的结果），inode包含的属性信息包括文件大小，属性，归属的用户组，读写权限，文件类型，修改时间，还包含指向文件实体的指针的功能（Inode节点--Block的对应关系）等，但是，唯独不包含文件名，一般来将Block的大小是1K,2K,4K。一个文件有可能有多个Block。
+
+* **inode总结**
+
+    1,一个文件至少要占用一个Inode和Block，一般文件占有Inode的数量会小于Block的数量。
+
+	2,多个文件可以占有同一个inode，这就叫硬链接
+
+	3,ext3/ext4 文件系统block大小一般有1K,2k,4k。其中引导分区等为1K，其他普通分区为4K
+
+	4，ext3/ext4 文件系统inode大小一般有128byte，256byte。
+
+	5,查看Inode和block的信息 
+
+		# dumpe2fs /dev/sda2 | grep -i "Inode size"
+		dumpe2fs 1.39 (29-May-2006)
+		Inode size:               128
+
+		# dumpe2fs /dev/sda1 | grep -i "Inode count"
+		dumpe2fs 1.39 (29-May-2006)
+		Inode count:              26104
+
+		# dumpe2fs /dev/sda1 | grep -i "Block size"
+		dumpe2fs 1.39 (29-May-2006)
+		Block size:               1024
+
+		# dumpe2fs /dev/sda1 | grep -i "Block count"
+		dumpe2fs 1.39 (29-May-2006)
+		Block count:              104388
+		Reserved block count:     5219
+
+	
+
+    6,访问文件流程是这样的：`文件名 -> inode -> block`
+
+	7,一个block只能由一个文件使用，如果文件很小block很大，剩余空间浪费无法被其他文件使用。
+
+    8,block不是越大越好，要根据业务类型选择，默认是4K。
+
+    9,一般分区的情况，Block的数量要大于Inode的数量。但是磁盘耗尽是Block先耗完的。
