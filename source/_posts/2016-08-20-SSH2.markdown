@@ -10,7 +10,7 @@ categories:	linux
 
 ## 文件类型
 
- ![](/image/fileType.PNG)
+ ![](/content/image/fileType.PNG)
 
  第一列就是文件类型
 
@@ -83,7 +83,7 @@ categories:	linux
 
    *ls -lih* 命令显示的内容和含义  
 
-  ![](/image/fileProp.PNG)
+  ![](/content/image/fileProp.PNG)
 
   如下的显示结果
 

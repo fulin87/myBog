@@ -9,7 +9,7 @@ categories:	tool
 
 ## 异常之后的图标
 
- ![](/image/out_look_err.PNG)
+ ![](/content/image/out_look_err.PNG)
 
 ## 解决办法
 
@@ -24,6 +24,6 @@ categories:	tool
 
 ## 解决之后
 
- ![](/image/out_look_right.PNG)
+ ![](/content/image/out_look_right.PNG)
 
 > 这下看着舒服多了，哈哈哈！！！！

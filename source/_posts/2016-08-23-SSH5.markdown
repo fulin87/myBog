@@ -12,7 +12,7 @@ categories:	linux
 
   一图胜千言语
 
- ![](/image/right2.PNG)
+ ![](/content/image/right2.PNG)
 
 ## Linux权限管理
 
@@ -80,7 +80,7 @@ categories:	linux
 
  同样一表胜千言
 
- ![](/image/right1.PNG)
+ ![](/content/image/right1.PNG)
 
  `+` 增加某种权限; `-` 取消某种权限; `=` 取消原来的所有权限，重新赋予新的权限
  
@@ -165,7 +165,7 @@ categories:	linux
 
 	详细的权限，大致可以这样划分：
 
- ![](/image/rightConfig.PNG)
+ ![](/content/image/rightConfig.PNG)
 
     同时可以更进一步，通过sudo和syslog对用户的日志进行审计。
  

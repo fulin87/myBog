@@ -12,7 +12,7 @@ categories: python
 
  如下图所示：
 
- ![](/image/python8.PNG) 
+ ![](/content/image/python8.PNG) 
 
  以上是python进行web开发的基本工作原理，当然了，也可以不用使用uwsgi,但是使用uwsgi才是主流，非主流的这里就不记录了。
 

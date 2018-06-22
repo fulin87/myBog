@@ -25,7 +25,7 @@ categories:	python
 
  * 切片（[], [:], [::]）
  
- 	![](/image/python_list.PNG)
+ 	![](/content/image/python_list.PNG)
 		
 ### 字符串
 

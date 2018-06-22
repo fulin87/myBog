@@ -11,7 +11,7 @@ categories: java
 
  java的起源 -->  跨平台 --> 字节码，虚拟机
 
- ![](/image/java3.PNG)  
+ ![](/content/image/java3.PNG)  
  
  java : java语言规范，java虚拟机规范
 
@@ -21,7 +21,7 @@ categories: java
 
  类加载的过程
 
- ![](/image/java1.PNG)
+ ![](/content/image/java1.PNG)
 
  以上步骤中`加载、验证、准备、初始化和卸载`这5个阶段的顺序是确定的,类的加载过程必须按照这种顺序按部就班的开始，注意这里说的是开始而不是进行或完成，这是因为这些阶段通常都是互相交叉地混合式进行的，通常会在一个阶段的过程中调用，激活另外一个阶段。
  

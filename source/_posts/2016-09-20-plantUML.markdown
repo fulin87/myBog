@@ -34,7 +34,7 @@ categories:	java
 
  结果如下
 
- ![](/image/Junit-time.png)
+ ![](/content/image/Junit-time.png)
 
 ## Graphviz的使用
  仅仅使用Graphviz就已经可以画图了，直接使用Graphedit.exe程序就可以画图了，具体参照官网。

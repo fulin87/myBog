@@ -8,7 +8,7 @@ categories: php
 
 > 昨天，一位同事在A系统的测试环境的mysql数据库中执行了一条`DELETE` 语句，删除了一千多万条数据，导致监控平台告警，数据库服务器磁盘空间被占满,对于这件事，我们是需要思考和总结的。
 
- ![](/image/mysqlDelete.PNG)
+ ![](/content/image/mysqlDelete.PNG)
 
 ### 为什么会出现磁盘被占满的情况
 	

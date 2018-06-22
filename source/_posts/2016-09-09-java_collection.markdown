@@ -8,7 +8,7 @@ categories:	java
 > java集合的运用和认识的深入程度是一个java程序员水平的重要体现，但是要想把这一部分的内容理解透彻，深刻掌握是需要整理和总结的。以前总结过，但是没有形成文字，时间长了难免会忘记，现在记录在此。
 
 ###java集合的总体框架
-![collectionMap](/image/javaCollection.PNG)
+![collectionMap](/content/image/javaCollection.PNG)
 
 java集合类框架有两个顶层接口,有多个子接口和抽象类，若干实现类。这些接口和类可以抽象的分成2类：一类是"序列",一类是"键值对"。其实就是下面这两类：
 

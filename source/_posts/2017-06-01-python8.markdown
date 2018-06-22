@@ -27,7 +27,7 @@ json模块的主要作用有两点
 	s = json.dumps(obj,sort_keys=True,indent=4)
 	print s
 
-![](/image/python-json01.PNG)
+![](/content/image/python-json01.PNG)
 
 	json.dumps(obj,sort_keys=True,indent=4)
  

@@ -7,4 +7,4 @@ categories: Excel
 
 > 对Excel一直非常感兴趣，excel到底有多厉害，请看我用excel画的一个系统架构图，关键敏感信息已经进行了模糊处理
 
-![](/image/excelJia.PNG)
+![](/content/image/excelJia.PNG)

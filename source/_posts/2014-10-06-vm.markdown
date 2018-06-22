@@ -28,70 +28,70 @@ categories: linux
 
  选择虚拟机硬件兼容性
 
- ![](/image/VM01.PNG)
+ ![](/content/image/VM01.PNG)
 
  先创建一个逻辑，然后在按照操作系统
 
- ![](/image/VM02.PNG)
+ ![](/content/image/VM02.PNG)
 
  选择操作系统版本
 
- ![](/image/VM03.PNG)
+ ![](/content/image/VM03.PNG)
 
  给虚拟机命名 
 
- ![](/image/VM04.PNG)
+ ![](/content/image/VM04.PNG)
 
  选择网络类型
 
- ![](/image/VM05.PNG)
+ ![](/content/image/VM05.PNG)
 
  选择默认IO配置
 
- ![](/image/VM06.PNG)
+ ![](/content/image/VM06.PNG)
 
  选择默认磁盘配置
 
- ![](/image/VM07.PNG)
+ ![](/content/image/VM07.PNG)
 
  创建完裸机之后，选择操作系统镜像文件
 
- ![](/image/VM08.PNG)
+ ![](/content/image/VM08.PNG)
 
  选择第一个安装或升级操作系统
 
- ![](/image/VM09.PNG)
+ ![](/content/image/VM09.PNG)
 
  是否检查光盘可用性，选否
 
- ![](/image/VM10.PNG)
+ ![](/content/image/VM10.PNG)
 
  选择基本硬件
 
- ![](/image/VM11.PNG)
+ ![](/content/image/VM11.PNG)
 
  是否格式化磁盘，选择是
 
- ![](/image/VM12.PNG)
+ ![](/content/image/VM12.PNG)
 
  对主机进行命名
 
- ![](/image/VM13.PNG)
+ ![](/content/image/VM13.PNG)
 
  清除原有磁盘空间
- ![](/image/VM14.PNG)
+ ![](/content/image/VM14.PNG)
 
  安装换操作系统，对网络进行配置，运行命令： `setup`
- ![](/image/VM15.PNG)
+ ![](/content/image/VM15.PNG)
 
  选择对硬件进行设置
- ![](/image/VM16.PNG)
+ ![](/content/image/VM16.PNG)
 
  设置网卡
- ![](/image/VM17.PNG)
+ ![](/content/image/VM17.PNG)
 
  DNS设置为8.8.8.8
- ![](/image/VM18.PNG)
+ ![](/content/image/VM18.PNG)
 
  保存退出
 

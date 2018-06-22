@@ -79,7 +79,7 @@ categories:	linux
 
  先看看linux的启动流程图
 
-![](/image/start.PNG)
+![](/content/image/start.PNG)
 
  在目录 `/etc/rc.d/init.d` 下有很多服务器脚本程序，一般称为服务。
 

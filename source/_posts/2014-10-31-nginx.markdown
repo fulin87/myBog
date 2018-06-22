@@ -29,7 +29,7 @@ categories:	linux
 
  原理见下图（和apache做对比）
 
- ![](/image/nginx01.PNG)
+ ![](/content/image/nginx01.PNG)
 
 ### nginx的适用场景
 

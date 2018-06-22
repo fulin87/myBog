@@ -146,7 +146,7 @@ categories: java
  
  这是根据Junit源码画出的时序图
 
- ![](/image/Junit-time.png)
+ ![](/content/image/Junit-time.png)
 
  
 ## 网友的精彩博客

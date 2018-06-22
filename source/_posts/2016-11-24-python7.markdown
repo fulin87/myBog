@@ -14,7 +14,7 @@ categories: python
 
  通过DB-API规范访问数据库的流程如下：
 
- ![](/image/python7.PNG)
+ ![](/content/image/python7.PNG)
 
 ## DB-API详解
 

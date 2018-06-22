@@ -211,10 +211,10 @@ categories:	linux
 		-l 查看老大给自己分配了什么权限
 		时间戳文件放在 /var/db/sudo/
 
- ![](/image/userManag.PNG)
+ ![](/content/image/userManag.PNG)
 
 
- ![](/image/userManag2.PNG)
+ ![](/content/image/userManag2.PNG)
 
  * `visudo`
 

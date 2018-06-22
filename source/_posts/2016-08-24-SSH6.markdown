@@ -86,7 +86,7 @@ categories:	linux
 
 		见下图详细解释
 
-		![](/image/crontab.PNG)
+		![](/content/image/crontab.PNG)
 
 		例如	
 	

@@ -10,11 +10,11 @@ categories:	linux
 
 ## 用户访问网站的流程
 
- ![](/image/linuxNet.PNG)
+ ![](/content/image/linuxNet.PNG)
 
 ## DNS解析的过程
 
- ![](/image/linuxDNS.PNG)
+ ![](/content/image/linuxDNS.PNG)
 
 ## 与网络相关的常用功能
 

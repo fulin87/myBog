@@ -12,14 +12,14 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://colorful.ren/
-root: /
+url: http://colorful.ren/content/
+root: /content
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
 # Directory
 source_dir: source
-public_dir: E:\code\fulin87.github.io\
+public_dir: E:\code\fulin87.github.io\content
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
@@ -40,7 +40,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace:
   
 # Home page setting

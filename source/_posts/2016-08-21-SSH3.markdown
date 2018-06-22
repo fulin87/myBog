@@ -221,7 +221,7 @@ categories:	linux
 	I/O size (minimum/optimal): 512 bytes / 512 bytes
 	Disk identifier: 0x00000000
 
- ![](/image/diskTotal.PNG)
+ ![](/content/image/diskTotal.PNG)
 
 ### 网卡
 
@@ -273,7 +273,7 @@ categories:	linux
 
  首先先看看磁盘的逻辑物理结构图
 
- ![](/image/disk.PNG)
+ ![](/content/image/disk.PNG)
 
  常见的硬盘一般分为三类。IDE硬盘，SCSI硬盘和SATA硬盘。通常我们电脑上的硬盘都是IDE和SATA，而服务器一般用SCSI硬盘。SCSI的硬盘接口设备叫sd，第一块硬盘就是sda，第二块硬盘是sdb...以此类推。Linux规定，一块硬盘上主分区和扩展分区总数不能超过4个，扩展分区又可以包含逻辑分区。主分区的命名方式分别是sda1，sda2，sda3，sda4。而逻辑分区从sd5开始，没有数量限制，命名方式为sd5，sd6...sd无穷大。主分区可以简单的理解为windows下的C盘，也就是系统分区，是引导操作系统必要的分区。而逻辑分区可以简单的理解为windows下的CDE盘等等。
 

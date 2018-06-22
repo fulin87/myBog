@@ -47,7 +47,7 @@ categories: java
 
 ### 源码解析
 	
- ![](/image/fastJson.PNG)
+ ![](/content/image/fastJson.PNG)
 
  已经有前辈总结了心得,可以先理解透彻再自己去看源代码。
  记录在此，以后来完善。
