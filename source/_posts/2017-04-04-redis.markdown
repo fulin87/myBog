@@ -26,21 +26,132 @@ categories: redis
 
 	redis提供了一系列简单的命令来操作redis
 
+### redis的一些性能参数和常识
+	
+* 一个空的redis实例占用的内存只有1M左右，不用担心多redis实例会占用很多内存
+* redis中的Key命名的最佳实践是这样的 **对象类型：对象ID：对象属性**
+
 ### redis的启动和停止
 
 	启动：  ./bin/redis-server ./redis-conf
 	停止：  ./bin/redis-cli shutdown
 
-### 基本命令
+### 字符串类型
 
-	keys *  //获取所有的键
-	type key //获取键key的类型
-	EXISTS key //判断一个键是否存在，存在返回1，否则返回0
-	DEL key [key1 ...] //删除键 key，key1 ...,返回值是删除键的个数
+redis中的字符串和我们通常理解的字符串又所不同，比如获取redis的字符串的长度复杂度是O(1)
+
+	keys *  				//获取所有的键，会遍历所有的健，当数据很多时很影响性能
+	type key 				//获取键key的类型
+	EXISTS key 				//判断一个键是否存在，存在返回1，否则返回0
+	DEL key [key1 ...] 		//删除键 key，key1 ...,返回值是删除键的个数
 	redis 不区分命令的大小写，但是作为使用规范，约定命令都使用大写表示
-	GET key //获取键key的值
+	GET key 				//获取键key的值
+	dbsize 					//获取健的数量
+	incr key				//创建一个自增加的健key，如果有则自增1
+	incrby key 2			//key健自增2
+	decr key				//创建一个自减的健并减1，有则自减1
+	decrby key 2			//key健自减2
+	incrbyfloat key 2.7		//key健增加浮点数2.7
+	mget key1 key2 ...  	//同时获取key1,key2的值	
+	getbit key offset		//获取key健指定位置的二进制的值
+	setbit key offset val 	//设置key键指定位置二进制的值
+	bitcoun=t key 			//获取键中二进制值为1的个数	
+
+### 字典类型
+
+redis的字典就是一个散列表
+	
+	hset key field val  	//更新指定键对应的field的值，如果是新增则返回1，如果是更新则返回0
+	hgetall key 			//获取散列表中的所有键值
+	hmset key field val...  //为散列表一次设置多个属性的值
+	hmget key field ....    //一次获取多个散列表的属性
+	hexists key field       //判断散列表的field是否存在，存在返回1,否则返回0
+	hsetnx key field val    //如果散列表的field不存在则更新，否则不做任何操作，此命令是原子操作
+	hkeys key 				//获取字典中的所有的键
+	hvals key 				//获取字典中所有的值
+	hlen key 				//获取字典中键的数量
+
+### 列表类型
+
+redis的列表类型就是一个双向链表
+	
+	lpush key val ...		//向列表左端添加元素
+	lpop key 				//从列表左端弹出一个元素
+	rpush key val ...		//向列表右端添加元素
+	rpop key 				//从列表右端弹出一个元素
+	lrange key start end 	//获取列表片段，start 至 end
+	llen key 				//列表中元素的数量
+	lrem key count val      
+							//删除列表中count个值为val的元素.
+							//count>0 从左边开始删除count个val，
+							//count<0 从右边开始删除|count|个val
+							//count=0 删除所有val
+	lindex key index 		//获取列表指定索引的值，如果index小于0表示从右开始
+	ltrim key start end 	//删除列表中指定范围以外的元素
+	linsert key after|before prov val
+							//从左到右根据after还是before来决定在prov的前还是后插入val
+	rpoplpush source target //将source中rpop的数据lpush到target中，可以实现一个环状数据结构
+	
+### 集合
+
+这里的集合可以理解为是数学中的集合，元素不能重复。这里有必要比较一下集合和列表的区别
+
+	集合： 无序	元素唯一	最多2的32次方减1个元素
+	列表： 有序  元素可重	最多2的32次方减1个元素
+
+集合在redis中是使用值为空的散列表实现的，所以向集合中增加，删除，判断元素是否存在这些操作的时间复杂度都是O(1),多个集合之间可以进行并集，交集，差集运算，这个特性非常方便。
+
+	sadd key val val2...	//向集合中增加一个或多个元素，如果key不存在则创建,返回成功加入的数量
+	smembers key			//获取集合中的所有元素
+	srem key val val2...	//删除集合中的一个或多个元素，返回成功删除的元素的数量
+	sismember key val		//判断元素val是否在集合中
+	sdiff key key1 ...		//计算多个集合的差集，计算顺序从左到右
+	sdiffstore target key key1 ...
+							//对集合进行差集运算，将结果保存到target中
+	sinter key key2 ...		//计算多个集合的差集，计算顺序从左到右
+	sinterstore target key key2 ..
+							//计算多个集合的交集，将结果保存到target中
+	sunion key key2 ...		//对多个集合进行并集
+	sunionstore target key key2...
+							//计算多个集合的并集，将结果保存到target中
+	scard key 				//获得集合中的元素个数
+	srandmember key count	//从集合中随机获取count个元素，count小于0时取出的值可能重复
+	spop key 				//从集合中随机弹出一个元素
+	
+### 有序集合
+
+有序集合和列表的区别
+
+ * 有序集合是通过跳跃表实现的
+ * 获取元素的时间复杂度是 O(log(N)),列表获取两端元素很快，获取中间元素慢
+ * 有序集合可以调整某个元素的位置，列表则不行
+ * 有序集合比列表更耗费内存
+	
+有序集合的相关命令：
+
+	zadd key score val score1 val1 ...
+					 		//向有序集合中添加一个值为val，分数为score的元素,分数可以是浮点数
+	zscore key val 			//从有序集合中获取val的分数
+	zrange key start end 	//获取排名在某个范围内的元素，zrange时间复杂度是O(log(n) + m),m为返回的个数
+	zrange key start end withscores
+							//获取排名在某个范围内的元素和他的分数
+	zrevrange key start end //获取排名在某个范围的元素，倒叙输出
+	zincrby key score val 	//给val增加score分
+	zcard key 				//获取有序集合中元素的数量
+	zcount key min max 		//获取指定分数范围内的元素个数
+	zrem key val val1 		//删除一个或多个元素
+	zremrangebyrank key start stop 
+							//按照元素排名从小到大删除处在排名范围内的所有元素，返回删除的数量
+	zremrangebyscore key min max
+							//按照元素分数范围删除元素
+
+
 
 ### redis的事务
+ redis事务解决的问题：
+
+	1，redis保证事务内多个命令执行的原子性
+	2，redis保证事务内命令依次执行而不被其他命令插入
 
  redis提供了类似关系型数据库的事务功能，但是没有提供回滚机制,开发者必须在事务执行出错后自己收拾残局。命令：
 
@@ -54,11 +165,30 @@ categories: redis
 
  同时因为redis不支持回滚功能，所以redis的事务上可以保持简洁和快速
 
+ 	redis事务中的命令是在EXEC之后才执行的
+
+#### 事务的异常处理
+	
+* 如果是语法错误
+	
+		如果是语法错误，则在redis 2.6.5以前错误命令不执行，正确命令会执行，在redis2.6.5以后都不执行
+
+* 如果是运行错误
+
+		如果是运行错误，则错误的不执行，正确的命令会执行
+
+
+
  ***WATCH 命令***
 
  *WATCH*命令可以监控一个或多个键，一旦其中有一个键被修改，之后的事务就不会被执行。
 
 	WATCH key1 key2 key3 ....
+	MULTI
+	code
+	EXEC
+
+	WATCH命令需要和事务结合使用
 
  ***UNWATCH 命令***
 
@@ -66,3 +196,13 @@ categories: redis
 
 	UNWATCH key1 key2 key3 ....
 
+
+### 键的生存时间
+
+	expire key seconds			//设置键的生存时间,seconds的单位是秒
+	ttl	key						//显示键还有多长时间过期，单位是秒
+	persist key 				//取消键的生存时间，set和getset命令也会清除键的生存时间
+	pexpire key millconds		//设置键的生存时间，millconds的单位是毫秒数
+	
+	
+	
