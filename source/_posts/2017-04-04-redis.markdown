@@ -8,6 +8,7 @@ categories: redis
 > redis是一个高性能的键值对数据库，redis是意大利人在2009年开发完成并开源的软件产品。
 > redis本身的含义是 *remote dictionary server (远程字典服务器)*，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。
 
+
 ### redis的特点
 
 - 支持丰富的数据类型
@@ -91,6 +92,7 @@ redis的列表类型就是一个双向链表
 	linsert key after|before prov val
 							//从左到右根据after还是before来决定在prov的前还是后插入val
 	rpoplpush source target //将source中rpop的数据lpush到target中，可以实现一个环状数据结构
+	brpop key seconds		//从列表中弹出一个元素，如果没有则阻塞，seconds是超时时间
 	
 ### 集合
 
@@ -144,8 +146,10 @@ redis的列表类型就是一个双向链表
 							//按照元素排名从小到大删除处在排名范围内的所有元素，返回删除的数量
 	zremrangebyscore key min max
 							//按照元素分数范围删除元素
-
-
+	zinterstore target key key1
+							//将有序集合交集之后存入target
+	zunionstore target key key1
+							//将有序集合并集之后存入target
 
 ### redis的事务
  redis事务解决的问题：
@@ -205,4 +209,22 @@ redis的列表类型就是一个双向链表
 	pexpire key millconds		//设置键的生存时间，millconds的单位是毫秒数
 	
 	
+> 对于不常用到的功能或者在不损失过多性能的前提下可以使用现有命令来实现的功能，redis不会单独提供命令来实现，这一原则使得redis在拥有强大功能的同时，保持着相对精简的命令
+
+### redis的排序
+
+	sort key by ageHash:*->age limit 0 2 desc get ageHash:*->age get # store sort.result
+							 	//按照ageHash对应的key的age降序排列key，取前2个元素对应的age和本身的值并将结果保存在sort.result中
+	sort命令中的*是一个占位符
+	get # 						//返回元素本身的值
+	sort命令的结果是列表类型，如果有store参数结果是保存的数据个数
+
+	sort命令的时间复杂度是 O(n+mlogm) n为要排序的列表，m是要返回的元素个数，n较大时会有性能问题
+	redis排序时会建立一个长度为n的容器来临时存储待排序元素，有时会有严重的性能问题
+
+### reids的任务队列
+
+	blpop或者brpop可以实现具有优先级的任务队列
 	
+
+
