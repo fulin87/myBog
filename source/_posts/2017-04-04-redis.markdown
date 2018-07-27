@@ -8,6 +8,26 @@ categories: redis
 > redis是一个高性能的键值对数据库，redis是意大利人在2009年开发完成并开源的软件产品。
 > redis本身的含义是 *remote dictionary server (远程字典服务器)*，它以字典结构存储数据，并允许其他应用通过TCP协议读写字典中的内容。
 
+### redis的安装
+
+* 下载 : wget http://download.redis.io/releases/redis-4.0.6.tar.gz
+* 解压 : tar zxvf redis-4.0.6.tar.gz
+* 进入 : cd redis-4.0.6
+* 安装测试 ： make test
+* 安装到/app/redis目录 : make PREFIX=/app/redis install
+* 进入安装目录 ： cd /app/redis
+* 运行redis ： ./bin/redis-server ./redis.conf
+* 让redis在后台运行 ： vim redis.conf 修改daemonize后的值改为 yes
+
+![](/content/image/redis_bin.PNG)
+
+文件说明 
+
+	redis-benchmark ：	性能测试工具 
+	redis-check-aof ：	检查aof日志工具 
+	redis-check-rdb ：	检查rdb日志工具 
+	redis-cli       ：	客户端工具
+	redis-server    ：	redis服务进程
 
 ### redis的特点
 
@@ -225,6 +245,4 @@ redis的列表类型就是一个双向链表
 ### reids的任务队列
 
 	blpop或者brpop可以实现具有优先级的任务队列
-	
-
 
