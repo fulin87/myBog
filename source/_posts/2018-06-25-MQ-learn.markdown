@@ -16,3 +16,32 @@ categories: MQ
 
 mq的实现其实本质上还是生产者发送RPC请求给"消息队列服务端",然后消息队列服务端将数据进行存储，在适当的时候消息队列服务端发送RPC请求给消费端，消费端最后发送RPC请求给消息队列服务端完成消费确认。
 因此：**消息队列可以简单的理解为是3次RPC请求加上暂存**
+
+
+### activeMQ实战
+
+#### activeMQ的安装
+
+* 本地下载activeMQ
+* 服务器如果没有上传命令，需要按照上传和下载命令
+
+		yum install -y lrzsz
+
+* 将本地的文件上传至服务器
+* 解压
+
+		tar zvxf apache-activemq-5.15.4-bin.tar.gz
+
+* 启动
+
+		cd /app/apache-activemq-5.15.4
+		./bin/activemq start
+
+* 访问控制台
+
+		http://192.168.182.129:8161/admin
+
+**注意**
+
+		activemq依赖于jdk，需要提前在服务器上安装好jdk
+
