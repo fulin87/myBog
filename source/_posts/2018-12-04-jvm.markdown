@@ -1,0 +1,57 @@
+---
+layout: post
+title:  "java虚拟机知识总结"
+date:	2018-12-04 13:07:11 +0800
+categories: java
+---
+
+> 多年来学习java虚拟机的知识总是零零散散，一直没有做过笔记，所有的东西都是在自己的脑子里，现在有时间了，有必要做一下系统的总结
+
+### 平时遇到的异常
+
+#### 堆溢出
+
+		/**
+		 * 
+		 * @author fulin16
+		 * 
+		 * 模拟 Java heap space 溢出
+		 * 运行参数：-verbose:gc -Xms10M -Xmx10M -Xss128k -XX:+PrintGCDetails
+		 */
+		class Person{}
+		public class HeapException {
+			public static void main(String[] args) {
+				List<Person> list = new ArrayList<Person>();
+				while(true){
+					list.add(new Person());
+				}
+			}
+		}
+
+> 异常堆栈
+
+		[GC (Allocation Failure) [PSYoungGen: 2528K->496K(2560K)] 6226K->6244K(9728K), 0.0036614 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+		[Full GC (Ergonomics) [PSYoungGen: 496K->0K(2560K)] [ParOldGen: 5748K->5117K(7168K)] 6244K->5117K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0733379 secs] [Times: user=0.16 sys=0.00, real=0.07 secs] 
+		[GC (Allocation Failure) [PSYoungGen: 2048K->512K(2560K)] 7165K->7180K(9728K), 0.0027150 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+		[Full GC (Ergonomics) [PSYoungGen: 512K->0K(2560K)] [ParOldGen: 6668K->6227K(7168K)] 7180K->6227K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0365703 secs] [Times: user=0.14 sys=0.00, real=0.04 secs] 
+		[Full GC (Ergonomics) [PSYoungGen: 1391K->863K(2560K)] [ParOldGen: 6227K->6735K(7168K)] 7618K->7599K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0618754 secs] [Times: user=0.11 sys=0.00, real=0.06 secs] 
+		[Full GC (Allocation Failure) [PSYoungGen: 863K->863K(2560K)] [ParOldGen: 6735K->6724K(7168K)] 7599K->7588K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0571520 secs] [Times: user=0.11 sys=0.00, real=0.06 secs] 
+		Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+			at java.util.Arrays.copyOf(Arrays.java:3210)
+			at java.util.Arrays.copyOf(Arrays.java:3181)
+			at java.util.ArrayList.grow(ArrayList.java:261)
+			at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:235)
+			at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:227)
+			at java.util.ArrayList.add(ArrayList.java:458)
+			at com.fulin.exception.HeapException.main(HeapException.java:27)
+		Heap
+		 PSYoungGen      total 2560K, used 945K [0x00000000ffd00000, 0x0000000100000000, 0x0000000100000000)
+		  eden space 2048K, 46% used [0x00000000ffd00000,0x00000000ffdec6e0,0x00000000fff00000)
+		  from space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)
+		  to   space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)
+		 ParOldGen       total 7168K, used 6724K [0x00000000ff600000, 0x00000000ffd00000, 0x00000000ffd00000)
+		  object space 7168K, 93% used [0x00000000ff600000,0x00000000ffc91060,0x00000000ffd00000)
+		 Metaspace       used 2692K, capacity 4486K, committed 4864K, reserved 1056768K
+		  class space    used 289K, capacity 386K, committed 512K, reserved 1048576K
+
+....... 未完待续
