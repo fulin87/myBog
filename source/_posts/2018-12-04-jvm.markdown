@@ -28,6 +28,8 @@ categories: java
 			}
 		}
 
+		//堆中存放的是实例化的对象，如果堆中的对象
+
 > 异常堆栈
 
 		[GC (Allocation Failure) [PSYoungGen: 2528K->496K(2560K)] 6226K->6244K(9728K), 0.0036614 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 

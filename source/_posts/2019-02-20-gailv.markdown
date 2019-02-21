@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "神奇的本福德定律"
+date:	2019-02-20 13:07:11 +0800
+categories: java
+---
+
+> 《醉汉的脚步》是一本讲述随机性相关知识的书籍，其中有一个非常有趣的知识点：**本福德定律**
+
+	本福特定律，也称为本福德法则，说明一堆从实际生活得出的数据中，
+	以1为首位数字的数的出现机率约为总数的三成，接近期望值1/9的3倍，
+	推广来说，越大的数字，以它为首几位的数出现的机率就越低；
+	精确地数学表述为：在b进位制中，以数n起头的数出现的机率为logb(n + 1) − logb(n)
+
+	在十进制中，首位数字出现的概率为：
+	d	1		2		3		4		5		6		7		8		9
+	p	30.1%	17.6%	12.5%	9.7%	7.9%	6.7%	5.8%	5.1%	4.6%
+
+
+一开始看到这个结论，我是持怀疑态度的，感觉很震惊，直观的感受是 ： **怎么可能！**
+所以，我通过实际的数据进行了一下验证，发现基本吻合。
+
+数据来源是生产环境的历史订单金额数据，一共2000个数字，程序和结果如下：
+
+	public static void main(String[] args) {
+		testBenfude();
+	}
+	
+	private static void testBenfude(){
+		//为了显示方便多余的数据省略
+		Map<Integer, List<Integer>> result = Arrays.asList(130.62,428.07,40.40,201.51,300.23,136.31,173.65)
+			.parallelStream()
+			.map(p -> Integer.valueOf(String.valueOf(p).substring(0,1)))
+			.collect(Collectors.groupingBy(Integer::intValue));
+		
+		DecimalFormat df = new DecimalFormat("#.0");
+		int i = 1;
+		for(Integer key : result.keySet()){
+			Double pecent = result.get(key).size() / 2000.0 * 100;
+			String specent = df.format(pecent);
+			System.out.println(i + " => " + specent + "%");
+			i ++;
+		}
+	}
+
+	输出：
+	1 => 32.2%
+	2 => 18.9%
+	3 => 12.2%
+	4 => 9.0%
+	5 => 6.8%
+	6 => 5.7%
+	7 => 5.4%
+	8 => 4.7%
+	9 => 5.0%
+
+计算结果和本福德定律符合的非常好。验证之后，我感觉非常震惊，也觉得很兴奋，这个定律太有用了，可以用来对数据集的真实性进行校验啊。
+
+更多**本福德定律**相关的知识请参照维基百科，此定律的来历有详细的说明。
+	
