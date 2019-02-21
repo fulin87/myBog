@@ -28,19 +28,16 @@ categories: java
 	
 	private static void testBenfude(){
 		//为了显示方便多余的数据省略
-		Map<Integer, List<Integer>> result = Arrays.asList(130.62,428.07,40.40,201.51,300.23,136.31,173.65)
+		Map<Integer, Long> result = Arrays.asList(130.62,428.07,40.40,201.51,300.23,136.31,173.65)
 			.parallelStream()
 			.map(p -> Integer.valueOf(String.valueOf(p).substring(0,1)))
-			.collect(Collectors.groupingBy(Integer::intValue));
+			.collect(Collectors.groupingBy(p -> p,Collectors.counting()));
 		
 		DecimalFormat df = new DecimalFormat("#.0");
-		int i = 1;
-		for(Integer key : result.keySet()){
-			Double pecent = result.get(key).size() / 2000.0 * 100;
-			String specent = df.format(pecent);
-			System.out.println(i + " => " + specent + "%");
-			i ++;
-		}
+		result.forEach((k,v) -> {
+			String pecent = String.format("%d => %s%%", k,df.format(v / 2000.0 * 100));
+			System.out.println(pecent);
+		});
 	}
 
 	输出：
