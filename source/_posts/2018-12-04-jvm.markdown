@@ -1,11 +1,33 @@
 ---
 layout: post
-title:  "老鸟眼中的java和JVM知识体系"
+title:  "老鸟眼中的JVM知识体系"
 date:	2018-12-04 13:07:11 +0800
 categories: java
 ---
 
-> 写了多年的java代码，现在以一个老鸟的视角来看java，真的和刚开始的时候是有天壤之别的，依然记得当初跑出第一个 *Hello World* 时候的感觉：*运行一个程序竟然什么感觉都没有，一闪而过*。现在看来，当年的自己还是太稚嫩了，一个简单的 *Hello World* 其实已经包含了java技术体系中最核心，最重要的东西-----**JVM**
+> 写了多年的java代码之后，现在以一个老鸟的视角来看java，真的和刚开始的时候是有天壤之别的，依然记得当初跑出第一个 *Hello World* 时候的感觉：*运行一个程序竟然什么感觉都没有，竟然如此平凡*。现在看来，当年的自己还是太稚嫩了，一个简单的 *Hello World* 其实已经包含了java技术体系中最核心，最重要的东西-----**JVM**
+
+### java到底是什么
+
+> 现在大家说java，其实是包含了两部分 **java语言本身** 和 **JVM**,众所周知，java是跨平台的。
+> 与其说java是跨平台的，不如说字节码是跨平台的。JVM本身不是跨平台的，不跨平台的JVM可以执行相同的字节码，从而间接的实现了字节码的跨平台运行。这里的字节码不一定是通过java语言编译获取，也可以通过其他语言间接得到，甚至直接编写。
+
+![java跨平台](/content/image/jvmkuapingtai.PNG)
+
+> 因此 JVM是java技术的基石。平时我们所说的java规范分为两部分
+
+ * java语言规范
+ * JVM规范（字节码规范是属于JVM规范的一部分）
+
+### JVM到底是什么
+
+ 通俗的说JVM就是运行在主机上的一个程序，是一个java进程。JVM由三大部分组成
+ 
+ * 类加载子系统
+ * 运行时数据区
+ * 执行引擎
+
+ 平时我们所说的堆和栈都是属于运行时数据区。JVM的类加载子系统是非常强大和灵活的，JVM允许我们在程序运行的过程中加载类，这给我们提供了很大的灵活性，也为热部署提供了可能。
 
 ###jvm的运行模式
 
@@ -45,6 +67,35 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
 	-XX:+UseConcMarkSweepGC 启用CMS收集器(并发）
 	-XX:+UseG1GC	启用G1收集器(并发）
 	-XX:ParallelGCThreads=<N> 调整并行收集器的GC线程数量
+
+### java字节码
+
+  字节码的整体结构,按照顺序依次是
+ 	
+ 	* Magic Number 
+	 	> 魔数，4个字节。值为0xCAFEBABE 由java语言的作者James Gosling定义的
+	* Version
+		> 版本号，4个字节,前两个字节是minor_version，后两个字节是major_version
+	* Constant Pool
+		> 常量池，2 + n 个字节
+	* Access Flags
+		> 访问标志符,2个字节
+	* This Class Name
+		> 当前类的名字,2个字节
+	* Supper Class Name
+		> 父类的名字,2个字节
+	* Interfaces
+		> 接口,2+n个字节。一个类可能会实现多个接口，所以是2+n个字节
+	* Fields
+		> 成员变量,2+n个字节
+	* Method
+		> 方法,2+n个字节
+	* Attributes
+		> 属性，2+n个字节
+		
+![字节码结构](/content/image/leijiegou.PNG)
+
+![字节码结构1](/content/image/leijiegou1.PNG)
 
 ### volatile为什么不能实现线程安全
 
@@ -101,4 +152,7 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
 		 Metaspace       used 2692K, capacity 4486K, committed 4864K, reserved 1056768K
 		  class space    used 289K, capacity 386K, committed 512K, reserved 1048576K
 
-....... 未完待续
+
+###JVM相关的比较权威的人
+
+* R大
