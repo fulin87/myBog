@@ -6,7 +6,7 @@ categories: java
 ---
 
 
-> 减少程序中的bug的一个有效的方法是编写程序逻辑的同时编写测试用例，尽早发现问题。同时Junit作为开源类库， **[受欢迎程度](http://www.oschina.net/news/73667/2016-top-100-java-library)** 是非常高的，已经成为java单元测试事实上的标准，有必要做深入的学习。
+> 减少程序中的bug的一个有效的方法是编写程序逻辑的同时进行单元测试，尽早发现问题。同时Junit作为开源类库， **[受欢迎程度](http://www.oschina.net/news/73667/2016-top-100-java-library)** 是非常高的，已经成为java单元测试事实上的标准，有必要做深入的学习。
 
 ## Junit的官方信息
 
@@ -14,6 +14,32 @@ categories: java
  * **[github地址](https://github.com/junit-team/junit4)**
 
 ## 学习笔记
+
+### 最佳实践
+
+ * 源代码和测试代码要分开放在不同的目录，不能混在一起
+ * 测试类和目标类最好在同一个包下面,这样可以包的导入，因为他们的class文件位于同一个包下
+ * 要明白单元测试不能保证代码正确，只能说明代码没有明显的错误，这个要看测试用例的选择
+ * 单元测试是检测程序的输入数据和输出数据（异常）是否符合预期
+ * 测试用例与测试用例之间应该绝对独立不能有任何依赖关系
+
+### junit使用规范
+
+ * 测试类必须直接或间接继承TestCase,以下是TestCase的javaDoc
+ 
+	 > A test case defines the fixture to run multiple tests. To define a test case
+	 * 1) implement a subclass of TestCase
+	 * 2) define instance variables that store the state of the fixture
+	 * 3) initialize the fixture state by overriding setUp
+	 * 4) clean-up after a test by overriding tearDown.
+	 * Each test runs in its own fixture so there can be no side effects among test runs
+
+ * 测试目标类的私有方法可以采用反射的方式来测试
+ * Eclipse为我们提供了工具可以一键生成测试类，可大幅度提高编写测试用例的效率
+ * Junit中有测试套件:testSuite，可以将多个测试用例组合成一个运行
+ * junit4开始全面支持注解，junit4并不要求测试类继承TestCase
+
+
 
 ### 准备测试类
 
@@ -32,6 +58,7 @@ categories: java
 			System.out.println("Constrctor...");
 		}
 		
+		//junit4中的@Before注解实现的功能与junit3中的setUp方法实现的功能相同
 		@Before
 		public void before(){
 			System.out.println("before");
@@ -42,6 +69,7 @@ categories: java
 			System.out.println("beforeClass");
 		}
 		
+		//junit4中的@After注解实现的功能与junit3中的tearDown方法实现的功能相同
 		@After
 		public void after(){
 			System.out.println("after");
