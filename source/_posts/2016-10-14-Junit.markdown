@@ -64,6 +64,7 @@ categories: java
 			System.out.println("before");
 		}
 		
+		//@BeforeClass注解在所有测试方法执行之前执行，仅执行一次，可以用来做一些初始化工作
 		@BeforeClass
 		public static void beforeClass(){
 			System.out.println("beforeClass");
@@ -75,6 +76,7 @@ categories: java
 			System.out.println("after");
 		}
 		
+		//@AfterClass注解在所有测试方法执行之后执行，仅执行一次，可以用来做一些收尾工作
 		@AfterClass
 		public static void afterClass(){
 			System.out.println("afterClass");

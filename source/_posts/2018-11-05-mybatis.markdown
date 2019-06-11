@@ -1,0 +1,128 @@
+---
+layout: post
+title:  "mybatis相关知识点的总结"
+date:	2018-11-05 13:07:11 +0800
+categories: java
+---
+>曾经java中的数据持久化并不是一件轻松的事情。需要编写大量的代码。为了简化这一过程，出现了各种各样的持久化框架。
+
+	JDBC -> DbUtils(queryRunner) -> jdbcTemplate -> ibatis -> myBatis -> Hibenate
+
+> 其中 mybatis 因为其功能强大,灵活又轻量最受欢迎,这里总结一下多年使用mybatis的成果方便查阅
+
+### mybatis的相关历史
+
+mybatis的前身是ibatis。
+ibatis曾经是apache的一个顶级项目，后来项目人员转战google，项目也改名叫mybatis。这一转变是从3.0这个版本开始的
+
+### mybatis的底层原理
+
+mybatis的使用方式
+
+![mybatis使用](/content/image/mybatis2.PNG)
+	
+mybatis的整体组成
+
+![mybatis组成](/content/image/mybatis1.PNG)
+
+sqlSessionFactory的创建过程
+
+![sqlSessionFactory创建过程](/content/image/mybatis3.PNG)
+
+sqlSession的创建过程
+
+![sqlSession创建过程](/content/image/mybatis4.PNG)
+
+mapperProxy的创建过程
+
+![mapperProxy创建过程](/content/image/mybatis5.PNG)
+
+1,创建SqlSessionFactory对象
+2,获取SqlSession对象
+3,获取接口的代理对象（MapperProxy对象）
+
+
+#### Hibenate与mybatis比较
+
+* Hibenate是一个全自动的ORM框架，mybatis是半自动的
+* mybatis对开发人员来说自由度更改
+* Hibenate中sql的定制成本比较高，不利于灵活发乎
+
+### mybatis的配置文件
+	
+> mybatis配置文件分两种
+
+* 全局配置文件
+* Mapper配置文件
+
+#### 全局配置文件
+
+* properties（属性）
+* settings（设置）
+* typeAliases（类型别名）
+* typeHandlers（类型处理器）
+* objectFactory（对象工厂）
+* plugins（插件）
+* environments（环境配置）,可以包含多个environment，可以实现环境的切换
+* environment（环境变量）,依赖transactionManager和dataSource
+* transactionManager（事务管理器）
+* dataSource（数据源）
+* databaseIdProvider（数据库厂商标识）,可以实现不同厂商数据库的移植，同时需要在Mapper的xml中指定
+* mappers（映射器）,mybatis的sql不仅可以写在mapper文件中，还可以用注解的形式
+
+
+> mapper配置有四种方式
+
+	<mappers>
+		<mapper url="file:///var/mappers/xxxMapper.xml"/>  //url方式引起网络路径或者磁盘路径下的映射文件
+		<mapper resource="mybatis/mappers/xxMapper.xml"/>  //resources方式引起类路径下的映射文件
+		<mapper class="com.fulin.TestMapper"/>			//SQL语句写在接口上的
+		<package name="com.fulin.mappers"/>				//批量注册包下面的映射文件
+	</mappers>
+
+
+### mybatis的插件
+
+ > mybatis的插件依赖mybatis的4大对象：
+ 
+ * Executor
+ * ParameterHandler
+ * ResultSetHandler
+ * StatementHandler
+
+### mybatis最佳实践
+
+ > mybatis中最好不要使用别名,使用别名不利于项目维护
+ > SQL语句可以写在xml中也可以用注解的方式写在接口上，但是推荐使用XML的方式，这样方便维护
+ > SqlsessionFactory创建Session，Session一定要关闭，而且Session是线程不安全的
+
+###相关资源
+
+**[generator官方文档](http://www.mybatis.org/generator/)**
+
+**[generator源码](https://github.com/mybatis/generator)**
+
+###generator到底是个什么东西？
+
+*一句话，mybatis generator就是一个工具，可以实现从数据库表结构到java实体类和mapper映射文件之间的自动转换*
+ 
+
+###generator的使用方式
+
+* 通过ant使用
+* 通过maven 插件的方式使用
+* 以java编码的方式使用
+* 以eclipse插件的方式使用
+
+这里我们只用关注maven插件的使用方式
+
+###generator的配置文件
+
+generator配置文件的作用在官方文档中是这样描述的：
+
+配置文件将告诉MBG
+
+* 怎样连接数据库
+* 创建哪些对象，怎样创建这些对象
+* 哪些表将会用于对象的创建
+

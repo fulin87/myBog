@@ -1,0 +1,118 @@
+---
+layout: post
+title:  "总结一下我使用过的设计模式"
+date:	2019-04-21 13:07:11 +0800
+categories: java
+---
+
+> 设计模式是java的精髓所在，深刻的体现了抽象和封装。能否运用好设计模式是衡量一个java程序员水平的重要分水岭，是衡量设计能力的一个综合指标。这里总结一下实际使用过的设计模式。
+
+## 到底什么是设计模式
+
+设计模式并不是软件领域特有的东西，而是一个跨领域的概念。从某种程度上讲，软件其实是对硬件的模拟，设计模式也是从硬件领域借鉴来一系列*最佳实践*。设计模式存在的意义就是实现代码的**高内聚 ，低耦合 ，可扩展 ，实现代码逻辑的优雅**
+
+软件经过多年的发展，前人总结一套设计思想和方法，最终提炼出了5大设计原则和26种设计模式，26种设计模式又可以分成三大类。
+
+### 五大设计原则
+
+* 开闭原则（*Open Close Principle*）
+* 依赖倒置原则（*Dependency Inversion Principle*）
+* 接口隔离原则（*Interface Segregation Principle*）
+* 单一职责原则（*Single Responsibility Principle*）
+* 里氏替换原则（*Liskov's Substitution Principle*）
+
+### 设计模式的分类
+
+* 创建型模式
+
+  *Singleton , Factory , Factory Method , Abstract Factory , Builder , Prototype , Object pool*
+
+  > 创建型模式将对象的创建过程抽取出来了，优化了系统的结果，增强的系统的扩展性，提高了代码的可读性
+
+* 结构型模式
+
+  *Adapter , Bridge , Composite , Decorator , Flyweight , Proxy*
+
+* 行为型模式
+
+  *Chain of Responsibility , Command , Interpreter , Iterator , Mediator , Memento , Observer , Strategy , Template Method , Visitor , Null Objects*
+
+
+
+##  官方资料
+
+* [最简洁权威的设计模式网站 ：OODesign](https://www.oodesign.com/)
+
+
+
+## 责任链模式
+
+### 自己的理解
+
+通俗的讲，责任链模式就是把逻辑的处理过程交给一个链表来处理，链表的每个节点判断自身是否能处理此逻辑，如果不能处理则交给一下节点，直到有节点能处理为止。对客户客户端来说只用关心头节点
+
+![zerenlianmoshi](/content/image/zerenlian.png)
+
+### 责任链模式的优缺点
+
+- 优点 : 将数据和处理逻辑分离解耦，能提高代码的可读性，可以写出优雅的代码，提高系统的灵活性
+- 缺点：*性能问题*，如果链条很长则可能会出现性能问题。调试不方便，在spring中节点是注入的，调试不太方便。
+
+
+
+## 工厂模式
+
+> Factory Pattern
+>
+> * creates objects without exposing the instantiation logic to the client.
+> * refers to the newly created object through a common interface
+
+工厂模式
+
+![](E:\code\myBog\source\image\factorypattern.png)
+
+
+
+
+
+## 模板方法模式
+
+
+
+## 建造者模式
+
+定义：*Separate the  construction of a complex object from its representation ao that the same construction process can create different representations*（将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建出不同的表现）
+
+
+
+## 对象池模式
+
+定义: *reuse and share objects that are expensive to create* （重用和分享哪些重量级的对象）,*Clients of an object pull "feel" like they are owners of a service although the service is shared among many other clients.*  （虽然服务端在多个客户端之间分享过这个对象，但是客户端拿到之后感觉就像是它完全拥有了一样），对象池模式可以简单的这样理解：
+
+* 提高效率，资源重用
+* 池化，连接池，线程池就是对象池模式的具体表现
+
+
+
+![object pool](E:\code\myBog\source\image\objectspool.png)
+
+
+
+## 原型模式
+
+原型模式也是一个创建型模式，说的是对象的创建不是通过new来进行，而是把已有的对象当做原型来克隆产生。从而达到提高效率的目的。
+
+*对象在克隆的时候要注意区分**深拷贝**和**浅拷贝**，默认的拷贝方式是浅拷贝*。实现深拷贝的方法有这么几种
+
+* 手工赋值，效率比较高，但是代码繁琐。被处理的属性需要实现Cloneable接口
+* 将对象转换为流，然后通过流再转为新的对象，需要实现和Serilizeable接口，可以使用commons-lang包中的SerilizationUtils.copy方法
+
+
+
+## 中介者模式
+
+中介者模式存在的目的就是为了解耦，将原来一对多的复杂依赖关系变成一对一的简单依赖关系。所以中介者模式也叫*调停者模式*。实际工作中可以类比交通运输的调度中心，也可以类比 *MVC框架*中的C的作用。当然顾名思义，现实中的中介也是一种中介者
+
+### 中介者模式的缺点
+
+中介者模式最大的问题就是，*中介者* 会随着业务逻辑的增长出现逻辑膨胀，从而使中介者变的臃肿和庞大。
