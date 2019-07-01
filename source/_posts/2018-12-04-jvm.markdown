@@ -14,10 +14,63 @@ categories: java
 
 ![java跨平台](/content/image/jvmkuapingtai.PNG)
 
+#### java技术体系
+
 > 因此 JVM是java技术的基石。平时我们所说的java规范分为两部分
 
  * java语言规范
+
+   * Class文件规范
+
+   * JDK的API
+   * 第三方的类库（非必须）
+
  * JVM规范（字节码规范是属于JVM规范的一部分）
+
+
+
+#### JAVASE,JAVAME,JAVAEE到底是什么
+
+* JAVASE是 standard edite，主要是开发桌面应用,如Eclipse
+* JAVAME，mobile edite,开发移动应用，代表性的有nokia S60
+* JAVAEE，企业级应用，由13种技术组成
+
+ 
+
+### java语言的发展历程
+
+> 虽然网络上有大量的文章介绍java的发展历程，这里我还是想用自已的思路总结一下，方便自己复习和查阅
+
+* 1995 年 Sun公司的*詹姆斯高斯林*领导的一个项目开发了一门语言 **oak** 
+* 1996年 **oak** 正式更名为java，同时java1.0发布，正式喊出了一个著名的口号：*once write,run everywhere*
+* 1996年9月**javaOne**大会举行
+* 1997年jdk1.0发布，包括内部类，反射，JDBC, rmi等
+* 1998年2月jdk1.2发布，首次提出三大方向：J2SE , J2EE, J2ME。而且JVM中内置JIT了，出现了HotSpot虚拟机
+* 2000年jdk1.3发布，代表性的有Timer。而且2000年以后，java进入了一个高速发展的阶段
+* 2004年jdk1.4发布，jdk1.4是一个里程碑式的版本，是一个java走向成熟的版本
+  * jdk1.4中增加了很多的新特性，比如NIO，正则表达式，日志，xml解析器
+  * 同时基于jdk1.4出现了大量优秀的框架，代表性的有 Struts,Hibenate,spring1.x
+  * jdk1.4这个时候已经基本完善了
+* 2004年9月份jdk1.5发布，在这个版本中对java语法进行了大量的改进
+  * 自动装箱，拆箱
+  * 增强for循环,JUC包优化了线程的使用
+  * 枚举，泛型，注解
+  * 基于jdk1.5出现了spring2.x
+
+* 2006年jdk1.6发布，同时规范名字的命令：JAVASE,JAVAEE,JAVAME,jdk6
+  * 提供脚本语言支持
+  * 提供了编译API和微型的http服务器API
+  * 同年Sun公司宣布将java开源
+  * 同时Sun公司陷入财务和收购相关的问题，接下来没能保持2年一个版本的发布频率
+* 2009年jdk7发布
+  * lambad 表达式，模块化
+  * 同年Oracle收购Sun公司，收购价74亿美金
+  * 同年很多人对java的前景表示担忧
+* 2014年jdk8发布
+  * lambta表达式
+  * 新的日期API
+  * 流式处理
+  * java在Oracle手中继续发扬光大，前途光明
 
 ### JVM到底是什么
 
@@ -27,8 +80,61 @@ categories: java
  * 运行时数据区
  * 执行引擎
 
-
  平时我们所说的堆和栈都是属于运行时数据区。JVM的类加载子系统是非常强大和灵活的，JVM允许我们在程序运行的过程中加载类，这给我们提供了很大的灵活性，也为热部署提供了可能。
+
+#### 有哪些著名的虚拟机
+
+* Sun Classic VM
+
+  * 世界上第一款商业的java虚拟机。现在已经完全被淘汰
+
+  * 只有解释器，想编译执行只能使用JIT外挂
+  * 因为是解释执行，所以运行效率低，这也是为什么java给人的感觉效率低，其实后来一点都不低
+
+* Exact VM
+  * 非常短暂的虚拟机，只在Solaris平台发布过
+  * 已经具有了高性能虚拟机的雏形
+
+* Hotspot VM
+
+  * Longview Technologies公司开发
+  * 因为Sun公司注意到其在JIT上的优秀理念，收购了Longview Technologies
+  * Sun公司对java开源之后，其开始称霸java虚拟机领域
+
+* jRockit VM
+
+  * BEA开发，世界上最快的java虚拟机，不包含解析器，全部靠及时编译实现，所以速度非常快
+
+  * BEA后来被Oracle收购，jRockit虚拟机后来在JDK8中有体现
+
+* J9 VM
+
+  * IBM开发，和Hotspot类似，全能性的著名虚拟机。是IBM的java应用执行平台。
+
+* Dalvik VM
+
+  * google出品。安卓系统使用。不是真正的java虚拟机，不能直接执行class文件。
+
+* Microsoft VM。在java的诞生初期，微软和java非常友好
+
+  * 微软想把java绑定到自己的产品中去。只能运行在windows平台下。
+  * 后来Sun公司状告微软侵犯商品权，并以这个虚拟机为证据
+  * 微软败诉，赔偿巨额赔款。从此微软就不在开发虚拟机，转而开始搞.NET平台
+
+* Azul VM
+
+  * 真正的高性能虚拟机，碾压HotSpot.可以管理数十个CPU和数百G的内存
+
+* Liquid VM
+
+  * 也是高性能的虚拟机，碾压HotSpot.本身就相当于是一个操作系统一样
+
+* Taobao VM
+
+  * 阿里巴巴基于Hotspot深度定制的一款java虚拟机
+  * 对硬件依赖比较高，只支持Intel的CPU，牺牲了跨平台性，提高了性能
+  * 据说本地方法调用开销非常小
+  * 是中国人的骄傲
 
 ### jvm的运行模式
 
@@ -117,57 +223,11 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
 
 #### 堆溢出
 
-		/**
-		 * 
-		 * @author fulin16
-		 * 
-		 * 模拟 Java heap space 溢出
-		 * 运行参数：-verbose:gc -Xms10M -Xmx10M -Xss128k -XX:+PrintGCDetails
-		 */
-		class Person{}
-		public class HeapException {
-			public static void main(String[] args) {
-				List<Person> list = new ArrayList<Person>();
-				while(true){
-					list.add(new Person());
-				}
-			}
-		}
-	
-		//堆中存放的是实例化的对象，如果堆中的对象
-
-> 异常堆栈
-
-		[GC (Allocation Failure) [PSYoungGen: 2528K->496K(2560K)] 6226K->6244K(9728K), 0.0036614 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
-		[Full GC (Ergonomics) [PSYoungGen: 496K->0K(2560K)] [ParOldGen: 5748K->5117K(7168K)] 6244K->5117K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0733379 secs] [Times: user=0.16 sys=0.00, real=0.07 secs] 
-		[GC (Allocation Failure) [PSYoungGen: 2048K->512K(2560K)] 7165K->7180K(9728K), 0.0027150 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
-		[Full GC (Ergonomics) [PSYoungGen: 512K->0K(2560K)] [ParOldGen: 6668K->6227K(7168K)] 7180K->6227K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0365703 secs] [Times: user=0.14 sys=0.00, real=0.04 secs] 
-		[Full GC (Ergonomics) [PSYoungGen: 1391K->863K(2560K)] [ParOldGen: 6227K->6735K(7168K)] 7618K->7599K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0618754 secs] [Times: user=0.11 sys=0.00, real=0.06 secs] 
-		[Full GC (Allocation Failure) [PSYoungGen: 863K->863K(2560K)] [ParOldGen: 6735K->6724K(7168K)] 7599K->7588K(9728K), [Metaspace: 2660K->2660K(1056768K)], 0.0571520 secs] [Times: user=0.11 sys=0.00, real=0.06 secs] 
-		Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
-			at java.util.Arrays.copyOf(Arrays.java:3210)
-			at java.util.Arrays.copyOf(Arrays.java:3181)
-			at java.util.ArrayList.grow(ArrayList.java:261)
-			at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:235)
-			at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:227)
-			at java.util.ArrayList.add(ArrayList.java:458)
-			at com.fulin.exception.HeapException.main(HeapException.java:27)
-		Heap
-		 PSYoungGen      total 2560K, used 945K [0x00000000ffd00000, 0x0000000100000000, 0x0000000100000000)
-		  eden space 2048K, 46% used [0x00000000ffd00000,0x00000000ffdec6e0,0x00000000fff00000)
-		  from space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)
-		  to   space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)
-		 ParOldGen       total 7168K, used 6724K [0x00000000ff600000, 0x00000000ffd00000, 0x00000000ffd00000)
-		  object space 7168K, 93% used [0x00000000ff600000,0x00000000ffc91060,0x00000000ffd00000)
-		 Metaspace       used 2692K, capacity 4486K, committed 4864K, reserved 1056768K
-		  class space    used 289K, capacity 386K, committed 512K, reserved 1048576K
 
 
-###JVM相关的比较权威的人
+### JVM相关的比较权威的人
 
 * R大
-
-
 
 ### 参考资料
 
