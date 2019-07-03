@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "老鸟眼中的JVM知识体系"
+title:  "老鸟眼中的JVM知识体系(1)-Java体系"
 date:	2018-12-04 13:07:11 +0800
 categories: java
 ---
@@ -20,8 +20,7 @@ categories: java
 
  * java语言规范
    * JDK的API
-   * 第三方的类库（非必须）
-
+   * 第三方的类库（非必须，但是非常重要，比如spring）
  * JVM规范（字节码规范是属于JVM规范的一部分）
 
 

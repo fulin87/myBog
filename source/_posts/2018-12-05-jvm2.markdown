@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "老鸟眼中的JVM知识体系(2)"
-date:	2018-12-04 13:07:11 +0800
+title:  "老鸟眼中的JVM知识体系(2)-JVM内存模型"
+date:	2018-12-05 18:07:11 +0800
 categories: java
 ---
 

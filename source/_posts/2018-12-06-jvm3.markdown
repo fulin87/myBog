@@ -1,0 +1,117 @@
+---
+layout: post
+title:  "老鸟眼中的JVM知识体系(3)-垃圾回收"
+date:	2018-12-06 20:07:11 +0800
+categories: java
+---
+
+> java的内存管理中垃圾回收是很重要的一部分,在java程序员的职业生涯中具有基石性的重要地位，java的内存垃圾回收是怎样的机制呢，java程序员在写代码的时候是不用刻意关心垃圾回收的，但是在大规模，高并发系统中如果出现了系统瓶颈，垃圾回收就是很重要的优化项...
+
+说起垃圾回收，随之而来的问题就是：
+
+* 如果判定内存中的对象是垃圾？
+* 如何回收？
+* 何时回收？
+
+、
+
+### 如何判定对象是垃圾
+
+* 引用计数法。 *实现简单，判定效率高，但是对循环引用问题无能为力*，目前没有JVM采用这种方式
+* 可达性分析。
+
+```java
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 人为的创造一个循环引用，但是GC会进行回收，说明JDK8使用的垃圾收集策略的垃圾判定依据不是引用计数法。
+ * 虚拟机参数 -verbose:gc -XX:+PrintGCDetails
+ * 
+ * @author fulin
+ *
+ */
+@Setter
+@Getter
+public class GcTest {
+	private Object ref;
+	
+	public GcTest() {
+		byte [] bytes = new byte [20 * 1024 * 1024];
+	}
+	
+	public static void main(String[] args) {
+		GcTest gc1 = new GcTest();
+		GcTest gc2 = new GcTest();
+		gc1.setRef(gc2);
+		gc2.setRef(gc1);
+		
+		gc1 = null;
+		gc2 = null;
+		
+		System.gc();
+	}
+}
+```
+
+输出如下，说明进行了垃圾回收
+
+```
+[GC (System.gc()) [PSYoungGen: 21790K->744K(37888K)] 42270K->21232K(123904K), 0.0018128 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (System.gc()) [PSYoungGen: 744K->0K(37888K)] [ParOldGen: 20488K->552K(86016K)] 21232K->552K(123904K), [Metaspace: 2627K->2627K(1056768K)], 0.0059047 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+Heap
+ PSYoungGen      total 37888K, used 655K [0x00000000d6400000, 0x00000000d8e00000, 0x0000000100000000)
+  eden space 32768K, 2% used [0x00000000d6400000,0x00000000d64a3ee8,0x00000000d8400000)
+  from space 5120K, 0% used [0x00000000d8400000,0x00000000d8400000,0x00000000d8900000)
+  to   space 5120K, 0% used [0x00000000d8900000,0x00000000d8900000,0x00000000d8e00000)
+ ParOldGen       total 86016K, used 552K [0x0000000082c00000, 0x0000000088000000, 0x00000000d6400000)
+  object space 86016K, 0% used [0x0000000082c00000,0x0000000082c8a0f0,0x0000000088000000)
+ Metaspace       used 2634K, capacity 4486K, committed 4864K, reserved 1056768K
+  class space    used 280K, capacity 386K, committed 512K, reserved 1048576K
+```
+
+* 可达性分析中什么可以作为GCroot呢？
+
+  * 虚拟机栈中的引用
+  * 方法区中的类属性所引用的对象
+  * 方法区中的常量所引用的对象
+  * 本地方法栈中所引用的对象
+
+  
+
+### 如何回收
+
+* 垃圾回收策略
+
+  * 标记-清除 算法。先标记，然后清除。
+
+    * 内存碎片的问题
+    * 因为有内存碎片，没有足够的连续区域的时候，会导致重复GC，影响性能
+
+  * 复制 算法
+
+    * 可以理解为将内存分成了2部分，每次GC先标记，然后将没有标记的移动到另一部分，清除第一部分
+
+    * 提高了标记-清除 算法的性能
+    * 但是引入了新的问题：造成了空间的浪费
+    * 主要针对新生代
+
+  * 标记整理 算法
+
+    * 主要针对老年代
+    * 和标记清除最大的区别是在清除之前先进行整理，将需要回收的和不需要回收的进行区分和整理，然后直接清除需要清除的区域
+
+  * 分代 收集算法
+
+    * 将内存进行分代
+    * 根据不同的分代使用不同的垃圾回收算法
+    * 新生代使用标记清除，复制算法
+    * 老年代使用标记整理算法
+
+* 与GC细节相关的配置
+
+```
+-verbose:gc
+-XX:+PrintGCDetails
+```
+
