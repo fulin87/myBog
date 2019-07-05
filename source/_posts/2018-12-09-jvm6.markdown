@@ -1,0 +1,51 @@
+---
+layout: post
+title:  "老鸟眼中的JVM知识体系-常用JVM参数总结"
+date:	2018-12-09 21:07:11 +0800
+categories: java
+---
+
+> Oracle有JVM参数的文档，但是JVM的参数非常多，常用的就那么10几个，所以这里把自己常用的JVM参数总结下来，方便日后查阅
+
+### JVM参数设置的方式
+
+```xml
+-XX:+<option> 开启JVM的参数
+
+-XX:-<option> 关闭JVM的参数
+
+-XX:<option>=<value> 给选项赋一个值
+```
+
+
+
+### 常用的JVM参数总结
+
+#### JVM调试参数
+
+* **-XX:+TraceClassLoading**  		    *开启类的加载信息详情功能，开启之后可以打印出类的加载信息*
+* **-XX:+TraceClassUnLoading**        *开启类的卸载信息详情功能，开启之后可以打印出类的卸载信息*
+* **-XX:+PrintGCDetails**                    *开启GC日志详情的功能，开启之后会打印出GC的详细情况*
+* **-XX:+PrintCommandLineFlags**  打印出用户设置过的JVM参数和参数值
+* **-XX:+PrintFlagsFinal**                    打印出所有的JVM参数和参数值
+
+
+
+#### JVM设置参数
+
+* **-Xmx2048m**                                    设置最大堆内存是2048M
+
+* **-Xms2048m**                                     设置最小堆内存是2048M
+
+* **-Xmn1024m**                                    设置年轻代大小是1024m
+
+* **-Xss128k**                                          设置每个线程的堆栈大小为128k
+
+  >  JDK5.0以后每个线程堆栈大小为1M，以前每个线程堆栈大小为256K，适当减少这个值可以提高可创建的线程数
+
+* **-XX:NewRatio=4**                            设置年轻代与老年代的大小比值是1：4，即年轻代占堆内存的五分之一
+
+* **-XX:SurvivorRatio=4**                     设置年轻代中Eden区和Survivor的大小比值为4，即Eden占新生代的6分之4
+
+* 
+
