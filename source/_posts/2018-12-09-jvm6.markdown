@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "老鸟眼中的JVM知识体系-常用JVM参数总结"
+title:  "老鸟眼中的JVM知识体系-常用JVM参数总结和调优经验"
 date:	2018-12-09 21:07:11 +0800
 categories: java
 ---
@@ -28,8 +28,7 @@ categories: java
 * **-XX:+PrintGCDetails**                    *开启GC日志详情的功能，开启之后会打印出GC的详细情况*
 * **-XX:+PrintCommandLineFlags**  打印出用户设置过的JVM参数和参数值
 * **-XX:+PrintFlagsFinal**                    打印出所有的JVM参数和参数值
-
-
+* **XX:+PrintTenuringDistribution** 跟踪Survor区中对象的年龄分布，GC日志中会有对象的年龄分区信息
 
 #### JVM设置参数
 
@@ -47,5 +46,36 @@ categories: java
 
 * **-XX:SurvivorRatio=4**                     设置年轻代中Eden区和Survivor的大小比值为4，即Eden占新生代的6分之4
 
+* **-XX：MaxTenuringThreshold=10** 设置新生代对象晋升进老年代的年龄阀值，10代表10岁的时候晋升。默认值是15
+
+* **HandlePromotionFailure=true**  设置是否允许担保失败，一般都是设置为true，允许担保失败，防止频繁的fullGC
+
+* **-XX:CMSInitiatingOccupancyFraction=75**  老年代内存使用比达到75%开始触发老年代GC
+
+* **-XX:PermSize=128m**                      设置持久代的初始化大小为128m,在jvm8以前的版本中有效
+
+* **-XX:MaxPermSize=256m**              设置持久代的最大大小为256m，在jvm8以前的版本中有效
+
+* 
+
+
+
+### JVM调优经验
+
+#### JVM调优原则
+
+* 1，短命对象晋升到老年代的数量力求最小化
+
+* 2，新生代GC次数和停顿时间的最小化
+
+* > 1和2 是相互矛盾的，这就需要通过调整来找到一个相对合理的参数。实践证明，在保证老年代增长缓慢的情况下，2的数值越小越好
+
+* 明确系统是响应时间优先还是吞吐量优先，根据不同的业务类型选择不同的GC收集器
+
+
+
+#### JVM调优方法
+
+* 明确系统中对象的年龄分布情况。
 * 
 

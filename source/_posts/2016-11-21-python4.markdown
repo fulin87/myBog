@@ -15,7 +15,7 @@ categories:	python
  * 导入给予了对模块的全局作用域中的变量名的读取权也就是在模块导入后，模块文件的全局作用域变成了模块对象的命名空间
  * 模块其实就是变量名的软件包
  * import和from语句都是可执行的赋值语句
- 
+
 		a.py
 		b.py
 		两个文件
@@ -29,7 +29,7 @@ categories:	python
 		from module import name1,name2
 
 		等价于下面的语句
-
+	
 		import module
 		name1 = module.name1
 		name2 = module.name2

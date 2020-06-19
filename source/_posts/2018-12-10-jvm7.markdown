@@ -1,0 +1,349 @@
+---
+layout: post
+title:  "老鸟眼中的JVM知识体系(6)-调试工具"
+date:	2018-12-08 19:07:11 +0800
+categories: java
+---
+
+> 这里梳理一下平时经常使用的JVM调试工具，这里主要是官方的，当然也会总结一下非官方的工具。jdk发行的时候，顺带发行了一些小工具，和java，javac,javap在同一个目录中，这些工具非常有用，尤其是在排查生产环境的问题的时候。
+>
+> 官方一共提供了54个工具，包括java，javac在内，常用的只有4个
+
+
+
+###  jps
+
+使用频率最高的命令行工具，可以认为是ps命令的包装版本。专门用来查询java进程
+
+* **jps -l**  显示java进程完整包名和类名
+* **jps -lv** 显示java进程的完整包名和类名，还有JVM参数
+
+
+
+### jinfo
+
+这是一个被严重低估的命令，不仅可以查看java进程的配置信息，还能对配置信息进行修改
+
+* **jinfo 29088**  显示29088号java进程的配置信息
+* **jinfo -flag CMSInitiatingOccupancyFraction 29088** 显示29088号java进程的CMSInitiatingOccupancyFraction 这个JVM参数的值
+* **jinfo -flag CMSInitiatingOccupancyFraction=15 29088** 将29099号java进程的CMSInitiatingOccupancyFraction 这个JVM参数的值设置为15
+
+
+
+### jmap
+
+这也是一个很重要的命令，而且被严重低估了。这个工具可以对JVM堆内存中的对象信息进行准确的统计，而且可以将JVM堆中的对象数量，大小都全部dump出来，也就是说，不仅可以生成堆内存的dump文件，而且可以在线统计。
+
+* **jmap -heap 10094**  统计10094号java进程的堆内存情况，包括GC收集器的情况
+
+```xml
+Attaching to process ID 10094, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.91-b14
+
+using parallel threads in the new generation.			//新生代使用的GC收集器
+using thread-local object allocation.		
+Concurrent Mark-Sweep GC								//老年代使用的GC收集器
+
+Heap Configuration:										//堆的配置信息
+   MinHeapFreeRatio         = 40						//空闲堆小于40%时将对堆扩容
+   MaxHeapFreeRatio         = 70						//空闲堆大于70%时将对堆缩容
+   MaxHeapSize              = 1073741824 (1024.0MB)		//最大堆容量1024M
+   NewSize                  = 268435456 (256.0MB)		//初始新生代容量256M
+   MaxNewSize               = 268435456 (256.0MB)		//最大新生代容量256M
+   OldSize                  = 805306368 (768.0MB)		//老年代容量768M
+   NewRatio                 = 2							//新生代与老年代容量比值1:2
+   SurvivorRatio            = 4							//Eden:s0:s1 = 4:1:1
+   MetaspaceSize            = 21807104 (20.796875MB)	//初始Metaspace容量20M
+   CompressedClassSpaceSize = 1073741824 (1024.0MB)		
+   MaxMetaspaceSize         = 268435456 (256.0MB)		//最大Metaspace容量256M
+   G1HeapRegionSize         = 0 (0.0MB)					//G1的堆Region大小0M
+
+Heap Usage:												//堆的使用信息
+New Generation (Eden + 1 Survivor Space):				//新生代的使用信息
+   capacity = 223739904 (213.375MB)						//新生代可用容量213M，因为要去掉一个S区
+   used     = 68764992 (65.57940673828125MB)			//使用的容量65M
+   free     = 154974912 (147.79559326171875MB)			//空闲的容量147M
+   30.73434410698594% used								//使用率30%
+Eden Space:												//Eden区的使用情况
+   capacity = 179044352 (170.75MB)						//Eden区的容量170M
+   used     = 67594824 (64.46344757080078MB)			//Eden区使用64M
+   free     = 111449528 (106.28655242919922MB)			//Eden区空闲106M
+   37.753117171772054% used								//Eden区使用率37%
+From Space:												//From区使用情况
+   capacity = 44695552 (42.625MB)						//From区容量42M
+   used     = 1170168 (1.1159591674804688MB)			//From区使用1M
+   free     = 43525384 (41.50904083251953MB)			//From区空闲41M
+   2.6180860234145893% used								//From区使用率2.6%
+To Space:												//TO区使用情况
+   capacity = 44695552 (42.625MB)						//TO区容量42M
+   used     = 0 (0.0MB)									//TO区使用0M
+   free     = 44695552 (42.625MB)						//TO区空闲42M
+   0.0% used											//TO区已使用0%
+concurrent mark-sweep generation:						//老年代使用情况,这里是并发交换分区
+   capacity = 805306368 (768.0MB)						//老年代容量768M
+   used     = 333065312 (317.6358337402344MB)			//老年代已使用317M
+   free     = 472241056 (450.3641662597656MB)			//老年代空闲450M
+   41.35883251825968% used								//老年代使用率41%
+
+39833 interned Strings occupying 4290952 bytes.
+```
+
+* **jmap -histo 10094** 输出10094号java进程的堆内的对象详细信息，包括对象的类名，实例数，大小
+* **jmap -histo:live 10094** 输出10094号java进程的堆内存活的对象详细信息，包括对象的类名，实例数，大小
+
+```xml
+num     #instances         #bytes  class name
+----------------------------------------------
+   1:         26840      189401544  [B   //[B代表的是byte数组
+   2:        114037       29221760  [Ljava.lang.Object; 
+   3:        271759       24305368  [C   //[C代表的是char数组
+   4:        357889       14315560  org.jsr166.ConcurrentLinkedHashMap$HashEntry
+  10:         26255        5259232  [I   //[I代表的是int数组
+  11:         41634        3663792  java.lang.reflect.Method
+  12:        100407        3213024  java.util.HashMap$Node
+  13:         94312        3017984  java.util.concurrent.ConcurrentHashMap$Node
+  14:          1732        2292624  [Lorg.jsr166.ConcurrentLinkedHashMap$HashEntry;
+  15:         20204        2252632  java.lang.Class
+  16:         23424        2084848  [Ljava.util.HashMap$Node;
+  17:          1474        1712344  [Ljava.util.concurrent.ConcurrentHashMap$Node;
+......
+......
+Total       6478278      492651368  //标识总共有6478278个对象实例,占用492.6M的内存
+
+```
+
+> 这里需要特别注意一下，class name中有[B,[C,[I是有不同含义的
+>
+> * [B 代表 byte[]
+> * [C 代表 char[]
+> * [S 代表 short[]
+> * [I  代表 int[]
+> * [[I 代表 int二维数组
+> * [L 代表数组
+>
+> 最后一行会计算出总的对象数量和总的大小
+
+
+
+### jstat
+
+虚拟机统计信息监视工具，非常重要，使用频率仅次于jps，随意这里进行下详细的总结
+
+#### 类加载统计
+
+**jstat -class 29088**   查看29088号java进程的类加载统计信息
+
+```shell
+Loaded  Bytes  Unloaded  Bytes     Time   
+ 19866 38607.3      509   734.4     691.03
+```
+
+- Loaded : 加载class的数量
+- Bytes：所占用空间大小
+- Unloaded：未加载数量
+- Bytes : 未加载占用空间
+- Time：时间
+
+#### 编译统计
+
+**jstat -compiler 29088** 查看29088号java进程的编译统计信息
+
+```shell
+Compiled Failed Invalid   Time   FailedType FailedMethod
+   32293      3       0   449.34          1 com/mysql/jdbc/AbandonedConnectionCleanupThread run
+```
+
+- Compiled：编译数量。
+- Failed：失败数量
+- Invalid：不可用数量
+- Time：时间
+- FailedType：失败类型
+- FailedMethod：失败的方法
+
+#### 垃圾回收统计
+
+**jstat -gc 29088** 查看29088号java进程的JVM垃圾回收统计信息
+
+**jstat -gc 29088 250 20** 查看29088号java进程的JVM垃圾回收统计信息，每隔250毫秒统计一次，一共20次
+
+```shell
+ S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT   
+43648.0 43648.0 463.7   0.0   174848.0 27061.9   786432.0   438387.3  128984.0 121605.3 14652.0 13089.3  13998  187.518  15     18.381  205.900
+```
+
+- S0C：第一个幸存区的大小
+- S1C：第二个幸存区的大小
+- S0U：第一个幸存区的使用大小
+- S1U：第二个幸存区的使用大小
+- EC：伊甸园区的大小
+- EU：伊甸园区的使用大小
+- OC：老年代大小
+- OU：老年代使用大小
+- MC：方法区大小
+- MU：方法区使用大小
+- CCSC : 压缩类空间大小
+- CCSU : 压缩类空间使用大小
+- YGC：年轻代垃圾回收次数
+- YGCT：年轻代垃圾回收消耗时间
+- FGC：老年代垃圾回收次数
+- FGCT：老年代垃圾回收消耗时间
+- GCT：垃圾回收消耗总时间
+
+#### 堆内存统计
+
+**jstat -gccapacity 6567**  查看6567号java进程的堆内存统计信息
+
+```shell
+ NGCMN    NGCMX     NGC     S0C   S1C       EC      OGCMN      OGCMX       OGC         OC       MCMN     MCMX      MC     CCSMN    CCSMX     CCSC    YGC    FGC 
+262144.0 262144.0 262144.0 43648.0 43648.0 174848.0   786432.0   786432.0   786432.0   786432.0      0.0 1165312.0 130680.0      0.0 1048576.0  14872.0  14928    19
+```
+
+- NGCMN：新生代最小容量
+- NGCMX：新生代最大容量
+- NGC：当前新生代容量
+- S0C：第一个幸存区大小
+- S1C：第二个幸存区的大小
+- EC：伊甸园区的大小
+- OGCMN：老年代最小容量
+- OGCMX：老年代最大容量
+- OGC：当前老年代大小
+- OC:当前老年代大小
+- MCMN:最小元数据容量
+- MCMX：最大元数据容量
+- MC：当前元数据空间大小
+- CCSMN：最小压缩类空间大小
+- CCSMX：最大压缩类空间大小
+- CCSC：当前压缩类空间大小
+- YGC：年轻代gc次数
+- FGC：老年代GC次数
+
+#### 新生代垃圾回收统计
+
+**jstat -gcnew 6567** 查看6567号java进程的新生代垃圾回收统计信息
+
+```shell
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT  
+43648.0 43648.0    0.0 2257.9 15  15 30553.6 174848.0 144925.8  14931  188.416
+```
+
+- S0C：第一个幸存区大小
+- S1C：第二个幸存区的大小
+- S0U：第一个幸存区的使用大小
+- S1U：第二个幸存区的使用大小
+- TT:对象在新生代存活的次数
+- MTT:对象在新生代存活的最大次数
+- DSS:期望的幸存区大小
+- EC：伊甸园区的大小
+- EU：伊甸园区的使用大小
+- YGC：年轻代垃圾回收次数
+- YGCT：年轻代垃圾回收消耗时间
+
+#### 新生代内存统计
+
+**jstat -gcnewcapacity 6567**  查看6567号进程的新生代的内存统计信息
+
+```shell
+ NGCMN      NGCMX       NGC      S0CMX     S0C     S1CMX     S1C       ECMX        EC      YGC   FGC 
+ 262144.0   262144.0   262144.0  43648.0  43648.0  43648.0  43648.0   174848.0   174848.0 14933    19
+```
+
+- NGCMN：新生代最小容量
+- NGCMX：新生代最大容量
+- NGC：当前新生代容量
+- S0CMX：最大幸存1区大小
+- S0C：当前幸存1区大小
+- S1CMX：最大幸存2区大小
+- S1C：当前幸存2区大小
+- ECMX：最大伊甸园区大小
+- EC：当前伊甸园区大小
+- YGC：年轻代垃圾回收次数
+- FGC：老年代回收次数
+
+#### 老年代垃圾回收统计
+
+**jstat -gcold 6567**  查看6567号java进程的老年代垃圾回收统计信息
+
+```shell
+MC       MU      CCSC     CCSU       OC          OU       YGC    FGC    FGCT     GCT   130680.0 124387.2  14872.0  13462.6    786432.0    501681.6  14934    19    4.251  192.717
+```
+
+- MC：方法区大小
+- MU：方法区使用大小
+- CCSC:压缩类空间大小
+- CCSU:压缩类空间使用大小
+- OC：老年代大小
+- OU：老年代使用大小
+- YGC：年轻代垃圾回收次数
+- FGC：老年代垃圾回收次数
+- FGCT：老年代垃圾回收消耗时间
+- GCT：垃圾回收消耗总时间
+
+#### 老年代内存统计
+
+**jstat -gcoldcapacity 6567**  查看6567号java进程的老年代内存统计信息
+
+```shell
+   OGCMN       OGCMX        OGC         OC       YGC   FGC    FGCT     GCT   
+   786432.0    786432.0    786432.0    786432.0 14934    19    4.251  192.717
+```
+
+- OGCMN：老年代最小容量
+- OGCMX：老年代最大容量
+- OGC：当前老年代大小
+- OC：老年代大小
+- YGC：年轻代垃圾回收次数
+- FGC：老年代垃圾回收次数
+- FGCT：老年代垃圾回收消耗时间
+- GCT：垃圾回收消耗总时间
+
+#### 元数据空间统计
+
+**jstat -gcmetacapacity 6567** 查看6567号java进程的元数据空间的统计信息
+
+```shell
+MCMN       MCMX        MC       CCSMN      CCSMX       CCSC     YGC   FGC    FGCT     GCT   
+0.0  1165312.0   130680.0        0.0  1048576.0    14872.0 14935    19    4.251  192.735
+```
+
+- MCMN:最小元数据容量
+- MCMX：最大元数据容量
+- MC：当前元数据空间大小
+- CCSMN：最小压缩类空间大小
+- CCSMX：最大压缩类空间大小
+- CCSC：当前压缩类空间大小
+- YGC：年轻代垃圾回收次数
+- FGC：老年代垃圾回收次数
+- FGCT：老年代垃圾回收消耗时间
+- GCT：垃圾回收消耗总时间
+
+#### 总的垃圾回收统计
+
+**jstat -gcutil 6567** 查看6567号java进程总的垃圾回收统计信息
+
+```shell
+  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT   
+  0.00   4.54  73.48  63.80  95.18  90.52  14935  188.484    19    4.251  192.735
+```
+
+- S0：幸存1区当前使用比例
+- S1：幸存2区当前使用比例
+- E：伊甸园区使用比例
+- O：老年代使用比例
+- M：元数据区使用比例
+- CCS：压缩使用比例
+- YGC：年轻代垃圾回收次数
+- FGC：老年代垃圾回收次数
+- FGCT：老年代垃圾回收消耗时间
+- GCT：垃圾回收消耗总时间
+
+
+
+### 参考资料：
+
+http://download.oracle.com/javase/6/docs/technotes/tools/index.html 
+
+《深入理解java虚拟机》
+
+https://www.cnblogs.com/lizhonghua34/p/7307139.html

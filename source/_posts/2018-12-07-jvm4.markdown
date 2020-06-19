@@ -59,7 +59,20 @@ categories: java
 
 ## 内存分配与回收策略
 
-* 对象优先在
+* 对象优先在Eden分配
+
+* 大对象直接进入老年代，个 **-XX:PretenureSizeThreshold=3M** 设置大于等于3M的对象直接进入老年代
+
+* 长期存活的对象进入老年代
+
+  *  **-XX:MaxTenuringThreshold=15**  设置新生代对象晋升进老年的年龄
+  * **-XX:TargetSurvivorRatio=70**         设置survivor区使用率达到70%时晋升进入老年代
+
+  > *为 了 能 更 好 地 适 应 不 同 程 序 的 内 存 状 况， 虚 拟 机 并 不 是 永 远 地 要 求 对 象 的 年 龄 必 须 达 到 了 MaxTenuringThreshold 才 能 晋 升 老 年 代， 如 果 在 Survivor 空 间 中 相 同 年 龄 所 有 对 象 大 小 的 总 和 大 于 Survivor 空 间 的 一 半， 年 龄 大 于 或 等 于 该 年 龄 的 对 象 就 可 以 直 接 进 入 老 年 代， 无 须 等 到 MaxTenuringThreshold 中 要 求 的 年 龄*。
+
+* 空间分配担保
+
+  > *在 发 生 Minor GC 之 前， 虚 拟 机 会 先 检 查 老 年 代 最 大 可 用 的 连 续 空 间 是 否 大 于 新 生 代 所 有 对 象 总 空 间， 如 果 这 个 条 件 成 立， 那 么 Minor GC 可 以 确 保 是 安 全 的。 如 果 不 成 立， 则 虚 拟 机 会 查 看 HandlePromotionFailure 设 置 值 是 否 允 许 担 保 失 败。 如 果 允 许， 那 么 会 继 续 检 查 老 年 代 最 大 可 用 的 连 续 空 间 是 否 大 于 历 次 晋 升 到 老 年 代 对 象 的 平 均 大 小， 如 果 大 于， 将 尝 试 着 进 行 一 次 Minor GC， 尽 管 这 次 Minor GC 是 有 风 险 的； 如 果 小 于， 或 者 HandlePromotionFailure 设 置 不 允 许 冒 险， 那 这 时 也 要 改 为 进 行 一 次 Full GC* 。 这个过程就叫做空间分配担保。
 
 
 
