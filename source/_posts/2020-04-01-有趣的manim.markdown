@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "有趣的manim"
+date:   2020-04-01 20:07:11 +0800
+categories: python
+---
+
+
+

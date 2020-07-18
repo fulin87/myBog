@@ -2,7 +2,7 @@
 layout: post
 title:  "Excel VBA连接mysql数据库"
 date:	2014-10-10 13:07:11 +0800
-categories: mysql
+categories: excel
 ---
 
 > 因为会使用Excel VBA，这给工作带来了很多便利，也给同事解决了很多问题。今天有一个同事问我Excel 能否直接连接mysql数据库，然后获取某个表的信息。经过一番研究，发现，这完全是可以的，而且，基于此功能，完全可以用excel来做一个mysql的客户端工具，先把相关的代码记录再次，以免遗忘。
@@ -19,13 +19,13 @@ categories: mysql
 	                                 "USER=" + USER + ";" & _
 	                                 "PWD=" + PWD + ";" & _
 	                                 "OPTION=3"
-
+	
 	Public Const sql As String = "select COLUMN_NAME,COLUMN_COMMENT from information_schema.columns where table_name='pmp_abroad_epiemp_all'"
 
 
 ### 操作数据库
 
-	
+
 	Sub testMysqlOdbc()
 	    Set conn = CreateObject("ADODB.Connection")
 	    Set rest = CreateObject("ADODB.Recordset")
