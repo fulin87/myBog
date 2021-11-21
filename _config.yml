@@ -19,7 +19,7 @@ permalink_defaults:
 
 # Directory
 source_dir: source
-public_dir: E:\code\fulin87.github.io\content
+public_dir: D:\code\fulin87.github.io\content
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
