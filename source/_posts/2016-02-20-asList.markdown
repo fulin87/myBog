@@ -2,7 +2,7 @@
 layout: post
 title:	"java易错的知识点汇总"
 date:	2016-02-20 13:07:11 +0800
-categories:	java
+categories:	编程语言
 ---
 
 >*把工作中遇到的一些容易出错的知识点记录整理下来，时间长了就是一笔宝贵的财富，这就是经验...*

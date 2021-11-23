@@ -2,7 +2,7 @@
 layout: post
 title:	"python基础知识点模块和包"
 date:	2016-11-21 13:07:11 +0800
-categories:	python
+categories:	编程语言
 ---
 
 > 初次接触python对它的模块和包的概念感觉非常的绕，和java中的包的概念有很大的出入，总是迷迷糊糊的。这里记录一下自己的理解。

@@ -2,7 +2,7 @@
 layout: post
 title:  "老鸟眼中的JVM知识体系-常用JVM参数总结和调优经验"
 date:	2018-12-09 21:07:11 +0800
-categories: java
+categories: 编程语言
 ---
 
 > Oracle有JVM参数的文档，但是JVM的参数非常多，常用的就那么10几个，所以这里把自己常用的JVM参数总结下来，方便日后查阅

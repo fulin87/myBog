@@ -2,7 +2,7 @@
 layout: post
 title:  "java中异常和JVM关系"
 date:	2014-09-10 13:07:11 +0800
-categories: java
+categories: 编程语言
 ---
 
 > 经常听到有人说：系统宕机了，因为OOM导致的，那么OOM真的会直接导致JVM进程退出吗？

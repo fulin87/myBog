@@ -2,7 +2,7 @@
 layout: post
 title:  "mysql 基础知识"
 date:   2016-09-21 13:07:11 +0800
-categories: mysql
+categories: 存储
 ---
 
 > 大道至简，世间的道理都是相似的......     
@@ -24,26 +24,26 @@ categories: mysql
 		  mariadb-libs-5.5.44-2.el7.centos.x86_64
 
  * 如果有安装，则需要卸载(--nodeps意思是如果有依赖关系，则同时卸载掉)
- 
+
 		$ rpm -e --nodeps mariadb-libs-5.5.44-2.el7.centos.x86_64 
 		  
- 
+
  * 下载mysql的安装包
- 
+
 		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-server-5.6.21-1.rhel5.x86_64.rpm
 		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-devel-5.6.21-1.rhel5.x86_64.rpm
 		$ wget http://dev.mysql.com/Downloads/MySQL-5.6/MySQL-client-5.6.21-1.rhel5.x86_64.rpm
- 
+
  * 安装rpm软件包
- 
+
 		$ rpm -ivh MySQL-****.rpm 	
 
  * 安装MySQL-server会报一个错，因为缺少依赖，使用yum安装即可
- 
+
 		$ yum install -y libaio
 
  * 初始化MySQL及设置密码
- 
+
 		$ /usr/bin/mysql_install_db
 		$ service mysql start
 		$ cat /root/.mysql_secret  #查看root账号密码
@@ -53,7 +53,7 @@ categories: mysql
 		$ mysql -uroot -p123456
 
  * 远程登陆用户设置
- 
+
 		mysql> use mysql;
 		mysql> select host,user,password from user;
 		mysql> update user set password=password('123456') where user='root';
@@ -98,7 +98,7 @@ categories: mysql
 		$ service mysql restart
 
  * 设置开机自启动
- 
+
 		$ chkconfig mysql on
 		$ chkconfig --list | grep mysql
 
@@ -116,16 +116,16 @@ categories: mysql
 		
 		-- 查看是否打开二进制日志文件的功能	
 		show variables like '%log_bin%';
-
+	
 		-- 查看有哪些数据库	
 		show databases;	
-
+	
 		-- 查看数据库中有哪些表			
 		show tables from db_name;		
-
+	
 		-- 查看表的字段信息
 		show COLUMNS from db_name.table_name
-
+	
 		-- 查看表的信息	
 		show table status from db_name;		
 		
@@ -178,22 +178,22 @@ categories: mysql
 		
 		-- 查看慢查询日志功能是否开启
 		show variables like '%slow%';
-
+	
 		-- 多长时间才是慢查询
 		show variables like '%long%';
-
+	
 		-- 设置查询超过1秒就是慢查询
 		set session long_query_time=1;
-
+	
 		-- 查看日志信息是输出到数据库还是系统文件(FILE为系统文件)
 		show variables like 'log_output';
-
+	
 		-- 查看发生了多少次慢查询
 		show global status like 'Slow_queries';
-
+	
 		-- 将所有没有使用到索引的sql语句都记录到慢查询日志中
 		set global log_queries_not_using_indexes = true;
-
+	
 		-- 查看数据库文件的路径
 		show variables like "%datadir%";
 

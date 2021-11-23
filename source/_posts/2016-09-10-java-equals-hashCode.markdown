@@ -2,7 +2,7 @@
 layout: post
 title:	"Object的equals和hashCode和clone方法"
 date:	2016-09-06 13:07:11 +0800
-categories:	java
+categories:	编程语言
 ---
 
 > Object类是Java中其他所有类的祖先，没有Object类Java面向对象无从谈起。作为其他所有类的基类，Object具有哪些属性和行为，是Java语言设计背后的思维体现。

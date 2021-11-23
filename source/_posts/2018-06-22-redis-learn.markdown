@@ -2,7 +2,7 @@
 layout: post
 title:  "《redis设计与实现》读书笔记"
 date:	2018-06-22 13:07:11 +0800
-categories: redis
+categories: 所思所想
 ---
 
 > 这里记录一下阅读《redis 设计与实现》一书的读书笔记。
@@ -200,7 +200,7 @@ redis的复制功能包括同步（sync)和命令传播(command propagate)两个
 复制积压缓冲区的大小的设计原则：
 
 	复制积压缓冲区的大小  =  2 * second * write_size_per_second
-
+	
 	second : 从服务器断线后重新连接主服务器所需的平均时间，单位秒
 	write_size_per_second : 主服务器平均每秒产生的写命令数据量（单位是M)
 

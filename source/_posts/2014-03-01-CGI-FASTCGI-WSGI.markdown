@@ -2,7 +2,7 @@
 layout: post
 title:  "CGI FAST-cgi WSGI uWSGI servlet的区别"
 date:	2014-03-01 13:07:11 +0800
-categories: linux
+categories: 杂项
 ---
 
 > 一直以来对`CGI,FASTCGI,wsgi,uwsgi,servlet`之间的区别都不是特别的清楚，总是迷迷糊糊的，这里整理一下自己的理解思路，此处只记录自己的理解，不对细节进行过多的阐述，底层的原理和实现先不深究，尽量用最浅显和通俗的语言来描述
@@ -17,7 +17,7 @@ categories: linux
  * 主机上的软件也可以笼统的称之为 *xx服务器*
  * 所谓web服务器，最原生的含义是负责提供静态资源服务的软件,如（apache,nginx）
  * 所谓应用服务器，最原生的含义是负责提供动态逻辑处理的软件,如(FastCGI,uwsgi，tomcat)
- 
+
 
  随着计算机历史的发展，这些概念之间的界限越来越模糊，有时候一台主机既可以当做web服务器使用，同时也可以作为应用服务器使用。比如tomcat，既可以作为web服务器使用，也可以作为应用服务器。
 

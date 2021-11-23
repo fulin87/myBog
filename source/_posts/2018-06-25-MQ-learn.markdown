@@ -2,7 +2,7 @@
 layout: post
 title:  "消息队列学习笔记"
 date:	2018-06-25 13:07:11 +0800
-categories: MQ
+categories: 所思所想
 ---
 
 > 消息队列已经成为了后端最常用的中间件之一，这里记录一下自己学习MQ的笔记

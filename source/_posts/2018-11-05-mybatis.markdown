@@ -2,7 +2,7 @@
 layout: post
 title:  "mybatis相关知识点的总结"
 date:	2018-11-05 13:07:11 +0800
-categories: java
+categories: 编程语言
 ---
 >曾经java中的数据持久化并不是一件轻松的事情。需要编写大量的代码。为了简化这一过程，出现了各种各样的持久化框架。
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "FastJson的使用与源码解读"
 date:	2016-10-10 13:07:11 +0800
-categories: java
+categories: 编程语言
 ---
 
 > **[FastJSON](https://github.com/alibaba/fastjson/wiki)**是一个处理**[JSON](http://json.org)**的 java 工具包， json （反序列化）和对象转 json （序列化）两部分的功能。是由阿里使用Apache License 2.0协议开源，易用，无依赖，性能优越，唯一不足的是文档不完善，用户需要自己根据源码来摸索。这里记录一下自己的学习历程，作为我膜拜大师杰作，虚心偷技的成果，也方便来者学习。

@@ -2,7 +2,7 @@
 layout: post
 title:  "老鸟眼中的JVM知识体系(2)-JVM体系结构"
 date:	2018-12-05 18:07:11 +0800
-categories: java
+categories: 编程语言
 ---
 
 > 这里用自己的语言总结一下JVM的内存模型，方便查阅和复习

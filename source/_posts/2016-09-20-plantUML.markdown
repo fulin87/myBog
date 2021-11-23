@@ -2,7 +2,7 @@
 layout: post
 title:	"plantUML的使用"
 date:	2016-09-20 13:07:11 +0800
-categories:	java
+categories:	工具
 ---
 
 

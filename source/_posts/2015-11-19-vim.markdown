@@ -2,7 +2,7 @@
 layout: post
 title:  "vi的基本配置和常用命令"
 date:   2015-11-19 13:07:11 +0800
-categories: vi
+categories: 工具
 ---
 
 
@@ -10,22 +10,22 @@ categories: vi
 
 ### vi的基本配置(.vimrc文件的配置)
 	syn on                      "语法支持
-
+	
 	"common conf \{\{             通用配置
-
+	
 	"设置文件的代码输出
 	set encoding=utf-8          
 	set termencoding=utf-8     
 	set fileencoding=utf-8
 	set fileencodings=ucs-bom,utf-8,chinese,cp936
- 
+	 
 	"vim的菜单乱码解决
 	source $VIMRUNTIME/delmenu.vim 
 	source $VIMRUNTIME/menu.vim
-
+	
 	"vim提示信息乱码的解决
 	language messages zh_CH.utf-8
-
+	
 	set ai                      "自动缩进
 	set bs=2                    "在insert模式下用退格键删除
 	set showmatch               "代码匹配
@@ -44,7 +44,7 @@ categories: vi
 	set nobackup                "不要普通的加~备份文件
 	set nowritebackup	    "不要容灾的备份文件
 	"\}\}
-	
+
 *这里需要注意在vim的配置文件中的引号是注释的作用*
 
 ###vi最常用的命令

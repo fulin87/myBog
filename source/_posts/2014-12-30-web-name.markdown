@@ -2,7 +2,7 @@
 layout: post
 title:	"互联网架构相关名称解释"
 date:	2014-12-30 13:07:11 +0800
-categories:	linux
+categories:	杂项
 ---
 
 
@@ -48,7 +48,7 @@ categories:	linux
  SOA我的理解就是对系统进行拆分，拆成一个一个的子服务，然后由Client调用，这也是面向接口思想的最好体现。
 
 ## SIT/UAT/DEV/PRO
-	
+
  **[网友的精彩解释](http://blog.csdn.net/kaiwii/article/details/9446243)**
 
  我的理解是，这些是软件工程中的不同测试环境。
@@ -61,7 +61,7 @@ categories:	linux
 ## 回归测试
 
  **[百度百科的解释](http://baike.baidu.com/link?url=u4JX6jEBIlfz77k6_Vo2jcXNnzm2ZeGqpyCOefTv4iR3pCOqAkIjgWV0t_e_-Q2WX4Kr30XEao7MFM_zkQr7_fA1cclpNrMsnv7gY-efGrRGEg5BSSWvArgeEiFEB11S)**
- 
+
  回归测试，我的理解就是冒烟测试，主要作用是保证核心功能的可用性。
 
 ## 有关互联网架构的精彩博文

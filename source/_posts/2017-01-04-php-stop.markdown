@@ -2,7 +2,7 @@
 layout: post
 title:  "php我是怎样从入门到放弃的"
 date:	2017-01-04 13:07:11 +0800
-categories: php
+categories: 杂项
 ---
 
 

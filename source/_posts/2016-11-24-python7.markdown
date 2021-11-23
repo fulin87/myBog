@@ -2,7 +2,7 @@
 layout: post
 title:  "python基础知识点之常用数据库API"
 date:	2016-11-24 13:07:11 +0800
-categories: python
+categories: 编程语言
 ---
 
 

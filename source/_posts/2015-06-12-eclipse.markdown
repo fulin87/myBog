@@ -2,16 +2,10 @@
 layout: post
 title:  "eclipse中svn插件的问题及解决"
 date:   2015-05-20 13:07:11 +0800
-categories: java
+categories: 杂项
 ---
 
-
-
-
-
 > 经常遇到开发工具的问题，这里记录一下eclipse中与插件相关的问题
-
-
 
 ## eclipse中的svn插件的问题
 

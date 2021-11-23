@@ -2,7 +2,7 @@
 layout: post
 title:  "nginx+uwsgi+python+mysql+flask 实战过程"
 date:	2016-11-26 13:07:11 +0800
-categories: python
+categories: 编程语言
 ---
 
 

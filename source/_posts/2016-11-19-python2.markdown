@@ -2,7 +2,7 @@
 layout: post
 title:	"python基础知识点之易错语法"
 date:	2016-11-19 13:07:11 +0800
-categories:	python
+categories:	编程语言
 ---
 
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "node中的包管理工具npm"
 date:	2017-11-23 13:07:11 +0800
-categories: node
+categories: 工具
 ---
 
 
@@ -25,6 +25,6 @@ categories: node
 	npm root					查看当前模块安装路径
 	npm root -g 				查看全局的模块安装路径
 	npm -v 						查看npm的安装版本
-	
+
 
 

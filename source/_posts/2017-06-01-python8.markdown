@@ -2,7 +2,7 @@
 layout: post
 title:  "python中的json模块和requests模块"
 date:	2017-06-01 13:07:11 +0800
-categories: python
+categories: 编程语言
 ---
 
 

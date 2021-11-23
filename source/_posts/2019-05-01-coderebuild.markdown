@@ -2,7 +2,7 @@
 layout: post
 title:  "代码重构的思考"
 date:	2019-05-01 13:07:11 +0800
-categories: java
+categories: 所思所想
 ---
 
 > 总结一下有关代码重构的思考和实践经验

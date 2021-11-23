@@ -2,7 +2,7 @@
 layout: post
 title:	"Nginx知识点汇总"
 date:	2014-10-31 13:07:11 +0800
-categories:	linux
+categories:	中间件
 ---
 
 
@@ -37,7 +37,7 @@ categories:	linux
  * 动态服务，nginx + fastcgi
  * 反向代理，负载均衡，日PV2000W以下，都可以直接使用nginx做负载均衡
  * 缓存服务
- 
+
 ## nginx的安装
 
  * 先更换`yum`源，更改成阿里的`yum`源
@@ -114,7 +114,7 @@ categories:	linux
  * 停止nginx服务
 
 		# /application/nginx/sbin/nginx -s stop
- 
+
  * 访问
 
 		http://192.168.116.131:80
@@ -167,7 +167,7 @@ categories:	linux
 		└── uwsgi_temp		#临时目录
 
  * nginx的配置文件,nginx.conf
- 
+
 		默认用户
 		#user  nobody;    
 		子进程的个数，一般与cpu的核数相当
@@ -238,14 +238,14 @@ categories:	linux
 	`fail_timeout` 是请求超时时间
 
 		upstream backend{
-	     server 10.202.33.86:8080 max_fails=3 fail_timeout=30s;
-	     server 10.202.33.87:8080 max_fails=3 fail_timeout=30s;
-	    }
-	
-	    server {
-	        listen       80;
-	        server_name  www.etiantian.org;
-	        location / {
-	            proxy_pass http://backend;
-	        }
-	    }
+		 server 10.202.33.86:8080 max_fails=3 fail_timeout=30s;
+		 server 10.202.33.87:8080 max_fails=3 fail_timeout=30s;
+		}
+		
+		server {
+		    listen       80;
+		    server_name  www.etiantian.org;
+		    location / {
+		        proxy_pass http://backend;
+		    }
+		}

@@ -2,7 +2,7 @@
 layout: post
 title:  "mysql中sql优化的常识总结"
 date:   2016-09-27 13:07:11 +0800
-categories: mysql
+categories: 存储
 ---
 
 > mysql的性能优化牵扯的范围很广，大致可以分为：
@@ -19,30 +19,30 @@ categories: mysql
 
 	1,禁止使用　select * from table ;尽量查询特定的字段.
 	  select * 会增加数据库开销
-
+	
 	2,尽量不使用游标.
 	  游标比常规的sql语句需要更大的开销
-
+	
 	3,尽量不要在索引字段上进行运算.
 	  在索引字段上进行运算会使索引失效
-
+	
 	4,避免使用!=或＜＞、IS NULL或IS NOT NULL、IN ，NOT IN等这样的操作符.
 	  这会使系统无法使用索引,而只能直接搜索表中的数据，有些还是全表扫描
 	
 	5,尽量使用数字型字段.
 	  如果字段是字符串类型，数据库引擎在处理查询和连接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了
-
+	
 	6,合理使用EXISTS,NOT EXISTS子句
 	  如果需要判断记录是否存在，直接合理使用EXISTS,NOT EXISTS子句比count的效率要高，也比in的性能要高
-
+	
 	7,能够用BETWEEN的就不要用IN
-
+	
 	8,能够用DISTINCT的就不用GROUP BY
-
+	
 	9,尽量不要用SELECT INTO语句。SELECT INTO 语句会导致表锁定，阻止其他用户访问该表
-
+	
 	10,必要时强制查询优化器使用某个索引
-
+	
 	11,能用UNION ALL就不要用UNION
 
 > 这些可以说是sql语句优化的基本常识了，必须会使用，熟练使用。

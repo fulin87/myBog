@@ -2,7 +2,7 @@
 layout: post
 title:	"matplotlib学习笔记"
 date:	2019-06-06 13:07:11 +0800
-categories:	python
+categories:	编程语言
 ---
 
 > 最近在学习机器学习的过程中接触到了matplotlib，感觉非常有趣，但是这个绘图库的学习成本还是比较高的，知识点很多，很容易遗忘，这里记录一下自己的理解，方便复习

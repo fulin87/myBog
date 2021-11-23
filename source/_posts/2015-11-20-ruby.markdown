@@ -2,7 +2,7 @@
 layout: post
 title:  "与ruby有关的笔记"
 date:   2015-11-20 13:07:11 +0800
-categories: ruby
+categories: 杂项
 ---
 
 
@@ -40,7 +40,7 @@ categories: ruby
 	$ gem sources -a http://ruby.taobao.org/  
 	$ gem sources -l  
 	*** CURRENT SOURCES ***  
-  
+	  
 	http://ruby.taobao.org  
 	# 请确保只有 ruby.taobao.org  这时候就可以安装jekyll包了
 	$ gem install jekyll  #安装jekyll包  

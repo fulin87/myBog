@@ -2,7 +2,7 @@
 layout: post
 title:	"python基础知识点之文件输入和输出"
 date:	2016-11-20 13:07:11 +0800
-categories:	python
+categories:	编程语言
 ---
 
 > 内建函数 open() [以及 file()]提供了初始化输入/输出(I/O)操作的通用接口,是打开文件之门的"钥匙".....

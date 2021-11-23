@@ -2,7 +2,7 @@
 layout: post
 title:	"python2和python3以及python常用工具包的那些事"
 date:	2019-06-06 13:07:11 +0800
-categories:	python
+categories:	编程语言
 ---
 
 > python 可以大幅度的提升我们工作的效率，自己写的一些python小工具非常实用，但是经常面临一个问题，自己的电脑环境换了之后python的包就需要安装，这时候搞一个环境就比较麻烦，这里总结一下自己经常用的一些包的安装和使用方法

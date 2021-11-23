@@ -2,7 +2,7 @@
 layout: post
 title:  "Intellij 使用相关的知识点"
 date:	2017-04-14 13:07:11 +0800
-categories: tool
+categories: 工具
 ---
 
 
@@ -16,5 +16,5 @@ categories: tool
 	ctrl + shift + + 展开所有的代码
 	alt + 上下方向键
 	ctrl + F3 在当前类中快速搜索，相当于eclipse中的ctrl + k
-
+	
 	双击shift可以快速查找

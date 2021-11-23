@@ -2,7 +2,7 @@
 layout: post
 title:  "python基础知识点之常用标准模块"
 date:	2016-11-23 13:07:11 +0800
-categories: python
+categories: 编程语言
 ---
 
 > python中的标准模块有很多实用的功能，将常用的操作进行了封装，掌握了常用的标准模块的功能可以大幅度的提高工作效率

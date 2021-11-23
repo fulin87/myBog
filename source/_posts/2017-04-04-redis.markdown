@@ -2,7 +2,7 @@
 layout: post
 title:  "redis 知识点总结"
 date:	2017-04-04 13:07:11 +0800
-categories: redis
+categories: 中间件
 ---
 
 > redis是一个高性能的键值对数据库，redis是意大利人在2009年开发完成并开源的软件产品。
@@ -48,7 +48,7 @@ categories: redis
 	redis提供了一系列简单的命令来操作redis
 
 ### redis的一些性能参数和常识
-	
+
 * 一个空的redis实例占用的内存只有1M左右，不用担心多redis实例会占用很多内存
 * redis中的Key命名的最佳实践是这样的 **对象类型：对象ID：对象属性**
 
@@ -113,7 +113,7 @@ redis的列表类型就是一个双向链表
 							//从左到右根据after还是before来决定在prov的前还是后插入val
 	rpoplpush source target //将source中rpop的数据lpush到target中，可以实现一个环状数据结构
 	brpop key seconds		//从列表中弹出一个元素，如果没有则阻塞，seconds是超时时间
-	
+
 ### 集合
 
 这里的集合可以理解为是数学中的集合，元素不能重复。这里有必要比较一下集合和列表的区别
@@ -139,7 +139,7 @@ redis的列表类型就是一个双向链表
 	scard key 				//获得集合中的元素个数
 	srandmember key count	//从集合中随机获取count个元素，count小于0时取出的值可能重复
 	spop key 				//从集合中随机弹出一个元素
-	
+
 ### 有序集合
 
 有序集合和列表的区别
@@ -149,6 +149,7 @@ redis的列表类型就是一个双向链表
  * 有序集合可以调整某个元素的位置，列表则不行
  * 有序集合比列表更耗费内存
 	
+
 有序集合的相关命令：
 
 	zadd key score val score1 val1 ...
@@ -182,9 +183,9 @@ redis的列表类型就是一个双向链表
  ***MULTI  EXEC 命令***
 
 	MULTI
-
+	
 	code ...
-
+	
 	EXEC
 
  同时因为redis不支持回滚功能，所以redis的事务上可以保持简洁和快速
@@ -192,7 +193,7 @@ redis的列表类型就是一个双向链表
  	redis事务中的命令是在EXEC之后才执行的
 
 #### 事务的异常处理
-	
+
 * 如果是语法错误
 	
 		如果是语法错误，则在redis 2.6.5以前错误命令不执行，正确命令会执行，在redis2.6.5以后都不执行
@@ -211,7 +212,7 @@ redis的列表类型就是一个双向链表
 	MULTI
 	code
 	EXEC
-
+	
 	WATCH命令需要和事务结合使用
 
  ***UNWATCH 命令***
@@ -227,8 +228,9 @@ redis的列表类型就是一个双向链表
 	ttl	key						//显示键还有多长时间过期，单位是秒
 	persist key 				//取消键的生存时间，set和getset命令也会清除键的生存时间
 	pexpire key millconds		//设置键的生存时间，millconds的单位是毫秒数
-	
-	
+
+
+​	
 > 对于不常用到的功能或者在不损失过多性能的前提下可以使用现有命令来实现的功能，redis不会单独提供命令来实现，这一原则使得redis在拥有强大功能的同时，保持着相对精简的命令
 
 ### redis的排序
@@ -238,7 +240,7 @@ redis的列表类型就是一个双向链表
 	sort命令中的*是一个占位符
 	get # 						//返回元素本身的值
 	sort命令的结果是列表类型，如果有store参数结果是保存的数据个数
-
+	
 	sort命令的时间复杂度是 O(n+mlogm) n为要排序的列表，m是要返回的元素个数，n较大时会有性能问题
 	redis排序时会建立一个长度为n的容器来临时存储待排序元素，有时会有严重的性能问题
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "mysql的数据备份和恢复"
 date:   2016-09-26 13:47:11 +0800
-categories: mysql
+categories: 存储
 ---
 
 
@@ -41,7 +41,7 @@ categories: mysql
 		6 rows in set
 
  * 查看二进制文件的情况
- 
+
 		mysql> show master logs;
 		+------------------+-----------+
 		| Log_name         | File_size |
@@ -61,7 +61,7 @@ categories: mysql
 		| mysql-log.000002 |       562 |
 		+------------------+-----------+
 		2 rows in set
- 
+
  * 切换二进制文件
 
 		mysql> flush logs;
@@ -89,7 +89,7 @@ categories: mysql
 		| mysql-log.000001 |       120 |
 		+------------------+-----------+
 		1 row in set
- 
+
  * 指定二进制日志失效期
 
 		mysql> show variables like "%expire%";
