@@ -36,3 +36,10 @@ categories: 中间件
 * [官方文档](<https://cwiki.apache.org/confluence/display/IGNITE/Apache+Ignite+Home>)
 
 * [相关文档](<https://apacheignite.readme.io/docs>)
+
+### 本公司使用ignite的结局(更新于2022-03-21)
+这是一个悲伤的结局....
+
+在使用了2年的ignite之后，公司决定全面放弃ignite，原因是只要使用了ignite的项目，都很不稳定，其中原因我觉得主要有2方面：
+1. 我们对ignite的理解还不够深，可能是我们没有用好
+2. ignite本身就是一个庞大的生态，其本身没有做到小而精，确实也不够稳定
