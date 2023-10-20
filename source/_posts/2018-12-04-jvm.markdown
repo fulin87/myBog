@@ -147,6 +147,27 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
 	快速内存分配和垃圾回收
 	线程同步
 
+#### 类加载子系统
+`什么是java的类加载呢？`：所谓java的类加载,就是JVM把class文件的二进制数据加载进内存,并对数据进行校验,解析,初始化,最终形成JVM可以直接使用的java类型的全过程。
+java语言规范并没有明确规定class文件的二进制数据必须来自于文件系统，这就给我们提供了很大的灵活性，比如可以数据可以来自网络。
+
+JVM启动后首先会加载类,类的加载是通过类加载器完成的。JVM初始化之后,会产生一个 `Bootstrap classloader`,它会自动加载`Extended classloader` 并将父类加载器设置未Bootstrap classloader,
+Extended classloader会加载`App classloader`,并将父类加载器设置为 Extended classloader。不同的类加载器加载的目录是不同的。
+* Bootstrap classloader 加载的目录是:`sun.boot.class.path`
+* Extended classloader 加载的目录是: `java.ext.dirs`
+* App classloader 加载的目录是: `java.class.path`
+java类加载器遵循双亲委托机制,当一个类加载器尝试加载一个类的时候，总是首先委托父类加载器来首先尝试加载该类，只有在父类加载器不能加载该类的时候，当前类加载器才会去加载该类。
+
+##### 类加载的时机
+* JVM启动时会进行初始化的类加载
+* 程序运行期,通过`Class.forName()`方法动态加载
+* 通过自定义的类加载器`ClassLoader`的`loadClass()`方法,在程序运行期动态加载
+
+
+#### java SPI 机制
+使用方提供规则，提供方根据规则把自己加载到使用方中,这就是SPI思想,也可以认为是一种服务发现机制
+
+
 #### jvm调优的目标
 
 	尽可能大的吞吐量,尽可能小的GC停顿时间（吞吐量是GC时间在总时间中的占比，比值越小，吞吐量越高）
@@ -173,6 +194,14 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
    -XX:+UseG1GC	启用G1收集器(并发）
    -XX:ParallelGCThreads=<N> 调整并行收集器的GC线程数量
    ```
+
+### G1收集器调优
+以下内容摘录自 **《JVM G1源码分析与调优》**
+![G1调优参数1](/content/image/G101.PNG)
+
+![G1调优参数2](/content/image/G102.PNG)
+
+
 
 ### java字节码
 
@@ -225,4 +254,5 @@ server模式启动的是server VM的实现，启动时间会有点长，但是�
 ### 参考资料
 
 * [Java8官方文档](https://docs.oracle.com/javase/8/javase-books.htm)
-
+* [java线程类加载器与SPI](http://www.ideabuffer.cn/2018/02/10/Java%E7%BA%BF%E7%A8%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%B8%8ESPI/)
+* [G1垃圾收集器官方文档](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)
