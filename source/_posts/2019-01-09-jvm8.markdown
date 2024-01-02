@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "老鸟眼中的JVM知识体系(6)-诊断工具"
+date:	2019-01-08 19:07:11 +0800
+categories: 编程语言
+---
+
+> JVM很重要的一个特点是类加载,一个Classloader只能加载一次Class，这就限制了正在运行的JVM调试诊断的困难，一旦JVM重启，现场就会遭到破坏
+>
+> 幸运的是我们可以直接修改已加载的class信息,涉及到的相关技术有 : *Instrumentation*,*BTrace*,*Arthas*,
+
+
+### Instrumentation
+*java.lang.instrument.Instrumentation* 可以直接修改类信息,是属于很底层的功能，使用的限制很多
+
+### [BTrace](https://github.com/btraceio/btrace)
+*BTrace* 是一个开源项目,可以相对容易的实现对已加载的calss信息进行修改的目标
+
+### [Arthas](https://arthas.aliyun.com/)
+*Arthas* 是阿里开源的诊断工具,非常好用
+
+
+
+### 参考资料：
+[java动态追踪技术探究](https://tech.meituan.com/2019/02/28/java-dynamic-trace.html)
